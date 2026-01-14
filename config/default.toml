@@ -1,0 +1,39 @@
+# CMA Pipeline 配置文件
+[llm]
+type = "openai"  # "openai" 或 "local"
+
+[llm.local]
+model_path = "/mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B"
+device = "cpu"  # "cpu" 或 "cuda"
+max_tokens = 8192  # LLM 最大输出token数
+
+[llm.openai]
+base_url = "http://35.220.164.252:3888/v1/"
+api_key = "********"  # 替换为你的API密钥
+model_name = "gpt-4o"
+
+
+[training]
+num_iterations = 3
+num_epochs = 50
+learning_rate = 0.01
+temperature = 0.7
+
+
+[experiment]
+mode = "single"  # "single" 或 "batch"
+csv_path = "/home/wukaiwen/projects/CDLLM/real_test.csv"  # 批量实验的CSV配置文件
+output.dir = "./cma_experiments"  # 输出目录
+use_observational_only = true  # 是否只使用观测数据（排除干预样本）
+split = "test"  # test, train, 或 val
+
+[experiment.single]
+domain_name = "earthquake"
+variable_list = ["Burglary", "Earthquake", "Alarm", "JohnCalls", "MaryCalls"]
+num_samples = 500
+use_synthetic_data = true  # 如果为false，需要指定数据路径
+
+[experiment.single.data]
+fp_data = ""
+fp_graph = ""
+fp_regime = ""

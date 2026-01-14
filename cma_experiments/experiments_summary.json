@@ -1,0 +1,30 @@
+[
+  {
+    "experiment_id": 0,
+    "domain": "sachs",
+    "status": "success",
+    "final_ll": -60.30537033081055,
+    "num_edges_predicted": 5,
+    "num_edges_true": 17,
+    "metrics": {
+      "true_positive": 0,
+      "false_positive": 5,
+      "false_negative": 17,
+      "true_negative": 99,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0,
+      "accuracy": 0.8182,
+      "shd": 21
+    },
+    "output_dir": "./cma_experiments/00_sachs",
+    "iteration_improvement_LL": [
+      -37.54836654663086,
+      -60.30537033081055
+    ],
+    "iteration_improvement_SHD": [
+      21,
+      20
+    ]
+  }
+]

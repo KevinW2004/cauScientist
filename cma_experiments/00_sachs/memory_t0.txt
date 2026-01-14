@@ -1,0 +1,7 @@
+Initial Hypothesis (Iteration 0):
+- Domain: sachs
+- Number of edges: 5
+- Log-likelihood: -54.1626
+- Reasoning: The causal graph is based on known signaling pathways in immune cells. PIP2 is phosphorylated to form PIP3, which activates Akt. Plcg activates PKC via DAG (not explicitly modeled here). Raf initiates...
+
+This is the baseline hypothesis. Future iterations will build upon this structure.
