@@ -27,10 +27,6 @@ class LLMHypothesisGenerator:
         previous_graph: Optional[Dict] = None,
         memory: Optional[str] = None,
         iteration: int = 0,
-        model: str = "gpt-4o",
-        temperature: float = 0.6,
-        max_tokens: int = 4096,
-        use_local_amendment: bool = False,
         num_edge_operations: int = 3
     ) -> Dict:
         """
@@ -43,10 +39,6 @@ class LLMHypothesisGenerator:
             previous_graph: 上一轮的因果图
             memory: 记忆(上一轮的反馈)
             iteration: 当前迭代次数
-            model: 模型名称
-            temperature: 采样温度
-            max_tokens: 最大token数
-            use_local_amendment: 是否使用局部修正（而非全局修正）
             num_edge_operations: 局部修正时操作的边数
             
         Returns:
@@ -59,32 +51,21 @@ class LLMHypothesisGenerator:
             print(f"\n[Iteration {iteration}] Generating INITIAL hypothesis...")
             return self._generate_initial_hypothesis(
                 variable_list, domain_name, domain_context, 
-                model, temperature, iteration, max_tokens
+                iteration
             )
         else:
-            if use_local_amendment:
-                print(f"\n[Iteration {iteration}] Performing LOCAL amendment (n={num_edge_operations})...")
-                return self._local_amendment(
-                    variable_list, domain_name, domain_context,
-                    previous_graph, memory, model, temperature, iteration, max_tokens,
-                    num_edge_operations
-                )
-            else:
-                print(f"\n[Iteration {iteration}] Performing GLOBAL amendment...")
-                return self._global_amendment(
-                    variable_list, domain_name, domain_context,
-                    previous_graph, memory, model, temperature, iteration, max_tokens
-                )
+            print(f"\n[Iteration {iteration}] Performing LOCAL amendment (n={num_edge_operations})...")
+            return self._local_amendment(
+                variable_list, domain_name, domain_context,
+                previous_graph, memory, iteration, num_edge_operations
+            )
     
     def _generate_initial_hypothesis(
         self,
         variable_list: List[str],
         domain_name: str,
         domain_context: str,
-        model: str,
-        temperature: float,
         iteration: int,
-        max_tokens: int
     ) -> Dict:
         """生成初始假设(t=0)"""
         
@@ -95,7 +76,7 @@ class LLMHypothesisGenerator:
         
         # 调用LLM
         response_text = self._call_llm(
-            system_prompt, user_prompt, model, temperature, max_tokens
+            system_prompt, user_prompt
         )
         
         # 解析并标准化
@@ -108,40 +89,6 @@ class LLMHypothesisGenerator:
         
         return structured_graph
     
-    def _global_amendment(
-        self,
-        variable_list: List[str],
-        domain_name: str,
-        domain_context: str,
-        previous_graph: Dict,
-        memory: Optional[str],
-        model: str,
-        temperature: float,
-        iteration: int,
-        max_tokens: int
-    ) -> Dict:
-        """全局修正(t≥1)"""
-        
-        system_prompt = self._construct_system_prompt(domain_name)
-        user_prompt = self._construct_amendment_prompt(
-            variable_list, domain_name, domain_context,
-            previous_graph, memory
-        )
-        
-        # 调用LLM
-        response_text = self._call_llm(
-            system_prompt, user_prompt, model, temperature, max_tokens
-        )
-        
-        # 解析并标准化
-        causal_graph = self._parse_and_normalize_response(response_text, variable_list)
-        
-        # 创建结构化图
-        structured_graph = self._create_structured_graph(
-            causal_graph, variable_list, domain_name, iteration, previous_graph
-        )
-        
-        return structured_graph
     
     def _local_amendment(
         self,
@@ -150,10 +97,7 @@ class LLMHypothesisGenerator:
         domain_context: str,
         previous_graph: Dict,
         memory: Optional[str],
-        model: str,
-        temperature: float,
         iteration: int,
-        max_tokens: int,
         num_edge_operations: int = 3
     ) -> Dict:
         """
@@ -171,7 +115,7 @@ class LLMHypothesisGenerator:
         
         # 调用LLM
         response_text = self._call_llm(
-            system_prompt, user_prompt, model, temperature, max_tokens
+            system_prompt, user_prompt
         )
         
         # 解析操作指令
@@ -193,124 +137,17 @@ class LLMHypothesisGenerator:
         self,
         system_prompt: str,
         user_prompt: str,
-        model: str,
-        temperature: float,
-        max_tokens: int
     ) -> str:
         """
         调用LLM并返回响应文本
         """
-        if self.model_type == "openai":
-            return self._call_openai(system_prompt, user_prompt, model, temperature)
-        else:
-            return self._call_local_model(system_prompt, user_prompt, temperature, max_tokens)
-        
-    
-    def _call_openai(
-        self,
-        system_prompt: str,
-        user_prompt: str,
-        model: str,
-        temperature: float
-    ) -> str:
-        """调用OpenAI API"""
-        
-        response = self.client.chat.completions.create(
-            model=model,
-            temperature=temperature,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ]
+        temper = self.config.get("training.temperature", 0.7)
+        return self.llm_loader.generate(
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            temperature=temper
         )
-        
-        return response.choices[0].message.content
-    
-    # def _call_local_model(
-    #     self,
-    #     system_prompt: str,
-    #     user_prompt: str,
-    #     temperature: float,
-    #     max_tokens: int
-    # ) -> str:
-    #     """调用本地模型"""
-    #     print("begin call llm, input:",system_prompt, user_prompt)
-    #     messages = [
-    #         {"role": "system", "content": system_prompt},
-    #         {"role": "user", "content": user_prompt}
-    #     ]
-        
-    #     text = self.tokenizer.apply_chat_template(
-    #         messages,
-    #         tokenize=False,
-    #         add_generation_prompt=True
-    #     )
-        
-    #     model_inputs = self.tokenizer([text], return_tensors="pt").to(self.model.device)
-        
-    #     generated_ids = self.model.generate(
-    #         **model_inputs,
-    #         max_new_tokens=max_tokens,
-    #         temperature=temperature,
-    #         do_sample=temperature > 0,
-    #         top_p=0.95 if temperature > 0 else None,
-    #         pad_token_id=self.tokenizer.pad_token_id or self.tokenizer.eos_token_id
-    #     )
-        
-    #     generated_ids = [
-    #         output_ids[len(input_ids):] 
-    #         for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-    #     ]
-        
-    #     response_text = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    #     print("\n\n\nend call llm, output:",response_text)
-        
-    #     return response_text.strip()
 
-    def _call_local_model(self, system_prompt: str, user_prompt: str, 
-                temperature: float, max_tokens: int ):
-        """使用 vLLM 进行推理"""
-        from vllm import SamplingParams
-        
-        # 禁用思考链输出
-        system_prompt += "\n\nIMPORTANT: Output ONLY the JSON result. Do NOT include <think> tags or reasoning before the JSON."
-        
-        # print("Input system_prompt:", system_prompt[:200], "...")
-        # print("Input user_prompt:", user_prompt[:200], "...")
-        
-        # 构建对话（Qwen 格式）
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ]
-        
-        # 手动应用 chat template（因为 vLLM 需要字符串输入）
-        # Qwen 的 chat template
-        # prompt = f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{user_prompt}<|im_end|>\n<|im_start|>assistant\n"
-        print("begin call llm, prompt:",prompt)
-        prompt = self.tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-            enable_thinking=False
-        )
-        
-        # 设置采样参数
-        sampling_params = SamplingParams(
-            temperature=temperature,
-            top_p=0.95 if temperature > 0 else 1.0,
-            max_tokens=max_tokens,
-            stop=["<|im_end|>", "<|endoftext|>"],  # Qwen 的停止符
-            skip_special_tokens=True
-        )
-        
-        # 生成
-        outputs = self.model.generate([prompt], sampling_params)
-        response_text = outputs[0].outputs[0].text
-        
-        print("\n\n\n end call llm, output:", response_text)
-        
-        return response_text.strip()
 
     def _parse_and_normalize_response(
         self, 
@@ -834,78 +671,6 @@ CRITICAL:
 - Each node must have "name" and "parents" fields
 - "parents" must be a list (use [] for root nodes)
 - Output ONLY valid JSON"""
-
-        return prompt
-    
-    def _construct_amendment_prompt(
-        self,
-        variable_list: List[str],
-        domain_name: str,
-        domain_context: str,
-        previous_graph: Dict,
-        memory: Optional[str]
-    ) -> str:
-        """构建全局修正的提示词"""
-        
-        variables_formatted = "\n".join([f"- {var}" for var in variable_list])
-        
-        # 格式化上一轮的图
-        prev_edges = []
-        for node in previous_graph['nodes']:
-            for parent in node.get('parents', []):
-                prev_edges.append(f"  {parent} → {node['name']}")
-        
-        prev_graph_str = "\n".join(prev_edges) if prev_edges else "  (no edges)"
-        
-        # 格式化记忆
-        memory_section = ""
-        if memory:
-            memory_section = f"""
-
-Previous Feedback:
-{memory}
-
-Consider this feedback when making amendments.
-"""
-        
-        context_section = ""
-        if domain_context:
-            context_section = f"\n\nDomain Context:\n{domain_context}\n"
-        
-        prompt = f"""Refine the causal graph for the {domain_name} domain based on previous results.
-
-Variables:
-{variables_formatted}
-{context_section}
-
-Previous Graph (Iteration {previous_graph['metadata']['iteration']}):
-{prev_graph_str}
-
-Previous BIC Score: {previous_graph['metadata'].get('log_likelihood', 'N/A')}
-{memory_section}
-
-Instructions:
-1. Review the previous graph structure
-2. Propose improvements:
-   - Add missing causal links
-   - Remove incorrect relationships
-   - Consider model fit feedback
-3. Ensure the result is still a valid DAG
-
-Output Format (use exact structure):
-{{
-  "reasoning": "Explanation of changes and your reasoning process",
-  "nodes": [
-    {{
-      "name": "VariableName",
-      "parents": ["Parent1", "Parent2"]
-    }}
-  ]
-}}
-
-CRITICAL: 
-- Put "reasoning" FIRST to explain your thought process
-- Output ONLY valid JSON in the format above"""
 
         return prompt
     

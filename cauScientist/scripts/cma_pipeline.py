@@ -55,10 +55,12 @@ class CMAPipeline:
             output_dir: 输出目录
             device: 模型拟合设备
         """
-        config = ConfigManager()
+        self.config = ConfigManager()
+        config = self.config
         self.output_dir = config.get("experiment.output.dir", "./cma_output")
         os.makedirs(self.output_dir, exist_ok=True)
         self.device = config.get("llm.local.device", "cuda")
+        self.llm_type = config.get("llm.type")
         
         # ===== 处理数据输入(两种方式) =====
         if dataset is not None:
@@ -140,13 +142,10 @@ class CMAPipeline:
     
     def run(
         self,
-        num_iterations: int = 3,
-        temperature: float = 0.6,
-        llm_model_name: str = "gpt-4o",  # 仅OpenAI使用
-        max_tokens: int = 4096,
         verbose: bool = True
     ) -> Dict:
         """运行完整的CMA流程"""
+        num_iterations = self.config.get("experiment.training.num_iterations", 3)
         
         print("\n" + "="*70)
         print(f"STARTING CMA PIPELINE: {self.domain_name.upper()}")
@@ -175,7 +174,7 @@ class CMAPipeline:
             print(f"ITERATION {t}")
             print("🔄 "*35)
             
-            # ===== 步骤1: 假设生成 / 全局修正 =====
+            # ===== 步骤1: 假设生成  =====
             structured_graph = self.hypothesis_generator.generate_hypothesis(
                 variable_list=self.variable_list,
                 domain_name=self.domain_name,
@@ -183,10 +182,6 @@ class CMAPipeline:
                 previous_graph=previous_graph,
                 memory=memory,
                 iteration=t,
-                model=llm_model_name,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                use_local_amendment=True,
                 num_edge_operations=3
             )
             if structured_graph is None:
