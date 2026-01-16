@@ -28,7 +28,7 @@ class LLMHypothesisGenerator:
         memory: Optional[str] = None,
         iteration: int = 0,
         num_edge_operations: int = 3
-    ) -> Dict:
+    ) -> Optional[Dict]:
         """
         生成因果图假设
         
@@ -54,6 +54,8 @@ class LLMHypothesisGenerator:
                 iteration
             )
         else:
+            if previous_graph is None:
+                raise ValueError("previous_graph must not be None in local amendment")
             print(f"\n[Iteration {iteration}] Performing LOCAL amendment (n={num_edge_operations})...")
             return self._local_amendment(
                 variable_list, domain_name, domain_context,
@@ -66,7 +68,7 @@ class LLMHypothesisGenerator:
         domain_name: str,
         domain_context: str,
         iteration: int,
-    ) -> Dict:
+    ) -> Optional[Dict]:
         """生成初始假设(t=0)"""
         
         system_prompt = self._construct_system_prompt(domain_name)
@@ -99,7 +101,7 @@ class LLMHypothesisGenerator:
         memory: Optional[str],
         iteration: int,
         num_edge_operations: int = 3
-    ) -> Dict:
+    ) -> Optional[Dict]:
         """
         局部修正：让模型选择对边进行操作（添加、删除、反转）
         
@@ -418,7 +420,7 @@ class LLMHypothesisGenerator:
         domain_name: str,
         iteration: int,
         previous_graph: Optional[Dict] = None
-    ) -> Dict:
+    ) -> Optional[Dict]:
         """创建最终的结构化图表示"""
         
         nodes = causal_graph['nodes']

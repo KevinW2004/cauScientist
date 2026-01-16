@@ -7,12 +7,8 @@ from cauScientist.scripts.cma_pipeline import CMAPipeline
 from scripts.batch_runner import BatchExperimentRunner
 
 
-def run_single_experiment(config: ConfigManager):
-    llm_type = config.get("llm.type")
-    output_dir = config.get("experiment.output.dir")
-    num_iterations = config.get("training.num_iterations")
-    num_epochs = config.get("training.num_epochs")
-    device = config.get("llm.local.device")
+def run_single_experiment():
+    config = ConfigManager()
     use_synthetic = config.get("experiment.single.use_synthetic_data")
     domain_name = config.get("experiment.single.domain_name")
     variable_list = config.get("experiment.single.variable_list")
@@ -36,26 +32,14 @@ def run_single_experiment(config: ConfigManager):
             domain_name=domain_name,
             variable_list=variable_list,
             data=synthetic_data,
-            domain_context=config.get("experiment.single.domain_context", "Synthetic data experiment"),
-            output_dir=f"{output_dir}/demo_{llm_type}",
-            llm_type=llm_type,
-            llm_model_path=config.get("llm.local.model_path") if llm_type == "local" else None,
-            openai_base_url=config.get("llm.openai.base_url") if llm_type == "openai" else None,
-            openai_api_key=config.get("llm.openai.api_key") if llm_type == "openai" else None,
-            device=device,
+            domain_context=config.get("experiment.single.domain_context", "Synthetic data experiment")
         )
     else:
         pipeline = CMAPipeline(
-            dataset=dataset,
-            output_dir=f"{output_dir}/demo_{llm_type}",
-            llm_type=llm_type,
-            llm_model_path=config.get("llm.local.model_path") if llm_type == "local" else None,
-            openai_base_url=config.get("llm.openai.base_url") if llm_type == "openai" else None,
-            openai_api_key=config.get("llm.openai.api_key") if llm_type == "openai" else None,
-            device=device,
+            dataset=dataset
         )
 
-    result = pipeline.run(num_iterations=num_iterations, num_epochs=num_epochs, verbose=True)
+    result = pipeline.run(verbose=True)
     best_graph = pipeline.get_best_graph()
     print(f"\n✅ Experiment completed!")
     print(f"Best graph at iteration {best_graph['metadata']['iteration']}")
@@ -90,4 +74,4 @@ if __name__ == "__main__":
     
     # ========== 单个实验模式 ==========
     else:
-        run_single_experiment(config)
+        run_single_experiment()

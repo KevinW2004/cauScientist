@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 
 # 环境/用户配置文件
+config/secret.toml

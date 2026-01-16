@@ -5,7 +5,7 @@ class LLMLoader(ABC):
     """LLM加载器抽象基类"""
     
     @abstractmethod
-    def load_model(self, **kwargs) -> Any:
+    def load_model(self) -> Any:
         """
         加载模型
         Args:

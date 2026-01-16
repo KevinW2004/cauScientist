@@ -8,9 +8,9 @@ device = "cpu"  # "cpu" 或 "cuda"
 max_tokens = 8192  # LLM 最大输出token数
 
 [llm.openai]
-base_url = "http://35.220.164.252:3888/v1/"
-api_key = "********"  # 替换为你的API密钥
-model_name = "gpt-4o"
+base_url = "https://ark.cn-beijing.volces.com/api/v3"
+api_key = ""  # 请在 secret.toml 中设置实际的API密钥
+model_name = "deepseek-v3-1-terminus"
 
 
 [training]
