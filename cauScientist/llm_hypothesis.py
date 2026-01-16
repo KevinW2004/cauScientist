@@ -7,6 +7,7 @@ import re
 
 from llm_loader import LLMLoader
 from utils import ConfigManager
+from utils import visualize_causal_graph
 
 
 class LLMHypothesisGenerator:
@@ -917,8 +918,25 @@ CRITICAL:
             'reasoning': f"Applied {len(operations)} local operations"
         }
     
-    def visualize_graph(self, structured_graph: Dict):
-        """文本可视化因果图"""
+    def visualize_graph(
+        self, 
+        structured_graph: Dict,
+        output_dir: str = "visualizations",
+        previous_graph: Optional[Dict] = None,
+        auto_open: bool = True,
+        text_only: bool = False
+    ):
+        """
+        可视化因果图（支持文本和交互式HTML两种方式）
+        
+        Args:
+            structured_graph: 结构化图数据
+            output_dir: HTML输出目录
+            previous_graph: 上一轮的图（用于高亮变化）
+            auto_open: 是否自动在浏览器打开HTML
+            text_only: 是否仅输出文本（不生成HTML）
+        """
+        # 文本可视化
         print("\n" + "="*60)
         print(f"CAUSAL GRAPH - {structured_graph['metadata']['domain'].upper()}")
         print("="*60)
@@ -971,3 +989,17 @@ CRITICAL:
                 print(edge)
         
         print("="*60 + "\n")
+        
+        # 交互式HTML可视化
+        if not text_only:
+            try:
+                visualize_causal_graph(
+                    structured_graph=structured_graph,
+                    output_dir=output_dir,
+                    previous_graph=previous_graph,
+                    auto_open=auto_open,
+                    layout="hierarchical"
+                )
+            except Exception as e:
+                print(f"⚠️  警告: 无法生成交互式可视化: {e}")
+                print(f"   (你可能需要安装 pyvis: pip install pyvis networkx)")

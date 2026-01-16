@@ -3,7 +3,7 @@ import numpy as np
 
 from utils import ConfigManager
 from data_loader import DataLoader
-from cauScientist.scripts.cma_pipeline import CMAPipeline
+from scripts.cma_pipeline import CMAPipeline
 from scripts.batch_runner import BatchExperimentRunner
 
 
@@ -47,7 +47,8 @@ def run_single_experiment():
     return result
 
 
-def run_batch_experiment(config: ConfigManager):
+def run_batch_experiment():
+    config = ConfigManager()
     runner = BatchExperimentRunner(
         csv_config_path=config.get("experiment.csv_path"),
         base_output_dir=config.get("experiment.output.dir"),
@@ -70,7 +71,7 @@ if __name__ == "__main__":
     
     # ========== 批量实验模式 ==========
     if config.get("experiment.mode") == "batch":
-        run_batch_experiment(config)
+        run_batch_experiment()
     
     # ========== 单个实验模式 ==========
     else:

@@ -4,7 +4,7 @@ type = "openai"  # "openai" 或 "local"
 
 [llm.local]
 model_path = "/mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B"
-device = "cpu"  # "cpu" 或 "cuda"
+device = "cuda"  # "cpu" 或 "cuda"
 max_tokens = 8192  # LLM 最大输出token数
 
 [llm.openai]
@@ -34,6 +34,7 @@ num_samples = 500
 use_synthetic_data = true  # 如果为false，需要指定数据路径
 
 [experiment.single.data]
+# 仅在 use_synthetic_data = false 时需要指定
 fp_data = ""
 fp_graph = ""
 fp_regime = ""

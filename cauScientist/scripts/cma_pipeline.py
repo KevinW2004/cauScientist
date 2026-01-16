@@ -15,7 +15,7 @@ from llm_hypothesis import LLMHypothesisGenerator
 from model_fitting import ModelFittingEngine
 from post_processing import PostProcessor
 from data_loader import CausalDataset, DOMAIN_CONTEXTS
-from cauScientist.utils.score_functions import score_graph_with_bic
+from utils.score_functions import score_graph_with_bic
 from transformers import AutoTokenizer
 
 from utils import ConfigManager
@@ -108,9 +108,11 @@ class CMAPipeline:
         print("="*70)
         print(f"LLM Type: {llm_type}")
         self.llm_loader: LLMLoader = LLMLoaderFactory.create_llm_loader(llm_type)
+        self.llm_loader.load_model()
 
         # 统一注入 llm_loader 到 hypothesis generator 和 post processor
-        self.hypothesis_generator = LLMHypothesisGenerator()
+        self.hypothesis_generator = LLMHypothesisGenerator(llm_loader=self.llm_loader)
+        # self.post_processor = PostProcessor(llm_loader=self.llm_loader)
         
         
         # 模型拟合引擎（不需要LLM）

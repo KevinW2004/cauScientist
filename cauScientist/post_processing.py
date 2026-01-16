@@ -3,8 +3,6 @@ Post-processing Module
 生成记忆(Memory),总结变化和影响
 支持共享模型实例
 """
-
-import json
 from typing import Dict, Optional
 
 

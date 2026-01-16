@@ -14,5 +14,9 @@ transformers>=4.30.0
 openai>=1.0.0
 vllm>=0.3.0
 
+# Visualization
+pyvis>=0.3.2
+networkx>=3.0
+
 # Other
 toml >= 0.10.2
