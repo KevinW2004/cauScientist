@@ -1,0 +1,20 @@
+{
+  "run_id": 3,
+  "domain": "insurance",
+  "final_ll": -248347.75860556716,
+  "final_bic": 248347.75860556716,
+  "num_edges_predicted": 21,
+  "num_edges_true": 52,
+  "metrics": {
+    "true_positive": 12,
+    "false_positive": 9,
+    "false_negative": 40,
+    "true_negative": 668,
+    "precision": 0.5714,
+    "recall": 0.2308,
+    "f1_score": 0.3288,
+    "accuracy": 0.9328,
+    "shd": 48
+  },
+  "status": "success"
+}

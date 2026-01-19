@@ -1,0 +1,601 @@
+{
+  "metadata": {
+    "domain": "child",
+    "iteration": 0,
+    "num_variables": 20,
+    "num_edges": 27,
+    "reasoning": "In the domain of congenital heart disease diagnosis, we must consider the interplay between various clinical and physiological variables. BirthAsphyxia and Age are likely root causes since they represent early-life conditions or characteristics that can directly influence disease development. Disease, in this context, could be a latent condition (e.g., congenital heart disease) that leads to observable signs like LVH, CardiacMixing, and LungFlow. LVH (Left Ventricular Hypertrophy) is a compensatory response to cardiac strain and can be directly influenced by Disease. CardiacMixing, such as in shunts, is another hallmark of congenital heart disease and is likely a direct effect of Disease. DuctFlow is a physiological observation that may be influenced by CardiacMixing. HypDistrib (hypoxia distribution) may be a downstream effect of CardiacMixing and DuctFlow. LungParench (lung parenchyma changes) is a result of chronic hypoxia or CO2 retention, so CO2 and HypDistrib are plausible parents. LungFlow and HypoxiaInO2 are likely influenced by Disease and may also interact with LungParench. CO2Report and GruntingReport are diagnostic assessments that are influenced by CO2, HypoxiaInO2, and Grunting. Grunting is a clinical sign that may be a direct effect of HypoxiaInO2. ChestXray and XrayReport are diagnostic tools influenced by LungFlow and LungParench. Sick is a general indicator of clinical status and may be influenced by multiple downstream variables like HypDistrib, LungParench, and Grunting. LVHreport and CO2Report are diagnostic reports that are direct effects of LVH and CO2, respectively. RUQO2 and LowerBodyO2 reflect regional oxygenation and are likely influenced by CardiacMixing and DuctFlow. Overall, the relationships are based on known pathophysiology, clinical observations, and the temporal sequence of events in congenital heart disease.",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": null,
+    "proposed_operations": null,
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and child domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Generate an initial causal graph hypothesis for the child domain.\n\nVariables to analyze:\n- BirthAsphyxia\n- Disease\n- LVH\n- LVHreport\n- DuctFlow\n- CardiacMixing\n- HypDistrib\n- LungParench\n- HypoxiaInO2\n- CO2\n- LowerBodyO2\n- RUQO2\n- CO2Report\n- LungFlow\n- ChestXray\n- XrayReport\n- Sick\n- Grunting\n- GruntingReport\n- Age\n\n\nDomain Context:\nCongenital heart disease diagnosis.\n\n\n\n==================================================\n\ud83d\udcca STATISTICAL BASELINE REFERENCE (from traditional methods):\n==================================================\nThe following causal relationships were suggested by traditional algorithms.\nUse them as hints, but rely on your domain knowledge and interventional evidence.\n\n[FCI Algorithm]:\n  - BirthAsphyxia \u2192 Disease\n  - LVH \u2192 Disease\n  - LungFlow \u2192 Disease\n  - Sick \u2192 Disease\n  - Age \u2192 Disease\n  - CO2 \u2192 LungParench\n  - LungFlow \u2192 ChestXray\n  - Sick \u2192 Grunting\n\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+      "llm_response": "{\n\"reasoning\": \"In the domain of congenital heart disease diagnosis, we must consider the interplay between various clinical and physiological variables. BirthAsphyxia and Age are likely root causes since they represent early-life conditions or characteristics that can directly influence disease development. Disease, in this context, could be a latent condition (e.g., congenital heart disease) that leads to observable signs like LVH, CardiacMixing, and LungFlow. LVH (Left Ventricular Hypertrophy) is a compensatory response to cardiac strain and can be directly influenced by Disease. CardiacMixing, such as in shunts, is another hallmark of congenital heart disease and is likely a direct effect of Disease. DuctFlow is a physiological observation that may be influenced by CardiacMixing. HypDistrib (hypoxia distribution) may be a downstream effect of CardiacMixing and DuctFlow. LungParench (lung parenchyma changes) is a result of chronic hypoxia or CO2 retention, so CO2 and HypDistrib are plausible parents. LungFlow and HypoxiaInO2 are likely influenced by Disease and may also interact with LungParench. CO2Report and GruntingReport are diagnostic assessments that are influenced by CO2, HypoxiaInO2, and Grunting. Grunting is a clinical sign that may be a direct effect of HypoxiaInO2. ChestXray and XrayReport are diagnostic tools influenced by LungFlow and LungParench. Sick is a general indicator of clinical status and may be influenced by multiple downstream variables like HypDistrib, LungParench, and Grunting. LVHreport and CO2Report are diagnostic reports that are direct effects of LVH and CO2, respectively. RUQO2 and LowerBodyO2 reflect regional oxygenation and are likely influenced by CardiacMixing and DuctFlow. Overall, the relationships are based on known pathophysiology, clinical observations, and the temporal sequence of events in congenital heart disease.\",\n\"nodes\": [\n{\n    \"name\": \"BirthAsphyxia\",\n    \"parents\": []\n},\n{\n    \"name\": \"Age\",\n    \"parents\": []\n},\n{\n    \"name\": \"Disease\",\n    \"parents\": [\"BirthAsphyxia\", \"Age\"]\n},\n{\n    \"name\": \"LVH\",\n    \"parents\": [\"Disease\"]\n},\n{\n    \"name\": \"CardiacMixing\",\n    \"parents\": [\"Disease\"]\n},\n{\n    \"name\": \"DuctFlow\",\n    \"parents\": [\"CardiacMixing\"]\n},\n{\n    \"name\": \"HypDistrib\",\n    \"parents\": [\"CardiacMixing\", \"DuctFlow\"]\n},\n{\n    \"name\": \"LungParench\",\n    \"parents\": [\"CO2\", \"HypDistrib\"]\n},\n{\n    \"name\": \"CO2\",\n    \"parents\": [\"Disease\"]\n},\n{\n    \"name\": \"LungFlow\",\n    \"parents\": [\"Disease\"]\n},\n{\n    \"name\": \"ChestXray\",\n    \"parents\": [\"LungFlow\", \"LungParench\"]\n},\n{\n    \"name\": \"HypoxiaInO2\",\n    \"parents\": [\"Disease\", \"LungParench\"]\n},\n{\n    \"name\": \"Grunting\",\n    \"parents\": [\"HypoxiaInO2\"]\n},\n{\n    \"name\": \"Sick\",\n    \"parents\": [\"HypDistrib\", \"LungParench\", \"Grunting\"]\n},\n{\n    \"name\": \"LVHreport\",\n    \"parents\": [\"LVH\"]\n},\n{\n    \"name\": \"CO2Report\",\n    \"parents\": [\"CO2\"]\n},\n{\n    \"name\": \"XrayReport\",\n    \"parents\": [\"ChestXray\"]\n},\n{\n    \"name\": \"GruntingReport\",\n    \"parents\": [\"Grunting\"]\n},\n{\n    \"name\": \"RUQO2\",\n    \"parents\": [\"CardiacMixing\", \"DuctFlow\"]\n},\n{\n    \"name\": \"LowerBodyO2\",\n    \"parents\": [\"CardiacMixing\", \"DuctFlow\"]\n}\n]\n}"
+    },
+    "log_likelihood": -155890.95035488365,
+    "num_parameters": 245880,
+    "bic": 155890.95035488365,
+    "evaluation_metrics": {
+      "true_positive": 13,
+      "false_positive": 14,
+      "false_negative": 12,
+      "true_negative": 361,
+      "precision": 0.4815,
+      "recall": 0.52,
+      "f1_score": 0.5,
+      "accuracy": 0.935,
+      "shd": 23
+    }
+  },
+  "nodes": [
+    {
+      "name": "BirthAsphyxia",
+      "parents": []
+    },
+    {
+      "name": "Age",
+      "parents": []
+    },
+    {
+      "name": "Disease",
+      "parents": [
+        "BirthAsphyxia",
+        "Age"
+      ]
+    },
+    {
+      "name": "LVH",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "CardiacMixing",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "DuctFlow",
+      "parents": [
+        "CardiacMixing"
+      ]
+    },
+    {
+      "name": "HypDistrib",
+      "parents": [
+        "CardiacMixing",
+        "DuctFlow"
+      ]
+    },
+    {
+      "name": "LungParench",
+      "parents": [
+        "CO2",
+        "HypDistrib"
+      ]
+    },
+    {
+      "name": "CO2",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "LungFlow",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "ChestXray",
+      "parents": [
+        "LungFlow",
+        "LungParench"
+      ]
+    },
+    {
+      "name": "HypoxiaInO2",
+      "parents": [
+        "Disease",
+        "LungParench"
+      ]
+    },
+    {
+      "name": "Grunting",
+      "parents": [
+        "HypoxiaInO2"
+      ]
+    },
+    {
+      "name": "Sick",
+      "parents": [
+        "HypDistrib",
+        "LungParench",
+        "Grunting"
+      ]
+    },
+    {
+      "name": "LVHreport",
+      "parents": [
+        "LVH"
+      ]
+    },
+    {
+      "name": "CO2Report",
+      "parents": [
+        "CO2"
+      ]
+    },
+    {
+      "name": "XrayReport",
+      "parents": [
+        "ChestXray"
+      ]
+    },
+    {
+      "name": "GruntingReport",
+      "parents": [
+        "Grunting"
+      ]
+    },
+    {
+      "name": "RUQO2",
+      "parents": [
+        "CardiacMixing",
+        "DuctFlow"
+      ]
+    },
+    {
+      "name": "LowerBodyO2",
+      "parents": [
+        "CardiacMixing",
+        "DuctFlow"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

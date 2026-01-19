@@ -1,0 +1,20 @@
+{
+  "run_id": 0,
+  "domain": "sachs",
+  "final_ll": -119518.67063500617,
+  "final_bic": 119518.67063500617,
+  "num_edges_predicted": 10,
+  "num_edges_true": 17,
+  "metrics": {
+    "true_positive": 7,
+    "false_positive": 3,
+    "false_negative": 10,
+    "true_negative": 101,
+    "precision": 0.7,
+    "recall": 0.4118,
+    "f1_score": 0.5185,
+    "accuracy": 0.8926,
+    "shd": 13
+  },
+  "status": "success"
+}

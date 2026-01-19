@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 2,
+    "num_variables": 8,
+    "num_edges": 8,
+    "reasoning": "Applied 0/1 local operations successfully",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": {
+      "added_edges": [],
+      "removed_edges": [],
+      "num_added": 0,
+      "num_removed": 0
+    },
+    "proposed_operations": [
+      {
+        "type": "DELETE",
+        "parent": "lung",
+        "child": "bronc",
+        "reasoning": "Removing this edge aligns the causal graph with domain knowledge that bronchitis is not caused by lung cancer but rather is primarily caused by smoking."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current edge 'lung \u2192 bronc' suggests that lung cancer causes bronchitis, which is not consistent with domain knowledge. While bronchitis may co-occur with lung cancer, it is primarily caused by smoking and is not a direct effect of lung cancer. Removing this edge would better reflect the causal relationships and align with the understanding that bronchitis is a separate condition that may coexist with lung cancer but is not caused by it. This change should improve the graph's log-likelihood by removing a spurious or indirect causal link.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - asia -> tub\n  - smoke -> lung\n  - smoke -> bronc\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n\n\n\n\nCurrent Graph (Iteration 1):\n  asia \u2192 tub\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -22809.48556768597\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "```json\n{\n  \"overall_reasoning\": \"The current edge 'lung \u2192 bronc' is inconsistent with domain knowledge, as bronchitis is primarily caused by smoking and is not a direct effect of lung cancer. Removing this edge will better reflect the causal relationships and potentially improve the graph's log-likelihood by eliminating a spurious causal link.\",\n  \"confirmed_edges\": [\n    \"asia -> tub\",\n    \"smoke -> lung\",\n    \"smoke -> bronc\",\n    \"tub -> either\",\n    \"lung -> either\",\n    \"either -> xray\",\n    \"bronc -> dysp\",\n    \"either -> dysp\"\n  ],\n  \"edge_notes\": {\n    \"lung -> bronc\": \"This edge is being removed as bronchitis is not a direct consequence of lung cancer in the asia domain. Smoking is the primary causal factor for both conditions.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"lung\",\n      \"child\": \"bronc\",\n      \"reasoning\": \"Removing this edge aligns the causal graph with domain knowledge that bronchitis is not caused by lung cancer but rather is primarily caused by smoking.\"\n    }\n  ]\n}\n```"
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": [
+        "asia"
+      ]
+    },
+    {
+      "name": "lung",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "bronc",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "either"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "bronc",
+        "either"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

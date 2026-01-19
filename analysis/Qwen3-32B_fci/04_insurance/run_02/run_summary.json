@@ -1,0 +1,6 @@
+{
+  "run_id": 2,
+  "domain": "insurance",
+  "status": "failed",
+  "error": "[Errno 2] No such file or directory: 'predict/graphs/bnlearn_insurance_fci_pred.csv'"
+}

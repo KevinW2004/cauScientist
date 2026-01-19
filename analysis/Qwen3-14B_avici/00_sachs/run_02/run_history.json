@@ -1,0 +1,3020 @@
+[
+  {
+    "iteration": 0,
+    "graph": {
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "PKC",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ],
+          "weight": {
+            "PKC": 0.80707926
+          }
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ],
+          "weight": {
+            "PKA": 0.78464425
+          }
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ],
+          "weight": {
+            "PKA": 0.94621193
+          }
+        },
+        {
+          "name": "Raf",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "Mek",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "Erk",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ],
+          "weight": {
+            "Erk": 0.9758628
+          }
+        },
+        {
+          "name": "PIP3",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ],
+          "weight": {
+            "Plcg": 0.99808764
+          }
+        }
+      ],
+      "metadata": {
+        "num_variables": 11,
+        "num_edges": 5,
+        "iteration": 0,
+        "log_likelihood": -122706.05560105594,
+        "num_parameters": 63382,
+        "bic": 122706.05560105594,
+        "evaluation_metrics": {
+          "true_positive": 5,
+          "false_positive": 0,
+          "false_negative": 12,
+          "true_negative": 104,
+          "precision": 1.0,
+          "recall": 0.2941,
+          "f1_score": 0.4545,
+          "accuracy": 0.9008,
+          "shd": 12
+        }
+      },
+      "weighted_matrix": [
+        [
+          0.0,
+          0.00024425847,
+          9.826339e-06,
+          1.487959e-06,
+          1.3066572e-06,
+          7.4846653e-06,
+          2.9940559e-06,
+          3.284112e-08,
+          9.076963e-08,
+          8.925655e-09,
+          7.596078e-05
+        ],
+        [
+          0.0010379158,
+          0.0,
+          9.489141e-05,
+          7.878855e-05,
+          4.1434632e-05,
+          0.00025067478,
+          0.00024761684,
+          3.6813997e-06,
+          1.1267672e-05,
+          1.6707444e-06,
+          0.0008357388
+        ],
+        [
+          3.381485e-06,
+          0.80707926,
+          0.0,
+          2.1766148e-06,
+          5.0842743e-07,
+          2.0397263e-05,
+          2.6285702e-06,
+          2.2863595e-07,
+          2.3826674e-07,
+          1.2808159e-08,
+          1.36154595e-05
+        ],
+        [
+          1.34975135e-05,
+          0.23826186,
+          0.78464425,
+          0.0,
+          0.00041532193,
+          7.303447e-05,
+          0.00015985196,
+          1.1808982e-05,
+          1.4827229e-05,
+          1.3872247e-05,
+          2.9017268e-05
+        ],
+        [
+          3.5686487e-06,
+          9.384964e-06,
+          0.94621193,
+          0.0040124874,
+          0.0,
+          0.000121929355,
+          0.00061776297,
+          1.0455335e-07,
+          1.5037065e-06,
+          1.4740421e-07,
+          2.862617e-05
+        ],
+        [
+          4.2379987e-05,
+          0.027218303,
+          0.34436214,
+          3.1585994e-05,
+          0.00039852998,
+          0.0,
+          0.0050772564,
+          1.1952484e-06,
+          5.8423143e-06,
+          1.374261e-07,
+          0.00077416253
+        ],
+        [
+          2.349425e-06,
+          0.00022569779,
+          0.24496111,
+          2.8600436e-05,
+          8.379135e-06,
+          0.2185249,
+          0.0,
+          9.677678e-06,
+          1.2887348e-06,
+          4.4138537e-07,
+          6.27966e-05
+        ],
+        [
+          2.3384506e-05,
+          3.32799e-06,
+          5.3552862e-06,
+          9.582066e-06,
+          2.2467855e-06,
+          5.220763e-05,
+          3.3906188e-05,
+          0.0,
+          0.0013322281,
+          1.9788802e-06,
+          2.1865337e-05
+        ],
+        [
+          6.635474e-06,
+          2.89493e-05,
+          3.263137e-05,
+          2.9186816e-05,
+          3.6752277e-05,
+          0.00055950927,
+          0.0016131548,
+          0.9758628,
+          0.0,
+          1.4964499e-05,
+          5.768385e-05
+        ],
+        [
+          0.054377973,
+          0.0018532032,
+          0.0018970774,
+          0.0069195973,
+          0.0023468453,
+          0.0016527418,
+          0.0054551354,
+          0.0050609577,
+          0.00694939,
+          0.0,
+          0.043877255
+        ],
+        [
+          0.99808764,
+          7.902679e-07,
+          2.0454375e-07,
+          1.8358402e-07,
+          4.1555012e-07,
+          2.5177937e-07,
+          4.8730845e-07,
+          1.8424753e-09,
+          2.2126367e-09,
+          4.588143e-08,
+          0.0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -122706.05560105594,
+    "current_ll": -122706.05560105594,
+    "metrics": {
+      "true_positive": 5,
+      "false_positive": 0,
+      "false_negative": 12,
+      "true_negative": 104,
+      "precision": 1.0,
+      "recall": 0.2941,
+      "f1_score": 0.4545,
+      "accuracy": 0.9008,
+      "shd": 12
+    },
+    "results": {
+      "log_likelihood": -122706.05560105594,
+      "bic": 122706.05560105594,
+      "num_edges": 5
+    }
+  },
+  {
+    "iteration": 1,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 1,
+        "num_variables": 11,
+        "num_edges": 6,
+        "reasoning": "The current graph lacks a direct connection between Plcg and Akt, which is biologically plausible given that phospholipase C (Plcg) can activate Akt through downstream signaling pathways involving PIP3. Adding this edge may improve the log-likelihood by capturing a direct causal influence of Plcg on Akt.",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [
+            [
+              "Plcg",
+              "Akt"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "Plcg",
+            "child": "Akt",
+            "reasoning": "Plcg can lead to the production of PIP3, which in turn activates Akt. This indirect pathway suggests a plausible direct or indirect influence of Plcg on Akt, and adding this edge may better reflect the underlying causal structure."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122706.05560105594\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks a direct connection between Plcg and Akt, which is biologically plausible given that phospholipase C (Plcg) can activate Akt through downstream signaling pathways involving PIP3. Adding this edge may improve the log-likelihood by capturing a direct causal influence of Plcg on Akt.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {},\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"Plcg\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"Plcg can lead to the production of PIP3, which in turn activates Akt. This indirect pathway suggests a plausible direct or indirect influence of Plcg on Akt, and adding this edge may better reflect the underlying causal structure.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -122710.58643560477,
+        "num_parameters": 63382,
+        "bic": 122710.58643560477,
+        "evaluation_metrics": {
+          "true_positive": 5,
+          "false_positive": 1,
+          "false_negative": 12,
+          "true_negative": 103,
+          "precision": 0.8333,
+          "recall": 0.2941,
+          "f1_score": 0.4348,
+          "accuracy": 0.8926,
+          "shd": 13
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122706.05560105594,
+    "current_ll": -122710.58643560477,
+    "metrics": {
+      "true_positive": 5,
+      "false_positive": 1,
+      "false_negative": 12,
+      "true_negative": 103,
+      "precision": 0.8333,
+      "recall": 0.2941,
+      "f1_score": 0.4348,
+      "accuracy": 0.8926,
+      "shd": 13
+    },
+    "results": {
+      "log_likelihood": -122710.58643560477,
+      "bic": 122710.58643560477,
+      "num_edges": 6
+    },
+    "rejection_reason": "LL too low: -122710.5864, proposed operations: [('ADD', 'Plcg', 'Akt')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "Plcg",
+        "Akt"
+      ]
+    ]
+  },
+  {
+    "iteration": 2,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 2,
+        "num_variables": 11,
+        "num_edges": 5,
+        "reasoning": "The current graph includes Plcg \u2192 PIP2, which is a known relationship in the sachs domain as phospholipase C (Plcg) generates PIP2. However, there is no direct connection from Plcg to Akt, which may be missing. Based on domain knowledge, Akt is downstream of PIP3, and PIP3 is generated from PIP2 via phosphoinositide 3-kinase (PI3K). Therefore, adding an edge from PIP2 \u2192 Akt may be plausible if PIP2 indirectly influences Akt through PIP3. However, since PIP3 is not in the current graph, this remains uncertain. Instead, adding a direct edge from Plcg \u2192 Akt may be worth testing, but it was previously attempted and failed. A more strategic local refinement is to reverse the edge PKC \u2192 PKA, as PKA is known to inhibit PKC in some signaling pathways, and this reversal may better align with the causal dynamics.",
+        "confirmed_edges": [
+          "Plcg -> PIP2"
+        ],
+        "edge_notes": {
+          "PKC -> PKA": "Uncertain; reversal may better reflect inhibitory relationships in signaling pathways.",
+          "PIP2 -> Akt": "Tentative; depends on presence of PIP3 and its role as an intermediate."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "PKA",
+              "PKC"
+            ]
+          ],
+          "removed_edges": [
+            [
+              "PKC",
+              "PKA"
+            ]
+          ],
+          "num_added": 1,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "REVERSE",
+            "parent": "PKC",
+            "child": "PKA",
+            "reasoning": "In some signaling contexts, PKA can inhibit PKC activity. Reversing this edge may better reflect the actual causal direction, especially if the current structure leads to a poor likelihood."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122706.05560105594\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122710.5864, proposed operations: [('ADD', 'Plcg', 'Akt')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Plcg\u2192Akt\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes Plcg \u2192 PIP2, which is a known relationship in the sachs domain as phospholipase C (Plcg) generates PIP2. However, there is no direct connection from Plcg to Akt, which may be missing. Based on domain knowledge, Akt is downstream of PIP3, and PIP3 is generated from PIP2 via phosphoinositide 3-kinase (PI3K). Therefore, adding an edge from PIP2 \u2192 Akt may be plausible if PIP2 indirectly influences Akt through PIP3. However, since PIP3 is not in the current graph, this remains uncertain. Instead, adding a direct edge from Plcg \u2192 Akt may be worth testing, but it was previously attempted and failed. A more strategic local refinement is to reverse the edge PKC \u2192 PKA, as PKA is known to inhibit PKC in some signaling pathways, and this reversal may better align with the causal dynamics.\",\n  \"confirmed_edges\": [\"Plcg -> PIP2\"],\n  \"edge_notes\": {\n    \"PKC -> PKA\": \"Uncertain; reversal may better reflect inhibitory relationships in signaling pathways.\",\n    \"PIP2 -> Akt\": \"Tentative; depends on presence of PIP3 and its role as an intermediate.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"REVERSE\",\n      \"parent\": \"PKC\",\n      \"child\": \"PKA\",\n      \"reasoning\": \"In some signaling contexts, PKA can inhibit PKC activity. Reversing this edge may better reflect the actual causal direction, especially if the current structure leads to a poor likelihood.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -123901.80106919559,
+        "num_parameters": 63382,
+        "bic": 123901.80106919559,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 1,
+          "false_negative": 13,
+          "true_negative": 103,
+          "precision": 0.8,
+          "recall": 0.2353,
+          "f1_score": 0.3636,
+          "accuracy": 0.8843,
+          "shd": 13
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": []
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122706.05560105594,
+    "current_ll": -123901.80106919559,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 1,
+      "false_negative": 13,
+      "true_negative": 103,
+      "precision": 0.8,
+      "recall": 0.2353,
+      "f1_score": 0.3636,
+      "accuracy": 0.8843,
+      "shd": 13
+    },
+    "results": {
+      "log_likelihood": -123901.80106919559,
+      "bic": 123901.80106919559,
+      "num_edges": 5
+    },
+    "rejection_reason": "LL too low: -123901.8011, proposed operations: [('REVERSE', 'PKC', 'PKA')]",
+    "proposed_operations": [
+      [
+        "REVERSE",
+        "PKC",
+        "PKA"
+      ]
+    ]
+  },
+  {
+    "iteration": 3,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 3,
+        "num_variables": 11,
+        "num_edges": 5,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "Plcg",
+            "child": "Akt",
+            "reasoning": "Plcg is a key player in lipid signaling pathways that can influence Akt activation through PIP3. Adding this edge may better reflect the indirect causal influence of Plcg on Akt, which could improve the model's likelihood."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122706.05560105594\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122710.5864, proposed operations: [('ADD', 'Plcg', 'Akt')]\nAttempt 2: LL too low: -123901.8011, proposed operations: [('REVERSE', 'PKC', 'PKA')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Plcg\u2192Akt; REVERSE: PKC\u2192PKA\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks a direct connection from Plcg to Akt, which may be plausible given that Plcg (phospholipase C gamma) is known to generate IP3 and DAG, which can activate Akt through PIP3 signaling. Adding this edge may better capture the downstream effects of Plcg on Akt, improving the model's fit with the data.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Plcg \u2192 PIP2\": \"This edge is well-supported by domain knowledge, as Plcg is involved in the hydrolysis of PIP2 to generate IP3 and DAG.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"Plcg\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"Plcg is a key player in lipid signaling pathways that can influence Akt activation through PIP3. Adding this edge may better reflect the indirect causal influence of Plcg on Akt, which could improve the model's likelihood.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122706.05560105594,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "ADD operation failed: edge Plcg \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "ADD operation failed: edge Plcg \u2192 Akt not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 4,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 4,
+        "num_variables": 11,
+        "num_edges": 5,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "Plcg",
+            "child": "Akt",
+            "reasoning": "Plcg generates PIP2, which is a precursor to PIP3, a known activator of Akt. Therefore, a direct or indirect influence of Plcg on Akt is plausible and may improve the model's accuracy."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122706.05560105594\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122710.5864, proposed operations: [('ADD', 'Plcg', 'Akt')]\nAttempt 2: LL too low: -123901.8011, proposed operations: [('REVERSE', 'PKC', 'PKA')]\nAttempt 3: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Plcg\u2192Akt, Plcg\u2192Akt; REVERSE: PKC\u2192PKA\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks direct connections between Plcg and Akt, which could be important given that Plcg is a key phospholipase involved in signaling pathways that may influence Akt activity. Based on domain knowledge, Plcg can generate PIP2, which can be further phosphorylated into PIP3, a known activator of Akt. Therefore, adding an edge from Plcg to Akt may better reflect the underlying causal structure, especially if PIP2 or PIP3 acts as an intermediary. This addition is plausible and should be tested.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Plcg \u2192 PIP2\": \"Confirmed based on domain knowledge; Plcg hydrolyzes PIP2 to generate IP3 and DAG, so this edge is well-established.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"Plcg\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"Plcg generates PIP2, which is a precursor to PIP3, a known activator of Akt. Therefore, a direct or indirect influence of Plcg on Akt is plausible and may improve the model's accuracy.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122706.05560105594,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "ADD operation failed: edge Plcg \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "ADD operation failed: edge Plcg \u2192 Akt not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 5,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 5,
+        "num_variables": 11,
+        "num_edges": 6,
+        "reasoning": "The current graph has PKC \u2192 PKA, but based on domain knowledge in the sachs dataset, PKC and PKA are both downstream of PLC\u03b3 (Plcg) and may be part of parallel signaling pathways. Adding an edge from Plcg to PKC could better capture the upstream regulation of PKC by Plcg, which is a known activator of PKC in immune cell signaling. This aligns with the established role of Plcg in generating second messengers that activate multiple downstream effectors, including PKC and PKA.",
+        "confirmed_edges": [],
+        "edge_notes": {
+          "Plcg \u2192 PIP2": "This edge is confirmed based on the known role of Plcg in hydrolyzing PIP2 to generate IP3 and DAG, which are second messengers.",
+          "PKC \u2192 PKA": "This edge is uncertain; PKC and PKA may be parallel effectors of Plcg, not directly causal."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "Plcg",
+              "PKC"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "Plcg is a known upstream activator of PKC through the production of DAG, which activates PKC. Adding this edge aligns with biochemical pathways in immune cell signaling and may improve the model's likelihood by capturing this direct causal relationship."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122706.05560105594\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122710.5864, proposed operations: [('ADD', 'Plcg', 'Akt')]\nAttempt 2: LL too low: -123901.8011, proposed operations: [('REVERSE', 'PKC', 'PKA')]\nAttempt 3: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 4: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Plcg\u2192Akt, Plcg\u2192Akt, Plcg\u2192Akt; REVERSE: PKC\u2192PKA\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph has PKC \u2192 PKA, but based on domain knowledge in the sachs dataset, PKC and PKA are both downstream of PLC\u03b3 (Plcg) and may be part of parallel signaling pathways. Adding an edge from Plcg to PKC could better capture the upstream regulation of PKC by Plcg, which is a known activator of PKC in immune cell signaling. This aligns with the established role of Plcg in generating second messengers that activate multiple downstream effectors, including PKC and PKA.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Plcg \u2192 PIP2\": \"This edge is confirmed based on the known role of Plcg in hydrolyzing PIP2 to generate IP3 and DAG, which are second messengers.\",\n    \"PKC \u2192 PKA\": \"This edge is uncertain; PKC and PKA may be parallel effectors of Plcg, not directly causal.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"Plcg is a known upstream activator of PKC through the production of DAG, which activates PKC. Adding this edge aligns with biochemical pathways in immune cell signaling and may improve the model's likelihood by capturing this direct causal relationship.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -122713.32348089285,
+        "num_parameters": 63382,
+        "bic": 122713.32348089285,
+        "evaluation_metrics": {
+          "true_positive": 5,
+          "false_positive": 1,
+          "false_negative": 12,
+          "true_negative": 103,
+          "precision": 0.8333,
+          "recall": 0.2941,
+          "f1_score": 0.4348,
+          "accuracy": 0.8926,
+          "shd": 13
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122706.05560105594,
+    "current_ll": -122713.32348089285,
+    "metrics": {
+      "true_positive": 5,
+      "false_positive": 1,
+      "false_negative": 12,
+      "true_negative": 103,
+      "precision": 0.8333,
+      "recall": 0.2941,
+      "f1_score": 0.4348,
+      "accuracy": 0.8926,
+      "shd": 13
+    },
+    "results": {
+      "log_likelihood": -122713.32348089285,
+      "bic": 122713.32348089285,
+      "num_edges": 6
+    },
+    "rejection_reason": "LL too low: -122713.3235, proposed operations: [('ADD', 'Plcg', 'PKC')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "Plcg",
+        "PKC"
+      ]
+    ]
+  },
+  {
+    "iteration": 6,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 6,
+        "num_variables": 11,
+        "num_edges": 6,
+        "reasoning": "The current graph lacks several plausible edges based on domain knowledge of protein signaling in immune cells. For example, Plcg (Phospholipase C gamma) is known to generate PIP2 (phosphatidylinositol 4,5-bisphosphate) and can also influence Akt through PIP3 (phosphatidylinositol 3,5-bisphosphate) production. However, the direct edge from Plcg to Akt has previously failed, suggesting that an intermediate like PIP3 may be necessary. Adding the edge Plcg \u2192 PIP3 could better align the graph with known signaling pathways and improve the log-likelihood.",
+        "confirmed_edges": [
+          "Plcg -> PIP2"
+        ],
+        "edge_notes": {
+          "Plcg -> Akt": "This edge has previously failed; likely requires an intermediate such as PIP3 for a valid causal path."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "Plcg",
+              "PIP3"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "Plcg",
+            "child": "PIP3",
+            "reasoning": "Plcg is known to generate PIP3 via its enzymatic activity, which in turn activates Akt. Adding this edge aligns with the biological pathway and may help improve the log-likelihood by capturing a direct causal relationship."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122706.05560105594\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122710.5864, proposed operations: [('ADD', 'Plcg', 'Akt')]\nAttempt 2: LL too low: -123901.8011, proposed operations: [('REVERSE', 'PKC', 'PKA')]\nAttempt 3: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 4: ADD operation failed: edge Plcg \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 5: LL too low: -122713.3235, proposed operations: [('ADD', 'Plcg', 'PKC')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Plcg\u2192Akt, Plcg\u2192Akt, Plcg\u2192Akt, Plcg\u2192PKC; REVERSE: PKC\u2192PKA\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks several plausible edges based on domain knowledge of protein signaling in immune cells. For example, Plcg (Phospholipase C gamma) is known to generate PIP2 (phosphatidylinositol 4,5-bisphosphate) and can also influence Akt through PIP3 (phosphatidylinositol 3,5-bisphosphate) production. However, the direct edge from Plcg to Akt has previously failed, suggesting that an intermediate like PIP3 may be necessary. Adding the edge Plcg \u2192 PIP3 could better align the graph with known signaling pathways and improve the log-likelihood.\",\n  \"confirmed_edges\": [\"Plcg -> PIP2\"],\n  \"edge_notes\": {\n    \"Plcg -> Akt\": \"This edge has previously failed; likely requires an intermediate such as PIP3 for a valid causal path.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PIP3\",\n      \"reasoning\": \"Plcg is known to generate PIP3 via its enzymatic activity, which in turn activates Akt. Adding this edge aligns with the biological pathway and may help improve the log-likelihood by capturing a direct causal relationship.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -122272.41123418875,
+        "num_parameters": 63382,
+        "bic": 122272.41123418875,
+        "evaluation_metrics": {
+          "true_positive": 6,
+          "false_positive": 0,
+          "false_negative": 11,
+          "true_negative": 104,
+          "precision": 1.0,
+          "recall": 0.3529,
+          "f1_score": 0.5217,
+          "accuracy": 0.9091,
+          "shd": 11
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -122272.41123418875,
+    "current_ll": -122272.41123418875,
+    "metrics": {
+      "true_positive": 6,
+      "false_positive": 0,
+      "false_negative": 11,
+      "true_negative": 104,
+      "precision": 1.0,
+      "recall": 0.3529,
+      "f1_score": 0.5217,
+      "accuracy": 0.9091,
+      "shd": 11
+    },
+    "results": {
+      "log_likelihood": -122272.41123418875,
+      "bic": 122272.41123418875,
+      "num_edges": 6
+    }
+  },
+  {
+    "iteration": 7,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 7,
+        "num_variables": 11,
+        "num_edges": 7,
+        "reasoning": "The current graph lacks a direct edge from PIP3 to Akt, which is a well-established pathway in immune cell signaling. PIP3 is known to activate Akt through phosphorylation, and this relationship is critical for downstream signaling. Adding this edge would better align the graph with biological mechanisms and is likely to improve the log-likelihood.",
+        "confirmed_edges": [
+          "Plcg -> PIP2"
+        ],
+        "edge_notes": {
+          "Plcg -> PIP3": "This edge is plausible but should be validated with further interventional data to confirm its direct influence on PIP3."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "PIP3",
+              "Akt"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "PIP3",
+            "child": "Akt",
+            "reasoning": "PIP3 is a known activator of Akt in immune cell signaling pathways. Adding this edge aligns with established biochemical mechanisms and should improve the model's accuracy and likelihood."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph lacks several plausible edges based on domain knowledge of protein signaling in immune cells. For example, Plcg (Phospholipase C gamma) is known to generate PIP2 (phosphatidylinositol 4,5-bisphosphate) and can also influence Akt through PIP3 (phosphatidylinositol 3,5-bisphosphate) production. However, the direct edge from Plcg to Akt has previously failed, suggesting that an intermediate like PIP3 may be necessary. Adding the edge Plcg \u2192 PIP3 could better align the graph with known signaling pathways and improve the log-likelihood.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n\n\n\n\nCurrent Graph (Iteration 6):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122272.41123418875\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks a direct edge from PIP3 to Akt, which is a well-established pathway in immune cell signaling. PIP3 is known to activate Akt through phosphorylation, and this relationship is critical for downstream signaling. Adding this edge would better align the graph with biological mechanisms and is likely to improve the log-likelihood.\",\n  \"confirmed_edges\": [\"Plcg -> PIP2\"],\n  \"edge_notes\": {\n    \"Plcg -> PIP3\": \"This edge is plausible but should be validated with further interventional data to confirm its direct influence on PIP3.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"PIP3\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"PIP3 is a known activator of Akt in immune cell signaling pathways. Adding this edge aligns with established biochemical mechanisms and should improve the model's accuracy and likelihood.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -122277.91481654033,
+        "num_parameters": 63382,
+        "bic": 122277.91481654033,
+        "evaluation_metrics": {
+          "true_positive": 6,
+          "false_positive": 1,
+          "false_negative": 11,
+          "true_negative": 103,
+          "precision": 0.8571,
+          "recall": 0.3529,
+          "f1_score": 0.5,
+          "accuracy": 0.9008,
+          "shd": 12
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122272.41123418875,
+    "current_ll": -122277.91481654033,
+    "metrics": {
+      "true_positive": 6,
+      "false_positive": 1,
+      "false_negative": 11,
+      "true_negative": 103,
+      "precision": 0.8571,
+      "recall": 0.3529,
+      "f1_score": 0.5,
+      "accuracy": 0.9008,
+      "shd": 12
+    },
+    "results": {
+      "log_likelihood": -122277.91481654033,
+      "bic": 122277.91481654033,
+      "num_edges": 7
+    },
+    "rejection_reason": "LL too low: -122277.9148, proposed operations: [('ADD', 'PIP3', 'Akt')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "PIP3",
+        "Akt"
+      ]
+    ]
+  },
+  {
+    "iteration": 8,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 8,
+        "num_variables": 11,
+        "num_edges": 6,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "PIP3",
+            "child": "Akt",
+            "reasoning": "PIP3 is a known activator of Akt in immune cell signaling pathways. Adding this edge aligns with biological mechanisms and could improve the model's accuracy and likelihood."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph lacks several plausible edges based on domain knowledge of protein signaling in immune cells. For example, Plcg (Phospholipase C gamma) is known to generate PIP2 (phosphatidylinositol 4,5-bisphosphate) and can also influence Akt through PIP3 (phosphatidylinositol 3,5-bisphosphate) production. However, the direct edge from Plcg to Akt has previously failed, suggesting that an intermediate like PIP3 may be necessary. Adding the edge Plcg \u2192 PIP3 could better align the graph with known signaling pathways and improve the log-likelihood.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n\n\n\n\nCurrent Graph (Iteration 6):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122272.41123418875\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122277.9148, proposed operations: [('ADD', 'PIP3', 'Akt')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: PIP3\u2192Akt\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks a direct edge from PIP3 to Akt, which is a plausible relationship in immune cell signaling. PIP3 is known to activate Akt through the PI3K-Akt pathway, and although the direct addition of PIP3\u2192Akt previously failed, this may be due to insufficient data or confounding variables. Given the confirmed edge from Plcg\u2192PIP3 and the biological plausibility of PIP3\u2192Akt, adding this edge could improve the graph's alignment with known pathways and potentially increase the log-likelihood.\",\n  \"confirmed_edges\": [\"Plcg -> PIP2\"],\n  \"edge_notes\": {\n    \"Plcg -> PIP3\": \"Confirmed based on experimental evidence and domain knowledge of phospholipase C activity.\",\n    \"PIP3 -> Akt\": \"Plausible based on PI3K-Akt pathway, but requires further validation due to previous failure.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"PIP3\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"PIP3 is a known activator of Akt in immune cell signaling pathways. Adding this edge aligns with biological mechanisms and could improve the model's accuracy and likelihood.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122272.41123418875,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: ADD operation failed: edge PIP3 \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "ADD operation failed: edge PIP3 \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "ADD operation failed: edge PIP3 \u2192 Akt not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 9,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 9,
+        "num_variables": 11,
+        "num_edges": 7,
+        "reasoning": "The current graph includes Plcg \u2192 PIP3, which is plausible given that Plcg can generate PIP3 via phospholipid metabolism. However, Akt is a downstream effector of PIP3 in many signaling pathways, and the direct edge from PIP3 \u2192 Akt has previously failed. Given this, adding an edge from PIP3 to Akt may still be worth testing, but the failure suggests a need for intermediate nodes or additional context. Alternatively, considering the confirmed edge Plcg \u2192 PIP2, and the known role of PIP2 in modulating Akt activity (e.g., through PIP2-dependent kinases), it is plausible that PIP2 could also influence Akt, either directly or via PIP3. Since PIP3 \u2192 Akt has been previously attempted without success, testing PIP2 \u2192 Akt may provide a more viable alternative.",
+        "confirmed_edges": [
+          "Plcg -> PIP2"
+        ],
+        "edge_notes": {
+          "Plcg -> PIP3": "Plausible based on phospholipid metabolism; further validation with interventional data is needed.",
+          "PIP2 -> Akt": "Plausible based on domain knowledge, but requires further experimental validation."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "PIP2",
+              "Akt"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "PIP2",
+            "child": "Akt",
+            "reasoning": "PIP2 is a known substrate for phospholipase activity and can influence Akt through downstream signaling pathways. Adding this edge may better align the graph with known immune cell signaling mechanisms."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph lacks several plausible edges based on domain knowledge of protein signaling in immune cells. For example, Plcg (Phospholipase C gamma) is known to generate PIP2 (phosphatidylinositol 4,5-bisphosphate) and can also influence Akt through PIP3 (phosphatidylinositol 3,5-bisphosphate) production. However, the direct edge from Plcg to Akt has previously failed, suggesting that an intermediate like PIP3 may be necessary. Adding the edge Plcg \u2192 PIP3 could better align the graph with known signaling pathways and improve the log-likelihood.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n\n\n\n\nCurrent Graph (Iteration 6):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122272.41123418875\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122277.9148, proposed operations: [('ADD', 'PIP3', 'Akt')]\nAttempt 2: ADD operation failed: edge PIP3 \u2192 Akt not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: PIP3\u2192Akt, PIP3\u2192Akt\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes Plcg \u2192 PIP3, which is plausible given that Plcg can generate PIP3 via phospholipid metabolism. However, Akt is a downstream effector of PIP3 in many signaling pathways, and the direct edge from PIP3 \u2192 Akt has previously failed. Given this, adding an edge from PIP3 to Akt may still be worth testing, but the failure suggests a need for intermediate nodes or additional context. Alternatively, considering the confirmed edge Plcg \u2192 PIP2, and the known role of PIP2 in modulating Akt activity (e.g., through PIP2-dependent kinases), it is plausible that PIP2 could also influence Akt, either directly or via PIP3. Since PIP3 \u2192 Akt has been previously attempted without success, testing PIP2 \u2192 Akt may provide a more viable alternative.\",\n  \"confirmed_edges\": [\"Plcg -> PIP2\"],\n  \"edge_notes\": {\n    \"Plcg -> PIP3\": \"Plausible based on phospholipid metabolism; further validation with interventional data is needed.\",\n    \"PIP2 -> Akt\": \"Plausible based on domain knowledge, but requires further experimental validation.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"PIP2\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"PIP2 is a known substrate for phospholipase activity and can influence Akt through downstream signaling pathways. Adding this edge may better align the graph with known immune cell signaling mechanisms.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -122274.06197230205,
+        "num_parameters": 63382,
+        "bic": 122274.06197230205,
+        "evaluation_metrics": {
+          "true_positive": 6,
+          "false_positive": 1,
+          "false_negative": 11,
+          "true_negative": 103,
+          "precision": 0.8571,
+          "recall": 0.3529,
+          "f1_score": 0.5,
+          "accuracy": 0.9008,
+          "shd": 12
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122272.41123418875,
+    "current_ll": -122274.06197230205,
+    "metrics": {
+      "true_positive": 6,
+      "false_positive": 1,
+      "false_negative": 11,
+      "true_negative": 103,
+      "precision": 0.8571,
+      "recall": 0.3529,
+      "f1_score": 0.5,
+      "accuracy": 0.9008,
+      "shd": 12
+    },
+    "results": {
+      "log_likelihood": -122274.06197230205,
+      "bic": 122274.06197230205,
+      "num_edges": 7
+    },
+    "rejection_reason": "LL too low: -122274.0620, proposed operations: [('ADD', 'PIP2', 'Akt')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "PIP2",
+        "Akt"
+      ]
+    ]
+  },
+  {
+    "iteration": 10,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 10,
+        "num_variables": 11,
+        "num_edges": 6,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "PIP3",
+            "child": "Akt",
+            "reasoning": "PIP3 is a well-known activator of Akt in immune cell signaling pathways. Adding this edge may better capture the causal relationship and improve model fit."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph lacks several plausible edges based on domain knowledge of protein signaling in immune cells. For example, Plcg (Phospholipase C gamma) is known to generate PIP2 (phosphatidylinositol 4,5-bisphosphate) and can also influence Akt through PIP3 (phosphatidylinositol 3,5-bisphosphate) production. However, the direct edge from Plcg to Akt has previously failed, suggesting that an intermediate like PIP3 may be necessary. Adding the edge Plcg \u2192 PIP3 could better align the graph with known signaling pathways and improve the log-likelihood.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n\n\n\n\nCurrent Graph (Iteration 6):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Erk \u2192 Akt\n  Plcg \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -122272.41123418875\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -122277.9148, proposed operations: [('ADD', 'PIP3', 'Akt')]\nAttempt 2: ADD operation failed: edge PIP3 \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 3: LL too low: -122274.0620, proposed operations: [('ADD', 'PIP2', 'Akt')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: PIP3\u2192Akt, PIP3\u2192Akt, PIP2\u2192Akt\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes the edge Plcg \u2192 PIP3, which aligns with domain knowledge that Plcg generates PIP3. However, there is a lack of a direct or indirect connection from PIP3 to Akt, which is a critical node in the PI3K/Akt pathway. Since Akt is known to be activated by PIP3 through downstream signaling, adding a direct edge from PIP3 to Akt may improve the model's alignment with biological reality and potentially increase the log-likelihood. Previous attempts to add this edge failed, but it is worth revisiting given the confirmed edge Plcg \u2192 PIP3 and the known role of PIP3 in Akt activation.\",\n  \"confirmed_edges\": [\"Plcg -> PIP2\", \"Plcg -> PIP3\"],\n  \"edge_notes\": {\n    \"PIP3 -> Akt\": \"Need to test if this direct activation aligns with the data and improves likelihood.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"PIP3\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"PIP3 is a well-known activator of Akt in immune cell signaling pathways. Adding this edge may better capture the causal relationship and improve model fit.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": []
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -122272.41123418875,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: ADD operation failed: edge PIP3 \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "ADD operation failed: edge PIP3 \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "ADD operation failed: edge PIP3 \u2192 Akt not in valid operations"
+      ]
+    }
+  }
+]

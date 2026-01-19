@@ -1,0 +1,19 @@
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_iterations 10 --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --max_retries 10 --use_skeleton --skeleton_max_cond_size 4 --skeleton_alpha 0.1 --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_sachs.csv --use_hill_climbing
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv --use_hill_climbing --use_baseline_reference --baseline_methods avici --use_local_amendment --model_path /mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-32B --num_runs 5 --iterations_per_node 1
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv --use_hill_climbing --use_baseline_reference --baseline_methods avici --use_local_amendment --model_path /mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B --num_runs 5 --iterations_per_node 1 --use_intervention_test
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv --use_hill_climbing --use_local_amendment --model_path /mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B --num_runs 1 --iterations_per_node 1 --use_baseline_reference
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_iterations 10 --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --max_retries 10 --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_sachs.csv --use_hill_climbing --use_baseline_reference --baseline_methods avici
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_iterations 10 --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --max_retries 5 --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv --use_hill_climbing
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real.csv --use_hill_climbing --use_local_amendment --model_path /mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-32B --num_runs 5 --iterations_per_node 10 --mode llm-only
+
+
+# python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv --use_hill_climbing --use_local_amendment --model_path /mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B --num_runs 5 --iterations_per_node 1
+
+
+python /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/cma_pipeline.py --num_epochs 100 --acceptance_tolerance 0.0 --use_hill_climbing --verbose --csv_path /mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv --use_hill_climbing --use_baseline_reference --baseline_methods fci --use_local_amendment --model_path /mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B --num_runs 5 --iterations_per_node 1 --choose_best

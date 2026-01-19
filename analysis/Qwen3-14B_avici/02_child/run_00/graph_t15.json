@@ -1,0 +1,601 @@
+{
+  "metadata": {
+    "domain": "child",
+    "iteration": 15,
+    "num_variables": 20,
+    "num_edges": 9,
+    "reasoning": "The current graph includes a tentative edge 'Disease \u2192 LVH' which has been shown to have a significant interventional effect even after conditioning on various variables. This suggests that Disease is an ancestor of LVH, but we must ensure that this is not mediated by other variables. Based on the interventional evidence, we cannot delete this edge. However, the candidate operation to add 'LungFlow \u2192 LungParench' is supported by interventional evidence showing a direct effect of LungFlow on LungParench. This addition would improve the graph's explanatory power by representing a direct causal pathway that is currently missing.",
+    "confirmed_edges": [
+      "LVH \u2192 LVHreport",
+      "Disease \u2192 DuctFlow",
+      "Disease \u2192 CardiacMixing",
+      "CardiacMixing \u2192 HypoxiaInO2",
+      "CO2Report \u2192 CO2",
+      "ChestXray \u2192 XrayReport",
+      "Grunting \u2192 GruntingReport"
+    ],
+    "edge_notes": {
+      "Disease \u2192 LVH": "This edge remains in the graph as it has a significant interventional effect. Further analysis is needed to determine if it is direct or mediated."
+    },
+    "changes": {
+      "added_edges": [
+        [
+          "LungFlow",
+          "LungParench"
+        ]
+      ],
+      "removed_edges": [],
+      "num_added": 1,
+      "num_removed": 0
+    },
+    "proposed_operations": [
+      {
+        "type": "ADD",
+        "parent": "LungFlow",
+        "child": "LungParench",
+        "reasoning": "Interventional evidence shows a direct effect of LungFlow on LungParench (TVD=0.1197). Adding this edge would better represent the causal relationship between lung flow and lung parenchymal health."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and child domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the child domain.\n\nVariables:\n- BirthAsphyxia\n- Disease\n- LVH\n- LVHreport\n- DuctFlow\n- CardiacMixing\n- HypDistrib\n- LungParench\n- HypoxiaInO2\n- CO2\n- LowerBodyO2\n- RUQO2\n- CO2Report\n- LungFlow\n- ChestXray\n- XrayReport\n- Sick\n- Grunting\n- GruntingReport\n- Age\n\n\nDomain Context:\nCongenital heart disease diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes a tentative edge 'Disease \u2192 LVH', which is based on interventional evidence but needs to be confirmed as a direct effect. This is a high-priority relationship to verify. Additionally, we notice that variables like HypoxiaInO2, CO2, and LungParench are not fully connected in the graph, which may suggest missing causal pathways. We also suspect that CardiacMixing may influence HypDistrib, and that LungFlow may influence LungParench. These are plausible causal relationships that could improve the graph's explanatory power.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - LVH \u2192 LVHreport\n  - Disease \u2192 DuctFlow\n  - Disease \u2192 CardiacMixing\n  - CardiacMixing \u2192 HypoxiaInO2\n  - CO2Report \u2192 CO2\n  - ChestXray \u2192 XrayReport\n  - Grunting \u2192 GruntingReport\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: Disease \u2192 LVH (Reasoning: The edge 'Disease \u2192 LVH' is tentative and may be mediated by other variables (e.g., CardiacMixing or DuctFlow). We need to confirm whether this is a direct causal effect.)\n2. ADD: CardiacMixing \u2192 HypDistrib (Reasoning: CardiacMixing could influence the distribution of hypoxia, making this a plausible direct causal relationship that may improve the graph.)\n3. ADD: LungFlow \u2192 LungParench (Reasoning: LungFlow is likely to affect lung parenchymal health, suggesting a direct causal relationship that is currently unrepresented in the graph.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(BirthAsphyxia) affects HypoxiaInO2 (avg_TVD=0.0877). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'LungParench'], do(CardiacMixing) affects DuctFlow (avg_TVD=0.0635). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(BirthAsphyxia) affects HypoxiaInO2 (avg_TVD=0.0877). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'LungParench'], do(CardiacMixing) affects DuctFlow (avg_TVD=0.0635). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(BirthAsphyxia) affects HypoxiaInO2 (avg_TVD=0.0877). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'LungParench'], do(CardiacMixing) affects DuctFlow (avg_TVD=0.0635). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(BirthAsphyxia) affects HypoxiaInO2 (avg_TVD=0.0877). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'LungParench'], do(CardiacMixing) affects DuctFlow (avg_TVD=0.0635). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(BirthAsphyxia) affects HypoxiaInO2 (avg_TVD=0.0877). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'LungParench'], do(CardiacMixing) affects DuctFlow (avg_TVD=0.0635). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(BirthAsphyxia) affects HypoxiaInO2 (avg_TVD=0.0877). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'LungParench'], do(CardiacMixing) affects DuctFlow (avg_TVD=0.0635). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['Disease', 'CardiacMixing', 'CO2', 'Age']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(BirthAsphyxia) affects HypoxiaInO2 (TVD=0.0336). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['LVHreport', 'CardiacMixing', 'HypoxiaInO2', 'Age']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- INSUFFICIENT DATA to condition on ['Disease', 'HypoxiaInO2', 'CO2', 'Age']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(CardiacMixing) affects DuctFlow (TVD=0.0336). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Disease', 'CardiacMixing']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(BirthAsphyxia) affects HypoxiaInO2 (TVD=0.0336). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['LVHreport', 'CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['Disease', 'HypoxiaInO2']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(CardiacMixing) affects DuctFlow (TVD=0.0336). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [SIGNIFICANT] Given ['Disease', 'Age'], do(DuctFlow) affects CardiacMixing (avg_TVD=0.1882). Link is likely DIRECT / not fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'LVHreport']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [SIGNIFICANT] Given ['CO2', 'LungParench'], do(CardiacMixing) affects HypoxiaInO2 (avg_TVD=0.3512). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Age', 'Disease'], do(Grunting) affects HypDistrib (avg_TVD=0.0357). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'LVHreport']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [SIGNIFICANT] Given ['CO2', 'LungParench'], do(CardiacMixing) affects HypoxiaInO2 (avg_TVD=0.3512). Link is likely DIRECT / not fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'LVHreport']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [NOT SIGNIFICANT] Given ['CO2Report'], do(HypoxiaInO2) affects CO2 (avg_TVD=0.0812). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] do(LungParench) affects LungFlow (TVD=0.0588). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'LVHreport']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [SIGNIFICANT] Given ['CO2', 'LowerBodyO2', 'RUQO2'], do(HypoxiaInO2) affects Disease (avg_TVD=0.2063). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LungParench', 'LungFlow', 'CO2Report'], do(CardiacMixing) affects HypDistrib (avg_TVD=0.0552). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'DuctFlow']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'DuctFlow'], do(CardiacMixing) affects LVH (avg_TVD=0.0835). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVH'], do(Disease) affects LVHreport (avg_TVD=0.0641). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['CardiacMixing'], do(Disease) affects LVH (avg_TVD=0.1125). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['HypoxiaInO2'], do(CardiacMixing) affects HypDistrib (avg_TVD=0.0453). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['CO2Report', 'RUQO2'], do(LowerBodyO2) affects CO2 (avg_TVD=0.0429). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'DuctFlow']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [NOT SIGNIFICANT] Given ['HypoxiaInO2', 'CO2'], do(CardiacMixing) affects HypDistrib (avg_TVD=0.0201). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['HypoxiaInO2'], do(LungFlow) affects LungParench (avg_TVD=0.1197). Link is likely DIRECT / not fully mediated by current set.\n\n\nCurrent Graph (Iteration 12):\n  Disease \u2192 LVH\n  LVH \u2192 LVHreport\n  Disease \u2192 DuctFlow\n  Disease \u2192 CardiacMixing\n  CardiacMixing \u2192 HypoxiaInO2\n  CO2Report \u2192 CO2\n  ChestXray \u2192 XrayReport\n  Grunting \u2192 GruntingReport\n\nCurrent Log-Likelihood: -136756.0660737197\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: STRICT VIOLATION: Cannot DELETE Disease \u2192 LVH. Even after conditioning, the effect remains SIGNIFICANT (- INSUFFICIENT DATA to condition on ['CardiacMixing', 'DuctFlow']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(Disease) affects LVH (TVD=0.1050). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).).\nAttempt 2: STRICT VIOLATION: Cannot ADD CardiacMixing \u2192 HypDistrib. Interventional evidence shows NO significant effect (- RESULT: [NOT SIGNIFICANT] Given ['HypoxiaInO2'], do(CardiacMixing) affects HypDistrib (avg_TVD=0.0453). Link is likely INDIRECT / fully mediated by current set.).\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: CardiacMixing\u2192HypDistrib; DELETE: Disease\u2192LVH\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes a tentative edge 'Disease \u2192 LVH' which has been shown to have a significant interventional effect even after conditioning on various variables. This suggests that Disease is an ancestor of LVH, but we must ensure that this is not mediated by other variables. Based on the interventional evidence, we cannot delete this edge. However, the candidate operation to add 'LungFlow \u2192 LungParench' is supported by interventional evidence showing a direct effect of LungFlow on LungParench. This addition would improve the graph's explanatory power by representing a direct causal pathway that is currently missing.\",\n  \"confirmed_edges\": [\"LVH \u2192 LVHreport\", \"Disease \u2192 DuctFlow\", \"Disease \u2192 CardiacMixing\", \"CardiacMixing \u2192 HypoxiaInO2\", \"CO2Report \u2192 CO2\", \"ChestXray \u2192 XrayReport\", \"Grunting \u2192 GruntingReport\"],\n  \"edge_notes\": {\n    \"Disease \u2192 LVH\": \"This edge remains in the graph as it has a significant interventional effect. Further analysis is needed to determine if it is direct or mediated.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"LungFlow\",\n      \"child\": \"LungParench\",\n      \"reasoning\": \"Interventional evidence shows a direct effect of LungFlow on LungParench (TVD=0.1197). Adding this edge would better represent the causal relationship between lung flow and lung parenchymal health.\"\n    }\n  ]\n}"
+    },
+    "log_likelihood": -136697.68565825294,
+    "num_parameters": 245880,
+    "bic": 136697.68565825294,
+    "evaluation_metrics": {
+      "true_positive": 7,
+      "false_positive": 2,
+      "false_negative": 18,
+      "true_negative": 373,
+      "precision": 0.7778,
+      "recall": 0.28,
+      "f1_score": 0.4118,
+      "accuracy": 0.95,
+      "shd": 19
+    }
+  },
+  "nodes": [
+    {
+      "name": "BirthAsphyxia",
+      "parents": []
+    },
+    {
+      "name": "Disease",
+      "parents": []
+    },
+    {
+      "name": "LVH",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "LVHreport",
+      "parents": [
+        "LVH"
+      ]
+    },
+    {
+      "name": "DuctFlow",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "CardiacMixing",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "HypDistrib",
+      "parents": []
+    },
+    {
+      "name": "LungParench",
+      "parents": [
+        "LungFlow"
+      ]
+    },
+    {
+      "name": "HypoxiaInO2",
+      "parents": [
+        "CardiacMixing"
+      ]
+    },
+    {
+      "name": "CO2",
+      "parents": [
+        "CO2Report"
+      ]
+    },
+    {
+      "name": "LowerBodyO2",
+      "parents": []
+    },
+    {
+      "name": "RUQO2",
+      "parents": []
+    },
+    {
+      "name": "CO2Report",
+      "parents": []
+    },
+    {
+      "name": "LungFlow",
+      "parents": []
+    },
+    {
+      "name": "ChestXray",
+      "parents": []
+    },
+    {
+      "name": "XrayReport",
+      "parents": [
+        "ChestXray"
+      ]
+    },
+    {
+      "name": "Sick",
+      "parents": []
+    },
+    {
+      "name": "Grunting",
+      "parents": []
+    },
+    {
+      "name": "GruntingReport",
+      "parents": [
+        "Grunting"
+      ]
+    },
+    {
+      "name": "Age",
+      "parents": []
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

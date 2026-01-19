@@ -1,0 +1,99 @@
+{
+  "nodes": [
+    {
+      "name": "Burglary",
+      "parents": [],
+      "weight": {}
+    },
+    {
+      "name": "Earthquake",
+      "parents": [],
+      "weight": {}
+    },
+    {
+      "name": "Alarm",
+      "parents": [
+        "Burglary",
+        "Earthquake"
+      ],
+      "weight": {
+        "Burglary": 0.9672634,
+        "Earthquake": 0.5685036
+      }
+    },
+    {
+      "name": "JohnCalls",
+      "parents": [
+        "Alarm"
+      ],
+      "weight": {
+        "Alarm": 0.9999584
+      }
+    },
+    {
+      "name": "MaryCalls",
+      "parents": [
+        "Alarm"
+      ],
+      "weight": {
+        "Alarm": 0.9999771
+      }
+    }
+  ],
+  "metadata": {
+    "num_variables": 5,
+    "num_edges": 4,
+    "iteration": 0,
+    "log_likelihood": -1153.7223472539326,
+    "num_parameters": 24970,
+    "bic": 1153.7223472539326,
+    "evaluation_metrics": {
+      "true_positive": 4,
+      "false_positive": 0,
+      "false_negative": 0,
+      "true_negative": 21,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy": 1.0,
+      "shd": 0
+    }
+  },
+  "weighted_matrix": [
+    [
+      0.0,
+      5.017731e-06,
+      2.260823e-08,
+      8.6739e-11,
+      4.711218e-10
+    ],
+    [
+      0.00096351095,
+      0.0,
+      1.6571457e-07,
+      5.5161538e-09,
+      2.7748726e-08
+    ],
+    [
+      0.9672634,
+      0.5685036,
+      0.0,
+      8.487038e-08,
+      2.9091552e-07
+    ],
+    [
+      0.0069531254,
+      4.241114e-06,
+      0.9999584,
+      0.0,
+      0.00012775637
+    ],
+    [
+      0.11434024,
+      4.115842e-06,
+      0.9999771,
+      7.3980766e-05,
+      0.0
+    ]
+  ]
+}

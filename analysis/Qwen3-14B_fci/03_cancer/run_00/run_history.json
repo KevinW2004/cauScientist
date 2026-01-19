@@ -1,0 +1,697 @@
+[
+  {
+    "iteration": 0,
+    "graph": {
+      "nodes": [
+        {
+          "name": "Pollution",
+          "parents": [],
+          "weight": {
+            "Smoker": 1.0,
+            "Cancer": 1.0,
+            "Xray": 1.0,
+            "Dyspnoea": 1.0
+          }
+        },
+        {
+          "name": "Smoker",
+          "parents": [
+            "Pollution"
+          ],
+          "weight": {
+            "Pollution": 1.0,
+            "Cancer": 1.0,
+            "Xray": 1.0,
+            "Dyspnoea": 1.0
+          }
+        },
+        {
+          "name": "Cancer",
+          "parents": [
+            "Pollution",
+            "Smoker"
+          ],
+          "weight": {
+            "Pollution": 1.0,
+            "Smoker": 1.0,
+            "Xray": 1.0,
+            "Dyspnoea": 1.0
+          }
+        },
+        {
+          "name": "Xray",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ],
+          "weight": {
+            "Pollution": 1.0,
+            "Smoker": 1.0,
+            "Cancer": 1.0,
+            "Dyspnoea": 1.0
+          }
+        },
+        {
+          "name": "Dyspnoea",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer",
+            "Xray"
+          ],
+          "weight": {
+            "Pollution": 1.0,
+            "Smoker": 1.0,
+            "Cancer": 1.0,
+            "Xray": 1.0
+          }
+        }
+      ],
+      "metadata": {
+        "num_variables": 5,
+        "num_edges": 10,
+        "iteration": 0,
+        "log_likelihood": -17997.263579754217,
+        "num_parameters": 24970,
+        "bic": 17997.263579754217,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 6,
+          "false_negative": 0,
+          "true_negative": 15,
+          "precision": 0.4,
+          "recall": 1.0,
+          "f1_score": 0.5714,
+          "accuracy": 0.76,
+          "shd": 6
+        }
+      },
+      "weighted_matrix": [
+        [
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -17997.263579754217,
+    "current_ll": -17997.263579754217,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 6,
+      "false_negative": 0,
+      "true_negative": 15,
+      "precision": 0.4,
+      "recall": 1.0,
+      "f1_score": 0.5714,
+      "accuracy": 0.76,
+      "shd": 6
+    },
+    "results": {
+      "log_likelihood": -17997.263579754217,
+      "bic": 17997.263579754217,
+      "num_edges": 10
+    }
+  },
+  {
+    "iteration": 1,
+    "graph": {
+      "metadata": {
+        "domain": "cancer",
+        "iteration": 1,
+        "num_variables": 5,
+        "num_edges": 9,
+        "reasoning": "Based on the interventional evidence and the strict evidence-first policy, the edge 'Pollution \u2192 Smoker' should be deleted because the do(Pollution) intervention had no significant effect on Smoker (TVD=0.0060), suggesting the link is spurious. Similarly, the edge 'Xray \u2192 Dyspnoea' should be deleted as the do(Xray) intervention also had no significant effect on Dyspnoea (TVD=0.0040), and Xray is a diagnostic tool, not a cause of Dyspnoea. Finally, the proposed edge 'Cancer \u2192 Smoker' is not supported by the evidence, as do(Cancer) had no significant effect on Smoker (TVD=0.0276), and we cannot add an edge without strong evidence. Thus, only the first two deletions are valid and supported by the data.",
+        "confirmed_edges": [],
+        "edge_notes": {
+          "Pollution \u2192 Smoker": "No significant effect of do(Pollution) on Smoker; likely spurious.",
+          "Xray \u2192 Dyspnoea": "No significant effect of do(Xray) on Dyspnoea; likely spurious.",
+          "Cancer \u2192 Smoker": "No significant effect of do(Cancer) on Smoker; insufficient evidence to support this edge."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "Pollution",
+              "Smoker"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Pollution",
+            "child": "Smoker",
+            "reasoning": "The interventional evidence (TVD=0.0060) shows no significant effect of do(Pollution) on Smoker, suggesting the edge is spurious and not supported by the data."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and cancer domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the cancer domain.\n\nVariables:\n- Pollution\n- Smoker\n- Cancer\n- Xray\n- Dyspnoea\n\n\nDomain Context:\nLung cancer risk factors.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph suggests that Pollution directly influences Smoker, Cancer, Xray, and Dyspnoea. Smoker also directly influences Cancer, Xray, and Dyspnoea. Cancer influences Xray and Dyspnoea, and Xray influences Dyspnoea. However, there are several potential issues with this graph that suggest possible improvements. First, the edge 'Pollution \u2192 Smoker' may not be causal, as pollution does not directly cause someone to become a smoker. Second, the edge 'Xray \u2192 Dyspnoea' is questionable, as Xray is a diagnostic tool and not a cause of Dyspnoea. Third, the absence of a direct edge from 'Cancer \u2192 Smoker' may be missing a potential confounding relationship or reverse causation. These three candidate operations aim to refine the graph based on domain knowledge and logical reasoning.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: Pollution \u2192 Smoker (Reasoning: Pollution does not directly cause someone to become a smoker. This edge may be a spurious correlation or a misunderstanding of the causal direction. Removing it would better align with domain knowledge in the cancer and public health literature.)\n2. DELETE: Xray \u2192 Dyspnoea (Reasoning: Xray is a diagnostic test, not a cause of Dyspnoea. The current graph implies that Xray causes Dyspnoea, which is not logically or biologically sound. Removing this edge would improve the causal consistency of the model.)\n3. ADD: Cancer \u2192 Smoker (Reasoning: There may be a reverse causal relationship or confounding where having cancer could influence smoking behavior (e.g., due to nicotine addiction or treatment effects). Adding this edge would allow for a more comprehensive representation of potential bidirectional influences or confounding factors.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] do(Cancer) affects Smoker (TVD=0.0276). This CONTRADICTS existence / SUPPORTS deletion.\n\n\nCurrent Graph (Iteration 0):\n  Pollution \u2192 Smoker\n  Pollution \u2192 Cancer\n  Smoker \u2192 Cancer\n  Pollution \u2192 Xray\n  Smoker \u2192 Xray\n  Cancer \u2192 Xray\n  Pollution \u2192 Dyspnoea\n  Smoker \u2192 Dyspnoea\n  Cancer \u2192 Dyspnoea\n  Xray \u2192 Dyspnoea\n\nCurrent Log-Likelihood: -17997.263579754217\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence and the strict evidence-first policy, the edge 'Pollution \u2192 Smoker' should be deleted because the do(Pollution) intervention had no significant effect on Smoker (TVD=0.0060), suggesting the link is spurious. Similarly, the edge 'Xray \u2192 Dyspnoea' should be deleted as the do(Xray) intervention also had no significant effect on Dyspnoea (TVD=0.0040), and Xray is a diagnostic tool, not a cause of Dyspnoea. Finally, the proposed edge 'Cancer \u2192 Smoker' is not supported by the evidence, as do(Cancer) had no significant effect on Smoker (TVD=0.0276), and we cannot add an edge without strong evidence. Thus, only the first two deletions are valid and supported by the data.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Pollution \u2192 Smoker\": \"No significant effect of do(Pollution) on Smoker; likely spurious.\",\n    \"Xray \u2192 Dyspnoea\": \"No significant effect of do(Xray) on Dyspnoea; likely spurious.\",\n    \"Cancer \u2192 Smoker\": \"No significant effect of do(Cancer) on Smoker; insufficient evidence to support this edge.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Pollution\",\n      \"child\": \"Smoker\",\n      \"reasoning\": \"The interventional evidence (TVD=0.0060) shows no significant effect of do(Pollution) on Smoker, suggesting the edge is spurious and not supported by the data.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -17988.964539562676,
+        "num_parameters": 24970,
+        "bic": 17988.964539562676,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 5,
+          "false_negative": 0,
+          "true_negative": 16,
+          "precision": 0.4444,
+          "recall": 1.0,
+          "f1_score": 0.6154,
+          "accuracy": 0.8,
+          "shd": 5
+        }
+      },
+      "nodes": [
+        {
+          "name": "Pollution",
+          "parents": []
+        },
+        {
+          "name": "Smoker",
+          "parents": []
+        },
+        {
+          "name": "Cancer",
+          "parents": [
+            "Pollution",
+            "Smoker"
+          ]
+        },
+        {
+          "name": "Xray",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        },
+        {
+          "name": "Dyspnoea",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer",
+            "Xray"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -17988.964539562676,
+    "current_ll": -17988.964539562676,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 5,
+      "false_negative": 0,
+      "true_negative": 16,
+      "precision": 0.4444,
+      "recall": 1.0,
+      "f1_score": 0.6154,
+      "accuracy": 0.8,
+      "shd": 5
+    },
+    "results": {
+      "log_likelihood": -17988.964539562676,
+      "bic": 17988.964539562676,
+      "num_edges": 9
+    }
+  },
+  {
+    "iteration": 2,
+    "graph": {
+      "metadata": {
+        "domain": "cancer",
+        "iteration": 2,
+        "num_variables": 5,
+        "num_edges": 8,
+        "reasoning": "Based on the interventional evidence, the edges Xray \u2192 Dyspnoea, Pollution \u2192 Smoker, and Cancer \u2192 Smoker are all supported for deletion due to the lack of significant effects observed in interventional experiments. Among these, the edge Xray \u2192 Dyspnoea is most strongly supported for deletion, as the marginal effect of do(Xray) on Dyspnoea was found to be non-significant (TVD=0.0040). This aligns with the experimental intent to remove spurious edges. Since the instructions allow for at most one operation, I will prioritize the deletion of Xray \u2192 Dyspnoea.",
+        "confirmed_edges": [],
+        "edge_notes": {
+          "Xray \u2192 Dyspnoea": "Non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) suggests this edge may be spurious and should be deleted.",
+          "Pollution \u2192 Smoker": "Non-significant effect of do(Pollution) on Smoker (TVD=0.0060) suggests this edge may be spurious and should be deleted.",
+          "Cancer \u2192 Smoker": "Non-significant effect of do(Cancer) on Smoker (TVD=0.0276) suggests this edge may be spurious and should be deleted."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "Xray",
+              "Dyspnoea"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Xray",
+            "child": "Dyspnoea",
+            "reasoning": "The interventional evidence shows no significant effect of do(Xray) on Dyspnoea (TVD=0.0040), supporting the deletion of the spurious edge Xray \u2192 Dyspnoea."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and cancer domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the cancer domain.\n\nVariables:\n- Pollution\n- Smoker\n- Cancer\n- Xray\n- Dyspnoea\n\n\nDomain Context:\nLung cancer risk factors.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes several edges that are suspected to be spurious based on prior interventional results. Specifically, the edges Xray \u2192 Dyspnoea and Pollution \u2192 Smoker are not supported by experimental evidence. Additionally, the edge Cancer \u2192 Smoker lacks sufficient evidence to support a causal relationship. Based on this, I propose three candidate operations to refine the graph: (1) DELETE the edge Xray \u2192 Dyspnoea, (2) DELETE the edge Pollution \u2192 Smoker, and (3) DELETE the edge Cancer \u2192 Smoker. These deletions are motivated by the lack of observed causal effects in interventional experiments. To verify each deletion, I will design targeted experiments to test whether the parent variable has a direct effect on the child variable.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: Xray \u2192 Dyspnoea (Reasoning: Prior interventional experiments found no significant effect of do(Xray) on Dyspnoea, suggesting the edge Xray \u2192 Dyspnoea is likely spurious and should be removed.)\n2. DELETE: Pollution \u2192 Smoker (Reasoning: No significant effect of do(Pollution) on Smoker was observed, indicating that the edge Pollution \u2192 Smoker is likely spurious and should be removed.)\n3. DELETE: Cancer \u2192 Smoker (Reasoning: There is insufficient evidence to support a causal relationship from Cancer to Smoker, and no significant effect of do(Cancer) on Smoker was observed. This edge is likely spurious and should be removed.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] do(Cancer) affects Smoker (TVD=0.0276). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Xray', 'Dyspnoea']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Xray', 'Dyspnoea'], do(Cancer) affects Smoker (avg_TVD=0.0249). Link is likely INDIRECT / fully mediated by current set.\n\n\nCurrent Graph (Iteration 1):\n  Pollution \u2192 Cancer\n  Smoker \u2192 Cancer\n  Pollution \u2192 Xray\n  Smoker \u2192 Xray\n  Cancer \u2192 Xray\n  Pollution \u2192 Dyspnoea\n  Smoker \u2192 Dyspnoea\n  Cancer \u2192 Dyspnoea\n  Xray \u2192 Dyspnoea\n\nCurrent Log-Likelihood: -17988.964539562676\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence, the edges Xray \u2192 Dyspnoea, Pollution \u2192 Smoker, and Cancer \u2192 Smoker are all supported for deletion due to the lack of significant effects observed in interventional experiments. Among these, the edge Xray \u2192 Dyspnoea is most strongly supported for deletion, as the marginal effect of do(Xray) on Dyspnoea was found to be non-significant (TVD=0.0040). This aligns with the experimental intent to remove spurious edges. Since the instructions allow for at most one operation, I will prioritize the deletion of Xray \u2192 Dyspnoea.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Xray \u2192 Dyspnoea\": \"Non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) suggests this edge may be spurious and should be deleted.\",\n    \"Pollution \u2192 Smoker\": \"Non-significant effect of do(Pollution) on Smoker (TVD=0.0060) suggests this edge may be spurious and should be deleted.\",\n    \"Cancer \u2192 Smoker\": \"Non-significant effect of do(Cancer) on Smoker (TVD=0.0276) suggests this edge may be spurious and should be deleted.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Xray\",\n      \"child\": \"Dyspnoea\",\n      \"reasoning\": \"The interventional evidence shows no significant effect of do(Xray) on Dyspnoea (TVD=0.0040), supporting the deletion of the spurious edge Xray \u2192 Dyspnoea.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -17923.471056073584,
+        "num_parameters": 24970,
+        "bic": 17923.471056073584,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 4,
+          "false_negative": 0,
+          "true_negative": 17,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1_score": 0.6667,
+          "accuracy": 0.84,
+          "shd": 4
+        }
+      },
+      "nodes": [
+        {
+          "name": "Pollution",
+          "parents": []
+        },
+        {
+          "name": "Smoker",
+          "parents": []
+        },
+        {
+          "name": "Cancer",
+          "parents": [
+            "Pollution",
+            "Smoker"
+          ]
+        },
+        {
+          "name": "Xray",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        },
+        {
+          "name": "Dyspnoea",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -17923.471056073584,
+    "current_ll": -17923.471056073584,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 4,
+      "false_negative": 0,
+      "true_negative": 17,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "accuracy": 0.84,
+      "shd": 4
+    },
+    "results": {
+      "log_likelihood": -17923.471056073584,
+      "bic": 17923.471056073584,
+      "num_edges": 8
+    }
+  },
+  {
+    "iteration": 3,
+    "graph": {
+      "metadata": {
+        "domain": "cancer",
+        "iteration": 3,
+        "num_variables": 5,
+        "num_edges": 8,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Xray",
+            "child": "Dyspnoea",
+            "reasoning": "The non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) indicates that Xray does not directly cause Dyspnoea, and the edge is likely spurious."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and cancer domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the cancer domain.\n\nVariables:\n- Pollution\n- Smoker\n- Cancer\n- Xray\n- Dyspnoea\n\n\nDomain Context:\nLung cancer risk factors.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nBased on the tentative notes, the following candidate changes are proposed to refine the causal graph. The first priority is to remove spurious edges that were identified as non-significant through intervention experiments. The edge 'Xray \u2192 Dyspnoea' was found to have a negligible effect, suggesting it is not a direct causal relationship. Similarly, the edges 'Pollution \u2192 Smoker' and 'Cancer \u2192 Smoker' are also likely spurious, as their intervention effects were non-significant. These three deletions are the primary candidates for refinement. For each, an interventional experiment is designed to confirm whether the relationship is causal or not.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: Xray \u2192 Dyspnoea (Reasoning: The non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) suggests that Xray does not directly cause Dyspnoea, and the edge may be spurious.)\n2. DELETE: Pollution \u2192 Smoker (Reasoning: The non-significant effect of do(Pollution) on Smoker (TVD=0.0060) suggests that Pollution does not directly cause Smoker behavior, and the edge may be spurious.)\n3. DELETE: Cancer \u2192 Smoker (Reasoning: The non-significant effect of do(Cancer) on Smoker (TVD=0.0276) suggests that Cancer does not directly cause Smoker behavior, and the edge may be spurious.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] do(Cancer) affects Smoker (TVD=0.0276). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Xray', 'Dyspnoea']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Xray', 'Dyspnoea'], do(Cancer) affects Smoker (avg_TVD=0.0249). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Smoker', 'Cancer'], do(Xray) affects Dyspnoea (avg_TVD=0.0463). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Xray', 'Dyspnoea']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Xray', 'Dyspnoea'], do(Cancer) affects Smoker (avg_TVD=0.0249). Link is likely INDIRECT / fully mediated by current set.\n\n\nCurrent Graph (Iteration 2):\n  Pollution \u2192 Cancer\n  Smoker \u2192 Cancer\n  Pollution \u2192 Xray\n  Smoker \u2192 Xray\n  Cancer \u2192 Xray\n  Pollution \u2192 Dyspnoea\n  Smoker \u2192 Dyspnoea\n  Cancer \u2192 Dyspnoea\n\nCurrent Log-Likelihood: -17923.471056073584\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence, the edges Xray \u2192 Dyspnoea, Pollution \u2192 Smoker, and Cancer \u2192 Smoker have been identified as spurious due to non-significant effects under do-interventions. These findings strongly support the deletion of these edges. Among these, the edge Xray \u2192 Dyspnoea is the most clearly supported for deletion given the marginal evidence. We will proceed with deleting this edge first as it aligns with the experimental results and improves the graph's fidelity.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Xray \u2192 Dyspnoea\": \"Non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) suggests this edge is spurious and should be deleted.\",\n    \"Pollution \u2192 Smoker\": \"Non-significant effect of do(Pollution) on Smoker (TVD=0.0060) suggests this edge is spurious and should be deleted.\",\n    \"Cancer \u2192 Smoker\": \"Non-significant effect of do(Cancer) on Smoker (TVD=0.0276) suggests this edge is spurious and should be deleted.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Xray\",\n      \"child\": \"Dyspnoea\",\n      \"reasoning\": \"The non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) indicates that Xray does not directly cause Dyspnoea, and the edge is likely spurious.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Pollution",
+          "parents": []
+        },
+        {
+          "name": "Smoker",
+          "parents": []
+        },
+        {
+          "name": "Cancer",
+          "parents": [
+            "Pollution",
+            "Smoker"
+          ]
+        },
+        {
+          "name": "Xray",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        },
+        {
+          "name": "Dyspnoea",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -17923.471056073584,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Xray \u2192 Dyspnoea not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Xray \u2192 Dyspnoea not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Xray \u2192 Dyspnoea not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 4,
+    "graph": {
+      "metadata": {
+        "domain": "cancer",
+        "iteration": 4,
+        "num_variables": 5,
+        "num_edges": 8,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Pollution",
+            "child": "Smoker",
+            "reasoning": "The non-significant effect of do(Pollution) on Smoker (TVD=0.0060) indicates that Pollution does not directly influence Smoker. This edge is likely spurious and should be removed to align the graph with interventional evidence."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and cancer domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the cancer domain.\n\nVariables:\n- Pollution\n- Smoker\n- Cancer\n- Xray\n- Dyspnoea\n\n\nDomain Context:\nLung cancer risk factors.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nBased on the tentative notes and the current graph, the following candidate changes are proposed. First, the edge 'Xray \u2192 Dyspnoea' is suspected to be spurious due to the non-significant effect of do(Xray) on Dyspnoea. Second, the edge 'Pollution \u2192 Smoker' is also likely spurious, as do(Pollution) has no significant effect on Smoker. Third, the edge 'Cancer \u2192 Smoker' is similarly non-significant and should be deleted. These deletions aim to simplify the graph and remove spurious relationships that do not align with the observed interventional effects. Each deletion is verified by an experiment that tests the causal influence of the parent on the child, ensuring the graph remains faithful to the data.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: Xray \u2192 Dyspnoea (Reasoning: The non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) suggests that Xray does not have a direct causal influence on Dyspnoea. This edge is likely spurious and should be removed.)\n2. DELETE: Pollution \u2192 Smoker (Reasoning: The non-significant effect of do(Pollution) on Smoker (TVD=0.0060) suggests that Pollution does not directly influence Smoker. This edge is likely spurious and should be removed.)\n3. DELETE: Cancer \u2192 Smoker (Reasoning: The non-significant effect of do(Cancer) on Smoker (TVD=0.0276) suggests that Cancer does not directly influence Smoker. This edge is likely spurious and should be removed.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] do(Cancer) affects Smoker (TVD=0.0276). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Smoker', 'Pollution']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Xray', 'Dyspnoea']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Xray', 'Dyspnoea'], do(Cancer) affects Smoker (avg_TVD=0.0249). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Smoker', 'Cancer'], do(Xray) affects Dyspnoea (avg_TVD=0.0463). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['Cancer', 'Xray', 'Dyspnoea']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['Pollution', 'Xray', 'Dyspnoea'], do(Cancer) affects Smoker (avg_TVD=0.0249). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] do(Cancer) affects Smoker (TVD=0.0276). This CONTRADICTS existence / SUPPORTS deletion.\n\n\nCurrent Graph (Iteration 2):\n  Pollution \u2192 Cancer\n  Smoker \u2192 Cancer\n  Pollution \u2192 Xray\n  Smoker \u2192 Xray\n  Cancer \u2192 Xray\n  Pollution \u2192 Dyspnoea\n  Smoker \u2192 Dyspnoea\n  Cancer \u2192 Dyspnoea\n\nCurrent Log-Likelihood: -17923.471056073584\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Xray \u2192 Dyspnoea not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Xray\u2192Dyspnoea\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence, the edges 'Pollution \u2192 Smoker', 'Cancer \u2192 Smoker', and 'Xray \u2192 Dyspnoea' are all supported for deletion due to non-significant effects of do(Parent) on Child. However, the previous attempt to delete 'Xray \u2192 Dyspnoea' failed, likely due to a constraint or misalignment with the current graph structure. Therefore, we will proceed with deleting the edge 'Pollution \u2192 Smoker', which has the strongest marginal evidence of being spurious (TVD=0.0060), and is not currently constrained by previous failures.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Pollution \u2192 Smoker\": \"Non-significant effect of do(Pollution) on Smoker (TVD=0.0060) suggests this edge is likely spurious and should be deleted.\",\n    \"Cancer \u2192 Smoker\": \"Non-significant effect of do(Cancer) on Smoker (TVD=0.0276) suggests this edge is likely spurious.\",\n    \"Xray \u2192 Dyspnoea\": \"Non-significant effect of do(Xray) on Dyspnoea (TVD=0.0040) suggests this edge is likely spurious.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Pollution\",\n      \"child\": \"Smoker\",\n      \"reasoning\": \"The non-significant effect of do(Pollution) on Smoker (TVD=0.0060) indicates that Pollution does not directly influence Smoker. This edge is likely spurious and should be removed to align the graph with interventional evidence.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Pollution",
+          "parents": []
+        },
+        {
+          "name": "Smoker",
+          "parents": []
+        },
+        {
+          "name": "Cancer",
+          "parents": [
+            "Pollution",
+            "Smoker"
+          ]
+        },
+        {
+          "name": "Xray",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        },
+        {
+          "name": "Dyspnoea",
+          "parents": [
+            "Pollution",
+            "Smoker",
+            "Cancer"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -17923.471056073584,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Pollution \u2192 Smoker not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Pollution \u2192 Smoker not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Pollution \u2192 Smoker not in valid operations"
+      ]
+    }
+  }
+]

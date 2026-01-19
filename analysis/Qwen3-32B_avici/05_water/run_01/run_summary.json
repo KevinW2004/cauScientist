@@ -1,0 +1,20 @@
+{
+  "run_id": 1,
+  "domain": "water",
+  "final_ll": -268358.87347934465,
+  "final_bic": 268358.87347934465,
+  "num_edges_predicted": 27,
+  "num_edges_true": 66,
+  "metrics": {
+    "true_positive": 23,
+    "false_positive": 4,
+    "false_negative": 43,
+    "true_negative": 954,
+    "precision": 0.8519,
+    "recall": 0.3485,
+    "f1_score": 0.4946,
+    "accuracy": 0.9541,
+    "shd": 46
+  },
+  "status": "success"
+}

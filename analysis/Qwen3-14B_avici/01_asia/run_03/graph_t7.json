@@ -1,0 +1,171 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 7,
+    "num_variables": 8,
+    "num_edges": 5,
+    "reasoning": "Based on the interventional evidence, the links 'smoke \u2192 lung', 'smoke \u2192 tub', and 'asia \u2192 tub' have been shown to have no significant effect in multiple experiments, both marginally and conditionally. This strongly supports the deletion of these edges. However, previous attempts to delete these edges failed due to invalid operations. Since the current graph does not include these edges, they cannot be deleted directly. Therefore, we focus on confirming the current structure and ensuring that no confirmed relationships are overlooked.",
+    "confirmed_edges": [
+      "tub \u2192 either",
+      "lung \u2192 either",
+      "either \u2192 xray",
+      "bronc \u2192 dysp",
+      "either \u2192 dysp"
+    ],
+    "edge_notes": {
+      "smoke \u2192 lung": "No significant effect observed in multiple interventional tests, suggesting the link is likely indirect or non-existent.",
+      "smoke \u2192 tub": "No significant effect observed in multiple interventional tests, suggesting the link is likely indirect or non-existent.",
+      "asia \u2192 tub": "No significant effect observed in multiple interventional tests, suggesting the link is likely indirect or non-existent."
+    },
+    "changes": {
+      "added_edges": [],
+      "removed_edges": [],
+      "num_added": 0,
+      "num_removed": 0
+    },
+    "proposed_operations": [],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nBased on the current graph and the tentative notes, the following candidate changes are proposed to refine the causal structure. The tentative notes suggest that the links 'smoke \u2192 lung', 'smoke \u2192 tub', and 'asia \u2192 tub' may be indirect or non-existent. This implies that these edges may not be direct causal relationships and could be removed from the graph. To verify these hypotheses, targeted interventional experiments are proposed. For each suspected deletion, a do-intervention on the parent variable is performed, and the effect on the child variable is observed while controlling for other relevant variables.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - tub \u2192 either\n  - lung \u2192 either\n  - either \u2192 xray\n  - bronc \u2192 dysp\n  - either \u2192 dysp\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: smoke \u2192 lung (Reasoning: The tentative note indicates no significant effect from 'smoke \u2192 lung', suggesting this link may be indirect or non-existent. Removing this edge would simplify the graph and align it with the observed data.)\n2. DELETE: smoke \u2192 tub (Reasoning: The tentative note indicates no significant effect from 'smoke \u2192 tub', suggesting this link may be indirect or non-existent. Removing this edge would better reflect the observed causal relationships.)\n3. DELETE: asia \u2192 tub (Reasoning: The tentative note indicates no significant effect from 'asia \u2192 tub', suggesting this link may be indirect or non-existent. Removing this edge would refine the causal structure to match the observed data.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] do(smoke) affects lung (TVD=0.0055). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [SIGNIFICANT] do(tub) affects either (TVD=0.4324). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [NOT SIGNIFICANT] do(bronc) affects dysp (TVD=0.0883). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['asia'], do(smoke) affects lung (avg_TVD=0.0054). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['asia'], do(smoke) affects bronc (avg_TVD=0.0208). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['lung', 'bronc'], do(either) affects dysp (avg_TVD=0.1699). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'asia'], do(smoke) affects lung (avg_TVD=0.0038). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'asia'], do(smoke) affects tub (avg_TVD=0.0323). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'tub', 'xray'], do(bronc) affects either (avg_TVD=0.0000). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'asia'], do(smoke) affects lung (avg_TVD=0.0038). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'asia'], do(smoke) affects tub (avg_TVD=0.0323). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['smoke', 'lung'], do(asia) affects tub (avg_TVD=0.0246). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'asia'], do(smoke) affects lung (avg_TVD=0.0038). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'asia'], do(smoke) affects tub (avg_TVD=0.0323). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['smoke', 'lung'], do(asia) affects tub (avg_TVD=0.0246). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['tub', 'bronc', 'xray', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(smoke) affects lung (TVD=0.0055). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'bronc', 'xray', 'dysp'], do(smoke) affects tub (avg_TVD=0.0000). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['smoke', 'lung', 'bronc', 'xray', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(asia) affects tub (TVD=0.0270). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['tub', 'bronc', 'xray', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(smoke) affects lung (TVD=0.0055). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'bronc', 'xray', 'dysp'], do(smoke) affects tub (avg_TVD=0.0000). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['smoke', 'lung', 'bronc', 'xray', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(asia) affects tub (TVD=0.0270). This CONTRADICTS existence / SUPPORTS deletion.\n- INSUFFICIENT DATA to condition on ['tub', 'bronc', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(smoke) affects lung (TVD=0.0055). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'bronc', 'dysp'], do(smoke) affects tub (avg_TVD=0.0000). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['smoke', 'lung', 'bronc', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(asia) affects tub (TVD=0.0270). This CONTRADICTS existence / SUPPORTS deletion.\n\n\nCurrent Graph (Iteration 3):\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20653.721204298246\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge smoke \u2192 lung not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge asia \u2192 tub not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge smoke \u2192 tub not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: smoke\u2192lung, asia\u2192tub, smoke\u2192tub\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence, the links 'smoke \u2192 lung', 'smoke \u2192 tub', and 'asia \u2192 tub' have been shown to have no significant effect in multiple experiments, both marginally and conditionally. This strongly supports the deletion of these edges. However, previous attempts to delete these edges failed due to invalid operations. Since the current graph does not include these edges, they cannot be deleted directly. Therefore, we focus on confirming the current structure and ensuring that no confirmed relationships are overlooked.\",\n  \"confirmed_edges\": [\n    \"tub \u2192 either\",\n    \"lung \u2192 either\",\n    \"either \u2192 xray\",\n    \"bronc \u2192 dysp\",\n    \"either \u2192 dysp\"\n  ],\n  \"edge_notes\": {\n    \"smoke \u2192 lung\": \"No significant effect observed in multiple interventional tests, suggesting the link is likely indirect or non-existent.\",\n    \"smoke \u2192 tub\": \"No significant effect observed in multiple interventional tests, suggesting the link is likely indirect or non-existent.\",\n    \"asia \u2192 tub\": \"No significant effect observed in multiple interventional tests, suggesting the link is likely indirect or non-existent.\"\n  },\n  \"operations\": []\n}"
+    },
+    "log_likelihood": -20653.721204298246,
+    "num_parameters": 43024,
+    "bic": 20653.721204298246,
+    "evaluation_metrics": {
+      "true_positive": 5,
+      "false_positive": 0,
+      "false_negative": 3,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 0.625,
+      "f1_score": 0.7692,
+      "accuracy": 0.9531,
+      "shd": 3
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": []
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "lung",
+      "parents": []
+    },
+    {
+      "name": "bronc",
+      "parents": []
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "either"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "bronc",
+        "either"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

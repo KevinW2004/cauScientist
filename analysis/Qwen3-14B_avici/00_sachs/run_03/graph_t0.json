@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "domain": "sachs",
+    "iteration": 0,
+    "num_variables": 11,
+    "num_edges": 10,
+    "reasoning": "In the context of protein signaling networks in human immune cells, the variables represent key kinases, phosphatases, and phospholipids involved in intracellular signaling pathways. Based on domain knowledge, the following relationships are plausible: \n\n1. **Plcg** (Phospholipase C gamma) is a key enzyme that hydrolyzes PIP2 (phosphatidylinositol 4,5-bisphosphate) into IP3 and DAG, so **Plcg \u2192 PIP2** is a direct effect. \n\n2. **PKC** (Protein Kinase C) is activated by DAG, which is a product of Plcg activity. However, the AVICI algorithm suggests **PKC \u2192 PKA**, which is less direct. Given that PKC and PKA can be activated by different pathways, we consider **PKC \u2192 PKA** as a possible direct effect, though it may be influenced by other upstream signals. \n\n3. **PKA** (Protein Kinase A) is known to phosphorylate and activate Jnk and P38, which are members of the MAPK family, so **PKA \u2192 Jnk** and **PKA \u2192 P38** are reasonable direct relationships. \n\n4. **Erk** (Extracellular signal-regulated kinase) is part of the MAPK cascade and is known to phosphorylate and activate Akt, so **Erk \u2192 Akt** is a plausible direct effect. \n\n5. **Raf, Mek, and Erk** are part of the classical MAPK/ERK pathway, so **Raf \u2192 Mek** and **Mek \u2192 Erk** are direct causal relationships. \n\n6. **PIP3** is a downstream product of PI3K activity, but it is not directly mentioned in the AVICI results. Given that PIP2 can be converted to PIP3 through PI3K, and since PIP3 is upstream of Akt, it is likely that **PIP3 \u2192 Akt** is a direct relationship. \n\n7. **Jnk and P38** are stress-activated kinases and are not known to directly regulate other variables in this list, so they are likely to be terminal nodes. \n\n8. **Akt** is downstream of multiple pathways, including Erk and PIP3, so it has multiple parents. \n\nFinally, to ensure the graph is a DAG, we avoid any feedback loops and ensure all edges are unidirectional and based on known biological pathways.",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": null,
+    "proposed_operations": null,
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Generate an initial causal graph hypothesis for the sachs domain.\n\nVariables to analyze:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n==================================================\n\ud83d\udcca STATISTICAL BASELINE REFERENCE (from traditional methods):\n==================================================\nThe following causal relationships were suggested by traditional algorithms.\nUse them as hints, but rely on your domain knowledge and interventional evidence.\n\n[AVICI Algorithm]:\n  - PKC \u2192 PKA\n  - PKA \u2192 Jnk\n  - PKA \u2192 P38\n  - Erk \u2192 Akt\n  - Plcg \u2192 PIP2\n\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+      "llm_response": "{\n\"reasoning\": \"In the context of protein signaling networks in human immune cells, the variables represent key kinases, phosphatases, and phospholipids involved in intracellular signaling pathways. Based on domain knowledge, the following relationships are plausible: \\n\\n1. **Plcg** (Phospholipase C gamma) is a key enzyme that hydrolyzes PIP2 (phosphatidylinositol 4,5-bisphosphate) into IP3 and DAG, so **Plcg \u2192 PIP2** is a direct effect. \\n\\n2. **PKC** (Protein Kinase C) is activated by DAG, which is a product of Plcg activity. However, the AVICI algorithm suggests **PKC \u2192 PKA**, which is less direct. Given that PKC and PKA can be activated by different pathways, we consider **PKC \u2192 PKA** as a possible direct effect, though it may be influenced by other upstream signals. \\n\\n3. **PKA** (Protein Kinase A) is known to phosphorylate and activate Jnk and P38, which are members of the MAPK family, so **PKA \u2192 Jnk** and **PKA \u2192 P38** are reasonable direct relationships. \\n\\n4. **Erk** (Extracellular signal-regulated kinase) is part of the MAPK cascade and is known to phosphorylate and activate Akt, so **Erk \u2192 Akt** is a plausible direct effect. \\n\\n5. **Raf, Mek, and Erk** are part of the classical MAPK/ERK pathway, so **Raf \u2192 Mek** and **Mek \u2192 Erk** are direct causal relationships. \\n\\n6. **PIP3** is a downstream product of PI3K activity, but it is not directly mentioned in the AVICI results. Given that PIP2 can be converted to PIP3 through PI3K, and since PIP3 is upstream of Akt, it is likely that **PIP3 \u2192 Akt** is a direct relationship. \\n\\n7. **Jnk and P38** are stress-activated kinases and are not known to directly regulate other variables in this list, so they are likely to be terminal nodes. \\n\\n8. **Akt** is downstream of multiple pathways, including Erk and PIP3, so it has multiple parents. \\n\\nFinally, to ensure the graph is a DAG, we avoid any feedback loops and ensure all edges are unidirectional and based on known biological pathways.\",\n\"nodes\": [\n{\n    \"name\": \"Plcg\",\n    \"parents\": []\n},\n{\n    \"name\": \"PKC\",\n    \"parents\": [\"Plcg\"]\n},\n{\n    \"name\": \"PKA\",\n    \"parents\": [\"PKC\"]\n},\n{\n    \"name\": \"Jnk\",\n    \"parents\": [\"PKA\"]\n},\n{\n    \"name\": \"P38\",\n    \"parents\": [\"PKA\"]\n},\n{\n    \"name\": \"Raf\",\n    \"parents\": []\n},\n{\n    \"name\": \"Mek\",\n    \"parents\": [\"Raf\"]\n},\n{\n    \"name\": \"Erk\",\n    \"parents\": [\"Mek\"]\n},\n{\n    \"name\": \"Akt\",\n    \"parents\": [\"Erk\", \"PIP3\"]\n},\n{\n    \"name\": \"PIP3\",\n    \"parents\": [\"PIP2\"]\n},\n{\n    \"name\": \"PIP2\",\n    \"parents\": [\"Plcg\"]\n}\n]\n}"
+    },
+    "log_likelihood": -119481.13401391242,
+    "num_parameters": 63382,
+    "bic": 119481.13401391242,
+    "evaluation_metrics": {
+      "true_positive": 7,
+      "false_positive": 3,
+      "false_negative": 10,
+      "true_negative": 101,
+      "precision": 0.7,
+      "recall": 0.4118,
+      "f1_score": 0.5185,
+      "accuracy": 0.8926,
+      "shd": 12
+    }
+  },
+  "nodes": [
+    {
+      "name": "Plcg",
+      "parents": []
+    },
+    {
+      "name": "PKC",
+      "parents": [
+        "Plcg"
+      ]
+    },
+    {
+      "name": "PKA",
+      "parents": [
+        "PKC"
+      ]
+    },
+    {
+      "name": "Jnk",
+      "parents": [
+        "PKA"
+      ]
+    },
+    {
+      "name": "P38",
+      "parents": [
+        "PKA"
+      ]
+    },
+    {
+      "name": "Raf",
+      "parents": []
+    },
+    {
+      "name": "Mek",
+      "parents": [
+        "Raf"
+      ]
+    },
+    {
+      "name": "Erk",
+      "parents": [
+        "Mek"
+      ]
+    },
+    {
+      "name": "Akt",
+      "parents": [
+        "Erk",
+        "PIP3"
+      ]
+    },
+    {
+      "name": "PIP3",
+      "parents": [
+        "PIP2"
+      ]
+    },
+    {
+      "name": "PIP2",
+      "parents": [
+        "Plcg"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ]
+  ]
+}

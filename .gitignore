@@ -1,0 +1,6 @@
+avici_models/
+cma_experiments/
+predict/
+**/__pycache__/
+*.pyc
+*.pyo

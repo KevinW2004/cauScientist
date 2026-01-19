@@ -1,0 +1,20 @@
+{
+  "run_id": 2,
+  "domain": "child",
+  "final_ll": -28027.161685120303,
+  "final_bic": 28027.161685120303,
+  "num_edges_predicted": 9,
+  "num_edges_true": 25,
+  "metrics": {
+    "true_positive": 9,
+    "false_positive": 0,
+    "false_negative": 16,
+    "true_negative": 375,
+    "precision": 1.0,
+    "recall": 0.36,
+    "f1_score": 0.5294,
+    "accuracy": 0.96,
+    "shd": 16
+  },
+  "status": "success"
+}

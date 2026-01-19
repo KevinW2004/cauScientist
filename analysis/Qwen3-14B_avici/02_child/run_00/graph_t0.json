@@ -1,0 +1,598 @@
+{
+  "metadata": {
+    "domain": "child",
+    "iteration": 0,
+    "num_variables": 20,
+    "num_edges": 25,
+    "reasoning": "In the context of congenital heart disease diagnosis, we must consider the temporal and physiological relationships between the variables. BirthAsphyxia is a condition that occurs at birth and may influence early physiological markers such as HypoxiaInO2 and CO2. Disease, as a root cause, likely influences multiple downstream variables such as DuctFlow, CardiacMixing, and possibly LVH. CardiacMixing affects oxygenation, which in turn influences HypoxiaInO2 and may affect LungParenchyma. LungParenchyma and LungFlow could influence oxygen levels in different body regions (e.g., LowerBodyO2 and RUQO2). CO2 levels may be reported as CO2Report, and ChestXray findings are likely reported as XrayReport. Grunting and GruntingReport are likely symptoms or signs of respiratory distress. Age is a root variable that may influence disease progression or presentation. LVH is a structural finding that is reported as LVHreport. HypDistrib may be a downstream effect of CardiacMixing or HypoxiaInO2. Disease may also influence Sick status. All relationships are based on domain knowledge and must be acyclic to ensure the graph is a DAG.",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": null,
+    "proposed_operations": null,
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and child domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Generate an initial causal graph hypothesis for the child domain.\n\nVariables to analyze:\n- BirthAsphyxia\n- Disease\n- LVH\n- LVHreport\n- DuctFlow\n- CardiacMixing\n- HypDistrib\n- LungParench\n- HypoxiaInO2\n- CO2\n- LowerBodyO2\n- RUQO2\n- CO2Report\n- LungFlow\n- ChestXray\n- XrayReport\n- Sick\n- Grunting\n- GruntingReport\n- Age\n\n\nDomain Context:\nCongenital heart disease diagnosis.\n\n\n\n==================================================\n\ud83d\udcca STATISTICAL BASELINE REFERENCE (from traditional methods):\n==================================================\nThe following causal relationships were suggested by traditional algorithms.\nUse them as hints, but rely on your domain knowledge and interventional evidence.\n\n[AVICI Algorithm]:\n  - LVH \u2192 LVHreport\n  - Disease \u2192 DuctFlow\n  - Disease \u2192 CardiacMixing\n  - CardiacMixing \u2192 HypoxiaInO2\n  - CO2 \u2192 CO2Report\n  - ChestXray \u2192 XrayReport\n\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+      "llm_response": "{\n  \"reasoning\": \"In the context of congenital heart disease diagnosis, we must consider the temporal and physiological relationships between the variables. BirthAsphyxia is a condition that occurs at birth and may influence early physiological markers such as HypoxiaInO2 and CO2. Disease, as a root cause, likely influences multiple downstream variables such as DuctFlow, CardiacMixing, and possibly LVH. CardiacMixing affects oxygenation, which in turn influences HypoxiaInO2 and may affect LungParenchyma. LungParenchyma and LungFlow could influence oxygen levels in different body regions (e.g., LowerBodyO2 and RUQO2). CO2 levels may be reported as CO2Report, and ChestXray findings are likely reported as XrayReport. Grunting and GruntingReport are likely symptoms or signs of respiratory distress. Age is a root variable that may influence disease progression or presentation. LVH is a structural finding that is reported as LVHreport. HypDistrib may be a downstream effect of CardiacMixing or HypoxiaInO2. Disease may also influence Sick status. All relationships are based on domain knowledge and must be acyclic to ensure the graph is a DAG.\",\n  \"nodes\": [\n    {\n      \"name\": \"BirthAsphyxia\",\n      \"parents\": []\n    },\n    {\n      \"name\": \"Disease\",\n      \"parents\": []\n    },\n    {\n      \"name\": \"LVH\",\n      \"parents\": [\"Disease\"]\n    },\n    {\n      \"name\": \"LVHreport\",\n      \"parents\": [\"LVH\"]\n    },\n    {\n      \"name\": \"DuctFlow\",\n      \"parents\": [\"Disease\"]\n    },\n    {\n      \"name\": \"CardiacMixing\",\n      \"parents\": [\"Disease\"]\n    },\n    {\n      \"name\": \"HypDistrib\",\n      \"parents\": [\"CardiacMixing\"]\n    },\n    {\n      \"name\": \"LungParench\",\n      \"parents\": [\"CardiacMixing\"]\n    },\n    {\n      \"name\": \"HypoxiaInO2\",\n      \"parents\": [\"CardiacMixing\"]\n    },\n    {\n      \"name\": \"CO2\",\n      \"parents\": [\"HypoxiaInO2\", \"LungParench\"]\n    },\n    {\n      \"name\": \"LowerBodyO2\",\n      \"parents\": [\"HypoxiaInO2\", \"LungFlow\"]\n    },\n    {\n      \"name\": \"RUQO2\",\n      \"parents\": [\"HypoxiaInO2\", \"LungFlow\"]\n    },\n    {\n      \"name\": \"CO2Report\",\n      \"parents\": [\"CO2\"]\n    },\n    {\n      \"name\": \"LungFlow\",\n      \"parents\": [\"LungParench\"]\n    },\n    {\n      \"name\": \"ChestXray\",\n      \"parents\": [\"LungParench\", \"HypDistrib\"]\n    },\n    {\n      \"name\": \"XrayReport\",\n      \"parents\": [\"ChestXray\"]\n    },\n    {\n      \"name\": \"Sick\",\n      \"parents\": [\"Disease\", \"HypoxiaInO2\", \"LungParench\", \"HypDistrib\"]\n    },\n    {\n      \"name\": \"Grunting\",\n      \"parents\": [\"HypoxiaInO2\", \"LungParench\"]\n    },\n    {\n      \"name\": \"GruntingReport\",\n      \"parents\": [\"Grunting\"]\n    },\n    {\n      \"name\": \"Age\",\n      \"parents\": []\n    }\n  ]\n}"
+    },
+    "log_likelihood": -130354.79537527244,
+    "num_parameters": 245880,
+    "bic": 130354.79537527244,
+    "evaluation_metrics": {
+      "true_positive": 15,
+      "false_positive": 10,
+      "false_negative": 10,
+      "true_negative": 365,
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1_score": 0.6,
+      "accuracy": 0.95,
+      "shd": 20
+    }
+  },
+  "nodes": [
+    {
+      "name": "BirthAsphyxia",
+      "parents": []
+    },
+    {
+      "name": "Disease",
+      "parents": []
+    },
+    {
+      "name": "LVH",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "LVHreport",
+      "parents": [
+        "LVH"
+      ]
+    },
+    {
+      "name": "DuctFlow",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "CardiacMixing",
+      "parents": [
+        "Disease"
+      ]
+    },
+    {
+      "name": "HypDistrib",
+      "parents": [
+        "CardiacMixing"
+      ]
+    },
+    {
+      "name": "LungParench",
+      "parents": [
+        "CardiacMixing"
+      ]
+    },
+    {
+      "name": "HypoxiaInO2",
+      "parents": [
+        "CardiacMixing"
+      ]
+    },
+    {
+      "name": "CO2",
+      "parents": [
+        "HypoxiaInO2",
+        "LungParench"
+      ]
+    },
+    {
+      "name": "LowerBodyO2",
+      "parents": [
+        "HypoxiaInO2",
+        "LungFlow"
+      ]
+    },
+    {
+      "name": "RUQO2",
+      "parents": [
+        "HypoxiaInO2",
+        "LungFlow"
+      ]
+    },
+    {
+      "name": "CO2Report",
+      "parents": [
+        "CO2"
+      ]
+    },
+    {
+      "name": "LungFlow",
+      "parents": [
+        "LungParench"
+      ]
+    },
+    {
+      "name": "ChestXray",
+      "parents": [
+        "LungParench",
+        "HypDistrib"
+      ]
+    },
+    {
+      "name": "XrayReport",
+      "parents": [
+        "ChestXray"
+      ]
+    },
+    {
+      "name": "Sick",
+      "parents": [
+        "Disease",
+        "HypoxiaInO2",
+        "LungParench",
+        "HypDistrib"
+      ]
+    },
+    {
+      "name": "Grunting",
+      "parents": [
+        "HypoxiaInO2",
+        "LungParench"
+      ]
+    },
+    {
+      "name": "GruntingReport",
+      "parents": [
+        "Grunting"
+      ]
+    },
+    {
+      "name": "Age",
+      "parents": []
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

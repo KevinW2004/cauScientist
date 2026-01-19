@@ -1,0 +1,20 @@
+{
+  "run_id": 0,
+  "domain": "asia",
+  "final_ll": -20082.620131833697,
+  "final_bic": 20082.620131833697,
+  "num_edges_predicted": 9,
+  "num_edges_true": 8,
+  "metrics": {
+    "true_positive": 8,
+    "false_positive": 1,
+    "false_negative": 0,
+    "true_negative": 55,
+    "precision": 0.8889,
+    "recall": 1.0,
+    "f1_score": 0.9412,
+    "accuracy": 0.9844,
+    "shd": 1
+  },
+  "status": "success"
+}

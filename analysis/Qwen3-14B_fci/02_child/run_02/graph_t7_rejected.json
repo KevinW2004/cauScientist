@@ -1,0 +1,598 @@
+{
+  "metadata": {
+    "domain": "child",
+    "iteration": 7,
+    "num_variables": 20,
+    "num_edges": 11,
+    "reasoning": "Based on the interventional evidence and the proposed candidate operations, the most supported change is reversing the edge from Grunting \u2192 Sick to Sick \u2192 Grunting. This aligns with medical understanding that grunting is a symptom of illness, not a cause of it. The experimental evidence also supports this reversal, as the current edge (Grunting \u2192 Sick) is likely spurious or reversed in direction.",
+    "confirmed_edges": [],
+    "edge_notes": {
+      "Sick \u2192 Grunting": "This edge is currently present in the graph but may need reversal based on domain knowledge and experimental evidence."
+    },
+    "changes": {
+      "added_edges": [
+        [
+          "Grunting",
+          "Sick"
+        ]
+      ],
+      "removed_edges": [
+        [
+          "Sick",
+          "Grunting"
+        ]
+      ],
+      "num_added": 1,
+      "num_removed": 1
+    },
+    "proposed_operations": [
+      {
+        "type": "REVERSE",
+        "parent": "Grunting",
+        "child": "Sick",
+        "reasoning": "Grunting is a clinical sign of illness, not a cause of it. Experimental evidence does not support the current direction (Grunting \u2192 Sick), and reversing it to Sick \u2192 Grunting aligns with both domain knowledge and the causal logic of the system."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and child domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the child domain.\n\nVariables:\n- BirthAsphyxia\n- Disease\n- LVH\n- LVHreport\n- DuctFlow\n- CardiacMixing\n- HypDistrib\n- LungParench\n- HypoxiaInO2\n- CO2\n- LowerBodyO2\n- RUQO2\n- CO2Report\n- LungFlow\n- ChestXray\n- XrayReport\n- Sick\n- Grunting\n- GruntingReport\n- Age\n\n\nDomain Context:\nCongenital heart disease diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph suggests several relationships, but it may not fully capture the complexity of the causal interactions in the child domain. Based on domain knowledge and logical dependencies, the following candidate changes are proposed for refinement:\n\n1. **ADD: HypDistrib \u2192 CardiacMixing**: Cardiac mixing is influenced by how well oxygen and blood are distributed in the body, which is directly related to HypDistrib. This relationship may be missing in the current graph.\n\n2. **ADD: HypoxiaInO2 \u2192 LowerBodyO2**: Hypoxia in oxygen is likely to affect lower body oxygenation, which is a key physiological response in neonates.\n\n3. **REVERSE: Grunting \u2192 Sick**: It is more plausible that being sick leads to grunting rather than the reverse. Grunting is a symptom of illness, not a cause of it.\n\nFor each of these candidate operations, targeted interventional experiments are proposed to verify the causal influence.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. ADD: HypDistrib \u2192 CardiacMixing (Reasoning: HypDistrib reflects the distribution of hypoxia in the body, which directly influences cardiac mixing. This relationship is physiologically plausible and may explain unaccounted variation in CardiacMixing.)\n2. ADD: HypoxiaInO2 \u2192 LowerBodyO2 (Reasoning: Hypoxia in oxygen (HypoxiaInO2) is likely to reduce oxygen levels in the lower body (LowerBodyO2), which is a logical downstream effect in the respiratory and circulatory system.)\n3. REVERSE: Sick \u2192 Grunting (Reasoning: Grunting is a clinical sign of illness, not a cause of it. The current graph suggests Grunting causes Sick, which is causally implausible. Reversing this edge aligns with medical understanding.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- INSUFFICIENT DATA to condition on ['Disease', 'Age']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(LVH) affects LVHreport (TVD=0.1092). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- INSUFFICIENT DATA to condition on ['Disease', 'LungParench']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(CO2) affects CO2Report (TVD=0.0630). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [SIGNIFICANT] Given ['LungFlow', 'CardiacMixing'], do(HypoxiaInO2) affects LowerBodyO2 (avg_TVD=0.3138). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Age', 'LungFlow'], do(HypoxiaInO2) affects LungParench (avg_TVD=0.0927). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LVH', 'Disease'], do(CO2) affects CardiacMixing (avg_TVD=0.0564). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Sick', 'Age'], do(HypoxiaInO2) affects Grunting (avg_TVD=0.0640). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['Disease', 'Age']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(LVH) affects LVHreport (TVD=0.1092). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [SIGNIFICANT] Given ['HypoxiaInO2', 'LowerBodyO2'], do(CO2) affects CO2Report (avg_TVD=0.1667). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['LungParench', 'Sick'], do(ChestXray) affects XrayReport (avg_TVD=0.3227). Link is likely DIRECT / not fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['CardiacMixing', 'HypDistrib', 'XrayReport']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(LVH) affects LVHreport (TVD=0.1092). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [SIGNIFICANT] Given ['RUQO2', 'Age', 'Disease'], do(HypoxiaInO2) affects LowerBodyO2 (avg_TVD=0.1314). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['LungParench', 'Disease', 'Sick'], do(CO2) affects CO2Report (avg_TVD=0.0095). Link is likely INDIRECT / fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['Disease', 'Age']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(LVH) affects LVHreport (TVD=0.1092). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- RESULT: [NOT SIGNIFICANT] Given ['LungParench', 'LowerBodyO2'], do(CO2) affects HypoxiaInO2 (avg_TVD=0.0460). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['Sick', 'Disease'], do(Grunting) affects GruntingReport (avg_TVD=0.1270). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['Disease', 'Age'], do(HypoxiaInO2) affects CardiacMixing (avg_TVD=0.1296). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Disease', 'Age'], do(HypoxiaInO2) affects HypDistrib (avg_TVD=0.0202). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['Disease', 'Age'], do(LungParench) affects LungFlow (avg_TVD=0.1536). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['HypoxiaInO2', 'LungFlow'], do(HypDistrib) affects CardiacMixing (avg_TVD=0.1458). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['CO2', 'LungParench'], do(HypoxiaInO2) affects LowerBodyO2 (avg_TVD=0.0682). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Age', 'Disease'], do(Sick) affects Grunting (avg_TVD=0.0575). Link is likely INDIRECT / fully mediated by current set.\n\n\nCurrent Graph (Iteration 6):\n  BirthAsphyxia \u2192 Disease\n  LVH \u2192 Disease\n  LungFlow \u2192 Disease\n  Sick \u2192 Disease\n  Age \u2192 Disease\n  LVH \u2192 LVHreport\n  HypoxiaInO2 \u2192 CardiacMixing\n  CO2 \u2192 LungParench\n  LungFlow \u2192 ChestXray\n  Sick \u2192 Grunting\n  Grunting \u2192 GruntingReport\n\nCurrent Log-Likelihood: -149847.8074427024\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence and the proposed candidate operations, the most supported change is reversing the edge from Grunting \u2192 Sick to Sick \u2192 Grunting. This aligns with medical understanding that grunting is a symptom of illness, not a cause of it. The experimental evidence also supports this reversal, as the current edge (Grunting \u2192 Sick) is likely spurious or reversed in direction.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"Sick \u2192 Grunting\": \"This edge is currently present in the graph but may need reversal based on domain knowledge and experimental evidence.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"REVERSE\",\n      \"parent\": \"Grunting\",\n      \"child\": \"Sick\",\n      \"reasoning\": \"Grunting is a clinical sign of illness, not a cause of it. Experimental evidence does not support the current direction (Grunting \u2192 Sick), and reversing it to Sick \u2192 Grunting aligns with both domain knowledge and the causal logic of the system.\"\n    }\n  ]\n}"
+    },
+    "log_likelihood": -149878.23919013893,
+    "num_parameters": 245880,
+    "bic": 149878.23919013893,
+    "evaluation_metrics": {
+      "true_positive": 4,
+      "false_positive": 7,
+      "false_negative": 21,
+      "true_negative": 368,
+      "precision": 0.3636,
+      "recall": 0.16,
+      "f1_score": 0.2222,
+      "accuracy": 0.93,
+      "shd": 21
+    }
+  },
+  "nodes": [
+    {
+      "name": "BirthAsphyxia",
+      "parents": []
+    },
+    {
+      "name": "Disease",
+      "parents": [
+        "BirthAsphyxia",
+        "LVH",
+        "LungFlow",
+        "Sick",
+        "Age"
+      ]
+    },
+    {
+      "name": "LVH",
+      "parents": []
+    },
+    {
+      "name": "LVHreport",
+      "parents": [
+        "LVH"
+      ]
+    },
+    {
+      "name": "DuctFlow",
+      "parents": []
+    },
+    {
+      "name": "CardiacMixing",
+      "parents": [
+        "HypoxiaInO2"
+      ]
+    },
+    {
+      "name": "HypDistrib",
+      "parents": []
+    },
+    {
+      "name": "LungParench",
+      "parents": [
+        "CO2"
+      ]
+    },
+    {
+      "name": "HypoxiaInO2",
+      "parents": []
+    },
+    {
+      "name": "CO2",
+      "parents": []
+    },
+    {
+      "name": "LowerBodyO2",
+      "parents": []
+    },
+    {
+      "name": "RUQO2",
+      "parents": []
+    },
+    {
+      "name": "CO2Report",
+      "parents": []
+    },
+    {
+      "name": "LungFlow",
+      "parents": []
+    },
+    {
+      "name": "ChestXray",
+      "parents": [
+        "LungFlow"
+      ]
+    },
+    {
+      "name": "XrayReport",
+      "parents": []
+    },
+    {
+      "name": "Sick",
+      "parents": [
+        "Grunting"
+      ]
+    },
+    {
+      "name": "Grunting",
+      "parents": []
+    },
+    {
+      "name": "GruntingReport",
+      "parents": [
+        "Grunting"
+      ]
+    },
+    {
+      "name": "Age",
+      "parents": []
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

@@ -1,0 +1,2913 @@
+[
+  {
+    "iteration": 0,
+    "graph": {
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ],
+          "weight": {
+            "Mek": 0.9982538
+          }
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ],
+          "weight": {
+            "P38": 0.96283454
+          }
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ],
+          "weight": {
+            "PIP2": 0.9872076,
+            "P38": 0.75775325
+          }
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ],
+          "weight": {
+            "P38": 0.5097922
+          }
+        },
+        {
+          "name": "PIP3",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ],
+          "weight": {
+            "Mek": 0.9740827,
+            "Akt": 0.96614057
+          }
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ],
+          "weight": {
+            "Mek": 0.7926987,
+            "P38": 0.59055763
+          }
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ],
+          "weight": {
+            "Erk": 0.8135849,
+            "Akt": 0.9392408
+          }
+        },
+        {
+          "name": "PKC",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ],
+          "weight": {
+            "PKC": 0.9936548
+          }
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ],
+          "weight": {
+            "PKC": 0.5461381,
+            "P38": 0.9409335
+          }
+        }
+      ],
+      "metadata": {
+        "num_variables": 11,
+        "num_edges": 14,
+        "iteration": 0,
+        "log_likelihood": -100293.04310453293,
+        "num_parameters": 63382,
+        "bic": 100293.04310453293,
+        "evaluation_metrics": {
+          "true_positive": 3,
+          "false_positive": 11,
+          "false_negative": 14,
+          "true_negative": 93,
+          "precision": 0.2143,
+          "recall": 0.1765,
+          "f1_score": 0.1935,
+          "accuracy": 0.7934,
+          "shd": 20
+        }
+      },
+      "weighted_matrix": [
+        [
+          0.0,
+          0.9982538,
+          0.0024197507,
+          0.00020972703,
+          9.576352e-05,
+          0.00029511732,
+          0.00036076707,
+          8.403042e-05,
+          0.001243483,
+          0.006389964,
+          0.008975481
+        ],
+        [
+          8.811798e-05,
+          0.0,
+          0.0011004333,
+          0.00017096491,
+          0.00010332705,
+          4.91067e-06,
+          1.3048024e-05,
+          3.2042808e-06,
+          0.16583173,
+          0.96283454,
+          0.034030642
+        ],
+        [
+          0.0017467223,
+          0.015555291,
+          0.0,
+          0.9872076,
+          0.17828691,
+          0.00032741955,
+          0.0017762473,
+          0.001666769,
+          0.073854275,
+          0.75775325,
+          0.08395031
+        ],
+        [
+          0.0022124145,
+          0.0052797757,
+          0.04699648,
+          0.0,
+          0.17584594,
+          0.002896938,
+          0.005697442,
+          0.0010553767,
+          0.059245452,
+          0.5097922,
+          0.07808811
+        ],
+        [
+          0.011343453,
+          0.030881228,
+          0.14282925,
+          0.2973038,
+          0.0,
+          0.0035601747,
+          0.0065651746,
+          0.007849348,
+          0.071110256,
+          0.12772736,
+          0.07097357
+        ],
+        [
+          0.10665097,
+          0.9740827,
+          0.0071671396,
+          0.00027438658,
+          0.0015524562,
+          0.0,
+          0.96614057,
+          0.04309061,
+          0.012206083,
+          0.0051660915,
+          0.01375116
+        ],
+        [
+          0.051826306,
+          0.7926987,
+          0.08229481,
+          0.0028452594,
+          0.0037708068,
+          0.035329923,
+          0.0,
+          0.017000273,
+          0.08973763,
+          0.59055763,
+          0.1386695
+        ],
+        [
+          0.11167994,
+          0.34053895,
+          0.39057398,
+          0.026349686,
+          0.018106097,
+          0.8135849,
+          0.9392408,
+          0.0,
+          0.05599714,
+          0.039036125,
+          0.10142589
+        ],
+        [
+          2.3123379e-05,
+          0.0006781545,
+          4.655068e-07,
+          7.947877e-07,
+          7.8305237e-07,
+          4.906609e-07,
+          6.6071975e-06,
+          1.3621485e-07,
+          0.0,
+          0.00030387848,
+          0.00010299482
+        ],
+        [
+          4.5437308e-05,
+          0.00019233084,
+          1.27189805e-05,
+          3.719534e-06,
+          3.008199e-05,
+          2.6331088e-06,
+          1.3408846e-05,
+          1.7469271e-06,
+          0.9936548,
+          0.0,
+          0.012498837
+        ],
+        [
+          0.00046238556,
+          0.0016393296,
+          0.0006980349,
+          4.414595e-05,
+          0.00013051316,
+          2.4889116e-05,
+          0.00013960338,
+          1.4552236e-05,
+          0.5461381,
+          0.9409335,
+          0.0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -100293.04310453293,
+    "current_ll": -100293.04310453293,
+    "metrics": {
+      "true_positive": 3,
+      "false_positive": 11,
+      "false_negative": 14,
+      "true_negative": 93,
+      "precision": 0.2143,
+      "recall": 0.1765,
+      "f1_score": 0.1935,
+      "accuracy": 0.7934,
+      "shd": 20
+    },
+    "results": {
+      "log_likelihood": -100293.04310453293,
+      "bic": 100293.04310453293,
+      "num_edges": 14
+    }
+  },
+  {
+    "iteration": 1,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 1,
+        "num_variables": 11,
+        "num_edges": 14,
+        "reasoning": "The current causal graph shows Mek \u2192 Raf, which is biologically questionable. In the sachs domain, Raf is an upstream kinase in the MAPK pathway, and Mek is a downstream effector of Raf. This suggests that the edge Mek \u2192 Raf should be reversed to Raf \u2192 Mek to reflect the correct causal direction. This reversal aligns with the known biochemical signaling cascade and is expected to improve the graph's log-likelihood by better capturing the true causal relationships.",
+        "confirmed_edges": [
+          "Raf -> Mek",
+          "Mek -> Erk",
+          "Akt -> Erk",
+          "Mek -> Akt",
+          "P38 -> Akt",
+          "Erk -> PKA",
+          "Akt -> PKA",
+          "PKC -> P38",
+          "PKC -> Jnk",
+          "P38 -> Jnk",
+          "PIP2 -> Plcg",
+          "P38 -> Plcg",
+          "P38 -> PIP2"
+        ],
+        "edge_notes": {
+          "PIP3 -> Akt": "Need to test whether PIP3 activates Akt, as this is a key step in the PI3K/Akt pathway."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "Raf",
+              "Mek"
+            ]
+          ],
+          "removed_edges": [
+            [
+              "Mek",
+              "Raf"
+            ]
+          ],
+          "num_added": 1,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "REVERSE",
+            "parent": "Mek",
+            "child": "Raf",
+            "reasoning": "Mek is downstream of Raf in the MAPK signaling pathway. The current edge Mek \u2192 Raf is incorrect and should be reversed to Raf \u2192 Mek to reflect the correct causal direction."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current causal graph shows Mek \u2192 Raf, which is biologically questionable. In the sachs domain, Raf is an upstream kinase in the MAPK pathway, and Mek is a downstream effector of Raf. This suggests that the edge Mek \u2192 Raf should be reversed to Raf \u2192 Mek to reflect the correct causal direction. This reversal aligns with the known biochemical signaling cascade and is expected to improve the graph's log-likelihood by better capturing the true causal relationships.\",\n  \"confirmed_edges\": [\"Raf -> Mek\", \"Mek -> Erk\", \"Akt -> Erk\", \"Mek -> Akt\", \"P38 -> Akt\", \"Erk -> PKA\", \"Akt -> PKA\", \"PKC -> P38\", \"PKC -> Jnk\", \"P38 -> Jnk\", \"PIP2 -> Plcg\", \"P38 -> Plcg\", \"P38 -> PIP2\"],\n  \"edge_notes\": {\n    \"PIP3 -> Akt\": \"Need to test whether PIP3 activates Akt, as this is a key step in the PI3K/Akt pathway.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"REVERSE\",\n      \"parent\": \"Mek\",\n      \"child\": \"Raf\",\n      \"reasoning\": \"Mek is downstream of Raf in the MAPK signaling pathway. The current edge Mek \u2192 Raf is incorrect and should be reversed to Raf \u2192 Mek to reflect the correct causal direction.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -103321.59241330979,
+        "num_parameters": 63382,
+        "bic": 103321.59241330979,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 10,
+          "false_negative": 13,
+          "true_negative": 94,
+          "precision": 0.2857,
+          "recall": 0.2353,
+          "f1_score": 0.2581,
+          "accuracy": 0.8099,
+          "shd": 19
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38",
+            "Raf"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -103321.59241330979,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 10,
+      "false_negative": 13,
+      "true_negative": 94,
+      "precision": 0.2857,
+      "recall": 0.2353,
+      "f1_score": 0.2581,
+      "accuracy": 0.8099,
+      "shd": 19
+    },
+    "results": {
+      "log_likelihood": -103321.59241330979,
+      "bic": 103321.59241330979,
+      "num_edges": 14
+    },
+    "rejection_reason": "LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]",
+    "proposed_operations": [
+      [
+        "REVERSE",
+        "Mek",
+        "Raf"
+      ]
+    ]
+  },
+  {
+    "iteration": 2,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 2,
+        "num_variables": 11,
+        "num_edges": 13,
+        "reasoning": "The current graph shows a strong influence of P38 on multiple downstream nodes (Mek, Plcg, PIP2, Akt, Jnk). However, the signaling cascade in the sachs domain typically starts with Raf activating Mek, which in turn activates Erk and Akt. P38 is often downstream of upstream kinases like Jnk or activated by stress signals. The edge P38 \u2192 Mek is likely overfitting or incorrect, as Mek is more commonly upstream of P38 in signaling pathways. Removing P38 \u2192 Mek aligns better with known signaling flow and may improve the log-likelihood.",
+        "confirmed_edges": [
+          "Mek -> Raf",
+          "Mek -> Erk",
+          "Akt -> Erk",
+          "Mek -> Akt",
+          "Erk -> PKA",
+          "Akt -> PKA",
+          "PKC -> P38",
+          "PKC -> Jnk"
+        ],
+        "edge_notes": {
+          "P38 -> Mek": "This edge is likely overfitting or incorrect based on standard signaling flow. It should be removed or reversed for better alignment with domain knowledge."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "P38",
+              "Mek"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "P38",
+            "child": "Mek",
+            "reasoning": "P38 is typically not upstream of Mek in signaling pathways. Removing this edge aligns the graph with known biological mechanisms and may improve the model's fit to the data."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nREVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph shows a strong influence of P38 on multiple downstream nodes (Mek, Plcg, PIP2, Akt, Jnk). However, the signaling cascade in the sachs domain typically starts with Raf activating Mek, which in turn activates Erk and Akt. P38 is often downstream of upstream kinases like Jnk or activated by stress signals. The edge P38 \u2192 Mek is likely overfitting or incorrect, as Mek is more commonly upstream of P38 in signaling pathways. Removing P38 \u2192 Mek aligns better with known signaling flow and may improve the log-likelihood.\",\n\"confirmed_edges\": [\"Mek -> Raf\", \"Mek -> Erk\", \"Akt -> Erk\", \"Mek -> Akt\", \"Erk -> PKA\", \"Akt -> PKA\", \"PKC -> P38\", \"PKC -> Jnk\"],\n\"edge_notes\": {\n    \"P38 -> Mek\": \"This edge is likely overfitting or incorrect based on standard signaling flow. It should be removed or reversed for better alignment with domain knowledge.\"\n},\n\"operations\": [\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"P38\",\n    \"child\": \"Mek\",\n    \"reasoning\": \"P38 is typically not upstream of Mek in signaling pathways. Removing this edge aligns the graph with known biological mechanisms and may improve the model's fit to the data.\"\n}\n]\n}"
+        },
+        "log_likelihood": -105569.20541846105,
+        "num_parameters": 63382,
+        "bic": 105569.20541846105,
+        "evaluation_metrics": {
+          "true_positive": 3,
+          "false_positive": 10,
+          "false_negative": 14,
+          "true_negative": 94,
+          "precision": 0.2308,
+          "recall": 0.1765,
+          "f1_score": 0.2,
+          "accuracy": 0.8017,
+          "shd": 19
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": []
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -105569.20541846105,
+    "metrics": {
+      "true_positive": 3,
+      "false_positive": 10,
+      "false_negative": 14,
+      "true_negative": 94,
+      "precision": 0.2308,
+      "recall": 0.1765,
+      "f1_score": 0.2,
+      "accuracy": 0.8017,
+      "shd": 19
+    },
+    "results": {
+      "log_likelihood": -105569.20541846105,
+      "bic": 105569.20541846105,
+      "num_edges": 13
+    },
+    "rejection_reason": "LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]",
+    "proposed_operations": [
+      [
+        "DELETE",
+        "P38",
+        "Mek"
+      ]
+    ]
+  },
+  {
+    "iteration": 3,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 3,
+        "num_variables": 11,
+        "num_edges": 13,
+        "reasoning": "The current graph includes a direct edge from Mek \u2192 Akt. While Mek is known to influence Erk and is upstream in the MAPK cascade, its direct effect on Akt is less well-supported in the sachs domain. Akt is more typically regulated by upstream signals such as PDK1 or through PIP3 signaling. Removing the Mek\u2192Akt edge may better align the graph with known signaling pathways and could improve the model fit.",
+        "confirmed_edges": [
+          "Mek -> Raf",
+          "Mek -> Erk",
+          "Akt -> Erk",
+          "Akt -> PKA",
+          "PIP2 -> Plcg",
+          "PKC -> P38",
+          "PKC -> Jnk",
+          "P38 -> Jnk"
+        ],
+        "edge_notes": {
+          "P38 -> Mek": "Previously attempted deletion led to worse likelihood; retain for now with uncertainty.",
+          "P38 -> Plcg": "Plausible due to cross-talk in stress signaling, but could be indirect.",
+          "Mek -> Akt": "Uncertain; this edge may not represent a direct causal relationship in the sachs domain."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "Mek",
+              "Akt"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Mek",
+            "child": "Akt",
+            "reasoning": "Mek's direct influence on Akt is not well-supported in the sachs domain. Akt is more likely regulated by PIP3 and upstream kinases, and removing this edge may improve the model's fit by aligning it with more established signaling pathways."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes a direct edge from Mek \u2192 Akt. While Mek is known to influence Erk and is upstream in the MAPK cascade, its direct effect on Akt is less well-supported in the sachs domain. Akt is more typically regulated by upstream signals such as PDK1 or through PIP3 signaling. Removing the Mek\u2192Akt edge may better align the graph with known signaling pathways and could improve the model fit.\",\n  \"confirmed_edges\": [\"Mek -> Raf\", \"Mek -> Erk\", \"Akt -> Erk\", \"Akt -> PKA\", \"PIP2 -> Plcg\", \"PKC -> P38\", \"PKC -> Jnk\", \"P38 -> Jnk\"],\n  \"edge_notes\": {\n    \"P38 -> Mek\": \"Previously attempted deletion led to worse likelihood; retain for now with uncertainty.\",\n    \"P38 -> Plcg\": \"Plausible due to cross-talk in stress signaling, but could be indirect.\",\n    \"Mek -> Akt\": \"Uncertain; this edge may not represent a direct causal relationship in the sachs domain.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Mek\",\n      \"child\": \"Akt\",\n      \"reasoning\": \"Mek's direct influence on Akt is not well-supported in the sachs domain. Akt is more likely regulated by PIP3 and upstream kinases, and removing this edge may improve the model's fit by aligning it with more established signaling pathways.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -100804.18822943517,
+        "num_parameters": 63382,
+        "bic": 100804.18822943517,
+        "evaluation_metrics": {
+          "true_positive": 3,
+          "false_positive": 10,
+          "false_negative": 14,
+          "true_negative": 94,
+          "precision": 0.2308,
+          "recall": 0.1765,
+          "f1_score": 0.2,
+          "accuracy": 0.8017,
+          "shd": 19
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -100804.18822943517,
+    "metrics": {
+      "true_positive": 3,
+      "false_positive": 10,
+      "false_negative": 14,
+      "true_negative": 94,
+      "precision": 0.2308,
+      "recall": 0.1765,
+      "f1_score": 0.2,
+      "accuracy": 0.8017,
+      "shd": 19
+    },
+    "results": {
+      "log_likelihood": -100804.18822943517,
+      "bic": 100804.18822943517,
+      "num_edges": 13
+    },
+    "rejection_reason": "LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]",
+    "proposed_operations": [
+      [
+        "DELETE",
+        "Mek",
+        "Akt"
+      ]
+    ]
+  },
+  {
+    "iteration": 4,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 4,
+        "num_variables": 11,
+        "num_edges": 14,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Mek",
+            "child": "Akt",
+            "reasoning": "Mek is part of the MAPK pathway, while Akt is primarily regulated by the PI3K/PIP3 pathway. The direct Mek \u2192 Akt edge is not well-supported by domain knowledge and may be overfitting the data."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\nAttempt 3: LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek, Mek\u2192Akt; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph has a well-defined core involving Mek, Raf, and Erk, which are central in MAPK signaling. However, the Akt pathway appears to be over-connected, potentially leading to overfitting or reduced likelihood. Specifically, the edge Mek \u2192 Akt may not be a direct causal relationship, as Akt is more commonly regulated by PIP3 and PI3K, not directly by Mek. Removing this edge would simplify the Akt regulation and better align with known signaling pathways in the sachs domain. This change is consistent with domain knowledge and is not among previously failed operations.\",\n\"confirmed_edges\": [\"Mek -> Erk\", \"Akt -> Erk\", \"Mek -> Raf\", \"P38 -> Jnk\", \"PKC -> Jnk\", \"PIP2 -> Plcg\", \"PKC -> P38\"],\n\"edge_notes\": {\n    \"P38 -> Mek\": \"This edge is questionable based on known signaling pathways; further interventional data would be needed to validate.\",\n    \"Mek -> Akt\": \"This edge may not represent a direct causal relationship; Akt is more likely regulated by PIP3 and PI3K.\",\n    \"PIP3 -> Akt\": \"This is a well-known regulatory relationship in signaling; it should be considered for inclusion.\"\n},\n\"operations\": [\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"Mek\",\n    \"child\": \"Akt\",\n    \"reasoning\": \"Mek is part of the MAPK pathway, while Akt is primarily regulated by the PI3K/PIP3 pathway. The direct Mek \u2192 Akt edge is not well-supported by domain knowledge and may be overfitting the data.\"\n}\n]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Mek \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Mek \u2192 Akt not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 5,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 5,
+        "num_variables": 11,
+        "num_edges": 14,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Mek",
+            "child": "Akt",
+            "reasoning": "Mek is primarily upstream of Erk, and Akt is more commonly regulated by the PI3K/PIP3 pathway. Removing the Mek \u2192 Akt edge may improve model fit without contradicting core domain knowledge."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\nAttempt 3: LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]\nAttempt 4: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek, Mek\u2192Akt, Mek\u2192Akt; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph shows a strong influence of P38 on multiple downstream proteins, including Mek, Akt, and Jnk. However, the P38 \u2192 Mek edge has previously been attempted for deletion and failed, indicating its importance. A more plausible and subtle refinement is to consider whether the Mek \u2192 Akt edge is necessary, as Akt is known to be regulated by multiple pathways (e.g., PI3K/PIP3), and Mek's primary downstream target is Erk. Removing this edge may improve the model without violating domain knowledge.\",\n\"confirmed_edges\": [\n    \"Mek -> Erk\",\n    \"Akt -> Erk\",\n    \"Erk -> PKA\",\n    \"Akt -> PKA\",\n    \"PKC -> P38\",\n    \"PKC -> Jnk\",\n    \"PIP2 -> Plcg\",\n    \"P38 -> Plcg\"\n],\n\"edge_notes\": {\n    \"Mek -> Akt\": \"This edge is uncertain. Akt is more typically downstream of PIP3 and PI3K pathways, not Mek. Removing this edge may improve the model.\",\n    \"P38 -> Mek\": \"Previously attempted for deletion with negative results, suggesting it may be functionally important in this model, though not canonical in all contexts.\"\n},\n\"operations\": [\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"Mek\",\n    \"child\": \"Akt\",\n    \"reasoning\": \"Mek is primarily upstream of Erk, and Akt is more commonly regulated by the PI3K/PIP3 pathway. Removing the Mek \u2192 Akt edge may improve model fit without contradicting core domain knowledge.\"\n}\n]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Mek \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Mek \u2192 Akt not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 6,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 6,
+        "num_variables": 11,
+        "num_edges": 14,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Mek",
+            "child": "Akt",
+            "reasoning": "Mek is part of the MAPK pathway, and Akt is typically regulated by the PI3K/PIP3 pathway. There is no known direct activation of Akt by Mek in the sachs domain. Removing this edge aligns the graph with known biological signaling mechanisms."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\nAttempt 3: LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]\nAttempt 4: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph contains an edge Mek \u2192 Akt, which is likely not a direct causal relationship in the sachs domain. From domain knowledge, Akt is typically downstream of PDK1 or PI3K, not Mek. Removing this edge may improve the model's fit by aligning it more closely with the expected biological pathway. This operation is consistent with the signaling cascade where Akt is influenced by PIP3 and upstream kinases, not by Mek directly.\",\n\"confirmed_edges\": [\"Mek -> Erk\", \"Akt -> Erk\", \"P38 -> Akt\", \"Erk -> PKA\", \"Akt -> PKA\", \"PKC -> P38\", \"PKC -> Jnk\", \"P38 -> Jnk\"],\n\"edge_notes\": {\n  \"Mek -> Akt\": \"This edge is likely spurious and not a direct causal relationship in the sachs domain. It should be removed or re-evaluated.\",\n  \"P38 -> Mek\": \"This edge is present but its causal direction and necessity are uncertain. Further evidence is needed.\",\n  \"PIP2 -> Plcg\": \"This is a known phospholipid signaling pathway, but its direct influence on Plcg is still under evaluation.\"\n},\n\"operations\": [\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"Mek\",\n    \"child\": \"Akt\",\n    \"reasoning\": \"Mek is part of the MAPK pathway, and Akt is typically regulated by the PI3K/PIP3 pathway. There is no known direct activation of Akt by Mek in the sachs domain. Removing this edge aligns the graph with known biological signaling mechanisms.\"\n}\n]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Mek \u2192 Akt not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Mek \u2192 Akt not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 7,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 7,
+        "num_variables": 11,
+        "num_edges": 13,
+        "reasoning": "The current graph has a relatively strong log-likelihood, but we aim to improve it by making a local refinement. A notable edge is Erk \u2192 PKA. While Erk can influence downstream signaling, the direct causal link from Erk to PKA is not strongly supported by canonical signaling pathways in the sachs domain. PKA is typically regulated by cAMP or through other upstream signaling pathways, not directly by Erk. Removing this edge may simplify the model and improve fit without contradicting domain knowledge.",
+        "confirmed_edges": [
+          "Mek -> Erk",
+          "Akt -> Erk",
+          "Mek -> Akt",
+          "P38 -> Akt",
+          "Akt -> PKA",
+          "PKC -> P38",
+          "PKC -> Jnk",
+          "P38 -> Jnk"
+        ],
+        "edge_notes": {
+          "Erk -> PKA": "This edge is questionable based on domain knowledge. PKA is more likely regulated by cAMP or upstream signals, not directly by Erk. Tentatively propose its removal for testing."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "Erk",
+              "PKA"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Erk",
+            "child": "PKA",
+            "reasoning": "Erk is not a direct upstream regulator of PKA in canonical signaling pathways. Removing this edge aligns the graph more closely with known biology and may improve model fit."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\nAttempt 3: LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]\nAttempt 4: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 6: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph has a relatively strong log-likelihood, but we aim to improve it by making a local refinement. A notable edge is Erk \u2192 PKA. While Erk can influence downstream signaling, the direct causal link from Erk to PKA is not strongly supported by canonical signaling pathways in the sachs domain. PKA is typically regulated by cAMP or through other upstream signaling pathways, not directly by Erk. Removing this edge may simplify the model and improve fit without contradicting domain knowledge.\",\n\"confirmed_edges\": [\"Mek -> Erk\", \"Akt -> Erk\", \"Mek -> Akt\", \"P38 -> Akt\", \"Akt -> PKA\", \"PKC -> P38\", \"PKC -> Jnk\", \"P38 -> Jnk\"],\n\"edge_notes\": {\n  \"Erk -> PKA\": \"This edge is questionable based on domain knowledge. PKA is more likely regulated by cAMP or upstream signals, not directly by Erk. Tentatively propose its removal for testing.\"\n},\n\"operations\": [\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"Erk\",\n    \"child\": \"PKA\",\n    \"reasoning\": \"Erk is not a direct upstream regulator of PKA in canonical signaling pathways. Removing this edge aligns the graph more closely with known biology and may improve model fit.\"\n}\n]\n}"
+        },
+        "log_likelihood": -105180.69342123815,
+        "num_parameters": 63382,
+        "bic": 105180.69342123815,
+        "evaluation_metrics": {
+          "true_positive": 3,
+          "false_positive": 10,
+          "false_negative": 14,
+          "true_negative": 94,
+          "precision": 0.2308,
+          "recall": 0.1765,
+          "f1_score": 0.2,
+          "accuracy": 0.8017,
+          "shd": 20
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -105180.69342123815,
+    "metrics": {
+      "true_positive": 3,
+      "false_positive": 10,
+      "false_negative": 14,
+      "true_negative": 94,
+      "precision": 0.2308,
+      "recall": 0.1765,
+      "f1_score": 0.2,
+      "accuracy": 0.8017,
+      "shd": 20
+    },
+    "results": {
+      "log_likelihood": -105180.69342123815,
+      "bic": 105180.69342123815,
+      "num_edges": 13
+    },
+    "rejection_reason": "LL too low: -105180.6934, proposed operations: [('DELETE', 'Erk', 'PKA')]",
+    "proposed_operations": [
+      [
+        "DELETE",
+        "Erk",
+        "PKA"
+      ]
+    ]
+  },
+  {
+    "iteration": 8,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 8,
+        "num_variables": 11,
+        "num_edges": 14,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "REVERSE",
+            "parent": "Mek",
+            "child": "Raf",
+            "reasoning": "Raf is a known upstream activator of Mek in the MAPK signaling cascade. Reversing this edge to Raf \u2192 Mek aligns with the biological mechanism and may improve the model's accuracy and likelihood."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\nAttempt 3: LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]\nAttempt 4: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 6: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 7: LL too low: -105180.6934, proposed operations: [('DELETE', 'Erk', 'PKA')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt, Erk\u2192PKA; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph shows Mek \u2192 Raf, which is biologically questionable given the known signaling cascade where Raf typically activates Mek, not the reverse. Reversing this edge to Raf \u2192 Mek would align better with domain knowledge and may improve the graph's log-likelihood by correcting this implausible direction. This operation is not among the previously excluded ones and is a promising local amendment.\",\n\"confirmed_edges\": [\"PIP2 -> Plcg\", \"Mek -> Erk\", \"Akt -> Erk\", \"PKC -> P38\", \"PKC -> Jnk\"],\n\"edge_notes\": {\n    \"Mek -> Raf\": \"This edge is likely incorrect based on domain knowledge. Raf is an upstream activator of Mek in the MAPK pathway.\",\n    \"P38 -> Mek\": \"Previously attempted to delete this edge with negative results; need to evaluate further.\",\n    \"P38 -> Akt\": \"Plausible via cross-talk in stress signaling; tentatively retained.\",\n    \"Erk -> PKA\": \"Biological plausibility is unclear; requires further validation.\"\n},\n\"operations\": [\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"Mek\",\n    \"child\": \"Raf\",\n    \"reasoning\": \"Raf is a known upstream activator of Mek in the MAPK signaling cascade. Reversing this edge to Raf \u2192 Mek aligns with the biological mechanism and may improve the model's accuracy and likelihood.\"\n}\n]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk",
+            "Akt"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: REVERSE operation failed: edge Mek \u2192 Raf or Raf \u2192 Mek not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "REVERSE operation failed: edge Mek \u2192 Raf or Raf \u2192 Mek not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "REVERSE operation failed: edge Mek \u2192 Raf or Raf \u2192 Mek not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 9,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 9,
+        "num_variables": 11,
+        "num_edges": 13,
+        "reasoning": "Given the previous failed attempts and the need to improve the log-likelihood, the current graph suggests that the edge from Akt \u2192 PKA may be over-specified or redundant. Domain knowledge indicates that Akt is more strongly associated with Erk and Akt \u2192 Erk is already included. While Akt \u2192 PKA is plausible, it may be less direct and potentially removable without disrupting the core signaling pathway. Removing this edge could simplify the graph and improve fit, especially given the high number of edges already influencing PKA.",
+        "confirmed_edges": [
+          "Mek -> Raf",
+          "Mek -> Erk",
+          "Akt -> Erk",
+          "Mek -> Akt",
+          "Erk -> PKA",
+          "PKC -> P38",
+          "PKC -> Jnk",
+          "P38 -> Jnk"
+        ],
+        "edge_notes": {
+          "P38 -> Mek": "Previously removed and resulted in lower likelihood. Tentatively retained for now.",
+          "Mek -> Akt": "Previously attempted to delete, but failed due to invalid operation. Uncertain about its necessity and direction.",
+          "Akt -> PKA": "This edge is under review; may be redundant or over-specified."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "Akt",
+              "PKA"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Akt",
+            "child": "PKA",
+            "reasoning": "Akt \u2192 PKA may be an indirect or redundant connection. Removing it could simplify the model and improve the log-likelihood without significantly affecting the causal structure."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -105569.2054, proposed operations: [('DELETE', 'P38', 'Mek')]\nAttempt 3: LL too low: -100804.1882, proposed operations: [('DELETE', 'Mek', 'Akt')]\nAttempt 4: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 6: DELETE operation failed: edge Mek \u2192 Akt not in valid operations; All 1 edge operations failed\nAttempt 7: LL too low: -105180.6934, proposed operations: [('DELETE', 'Erk', 'PKA')]\nAttempt 8: REVERSE operation failed: edge Mek \u2192 Raf or Raf \u2192 Mek not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192Mek, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt, Mek\u2192Akt, Erk\u2192PKA; REVERSE: Mek\u2192Raf, Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"Given the previous failed attempts and the need to improve the log-likelihood, the current graph suggests that the edge from Akt \u2192 PKA may be over-specified or redundant. Domain knowledge indicates that Akt is more strongly associated with Erk and Akt \u2192 Erk is already included. While Akt \u2192 PKA is plausible, it may be less direct and potentially removable without disrupting the core signaling pathway. Removing this edge could simplify the graph and improve fit, especially given the high number of edges already influencing PKA.\",\n\"confirmed_edges\": [\"Mek -> Raf\", \"Mek -> Erk\", \"Akt -> Erk\", \"Mek -> Akt\", \"Erk -> PKA\", \"PKC -> P38\", \"PKC -> Jnk\", \"P38 -> Jnk\"],\n\"edge_notes\": {\n  \"P38 -> Mek\": \"Previously removed and resulted in lower likelihood. Tentatively retained for now.\",\n  \"Mek -> Akt\": \"Previously attempted to delete, but failed due to invalid operation. Uncertain about its necessity and direction.\",\n  \"Akt -> PKA\": \"This edge is under review; may be redundant or over-specified.\"\n},\n\"operations\": [\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"Akt\",\n    \"child\": \"PKA\",\n    \"reasoning\": \"Akt \u2192 PKA may be an indirect or redundant connection. Removing it could simplify the model and improve the log-likelihood without significantly affecting the causal structure.\"\n}\n]\n}"
+        },
+        "log_likelihood": -107415.48204504796,
+        "num_parameters": 63382,
+        "bic": 107415.48204504796,
+        "evaluation_metrics": {
+          "true_positive": 3,
+          "false_positive": 10,
+          "false_negative": 14,
+          "true_negative": 94,
+          "precision": 0.2308,
+          "recall": 0.1765,
+          "f1_score": 0.2,
+          "accuracy": 0.8017,
+          "shd": 20
+        }
+      },
+      "nodes": [
+        {
+          "name": "Raf",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "Plcg",
+          "parents": [
+            "PIP2",
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "P38"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": []
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek",
+            "Akt"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Mek",
+            "P38"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "Erk"
+          ]
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKC",
+            "P38"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -100293.04310453293,
+    "current_ll": -107415.48204504796,
+    "metrics": {
+      "true_positive": 3,
+      "false_positive": 10,
+      "false_negative": 14,
+      "true_negative": 94,
+      "precision": 0.2308,
+      "recall": 0.1765,
+      "f1_score": 0.2,
+      "accuracy": 0.8017,
+      "shd": 20
+    },
+    "results": {
+      "log_likelihood": -107415.48204504796,
+      "bic": 107415.48204504796,
+      "num_edges": 13
+    },
+    "rejection_reason": "LL too low: -107415.4820, proposed operations: [('DELETE', 'Akt', 'PKA')]",
+    "proposed_operations": [
+      [
+        "DELETE",
+        "Akt",
+        "PKA"
+      ]
+    ]
+  }
+]

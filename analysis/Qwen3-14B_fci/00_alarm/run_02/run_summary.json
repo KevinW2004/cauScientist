@@ -1,0 +1,20 @@
+{
+  "run_id": 2,
+  "domain": "alarm",
+  "final_ll": -176138.15403753115,
+  "final_bic": 176138.15403753115,
+  "num_edges_predicted": 20,
+  "num_edges_true": 46,
+  "metrics": {
+    "true_positive": 19,
+    "false_positive": 1,
+    "false_negative": 27,
+    "true_negative": 1322,
+    "precision": 0.95,
+    "recall": 0.413,
+    "f1_score": 0.5758,
+    "accuracy": 0.9795,
+    "shd": 28
+  },
+  "status": "success"
+}

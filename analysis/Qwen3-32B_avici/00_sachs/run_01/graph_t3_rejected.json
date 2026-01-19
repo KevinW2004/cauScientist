@@ -1,0 +1,281 @@
+{
+  "metadata": {
+    "domain": "sachs",
+    "iteration": 3,
+    "num_variables": 11,
+    "num_edges": 14,
+    "reasoning": "The current DAG contains the edge Mek \u2192 Akt. However, based on known signaling pathways in the sachs domain, Akt is typically activated downstream of PIP3 and PI3K, and not directly by Mek. Reversing this edge to Akt \u2192 Mek may better reflect the known causal flow, as Akt is known to modulate Mek activity in some contexts. This change is both biologically plausible and could lead to a more accurate and acyclic representation of the system.",
+    "confirmed_edges": [
+      "Mek -> Raf",
+      "PIP2 -> Plcg",
+      "Mek -> Erk",
+      "Akt -> Erk",
+      "Erk -> PKA",
+      "Akt -> PKA",
+      "PKC -> P38",
+      "PKC -> Jnk",
+      "P38 -> Jnk"
+    ],
+    "edge_notes": {
+      "P38 -> Plcg": "P38 is known to influence Plcg activity, but the strength and directness of this relationship is still under investigation.",
+      "Mek -> Akt": "This edge is tentative and may not represent the true causal direction. Reversing it is being proposed for testing."
+    },
+    "changes": {
+      "added_edges": [
+        [
+          "Akt",
+          "Mek"
+        ]
+      ],
+      "removed_edges": [
+        [
+          "Mek",
+          "Akt"
+        ]
+      ],
+      "num_added": 1,
+      "num_removed": 1
+    },
+    "proposed_operations": [
+      {
+        "type": "REVERSE",
+        "parent": "Mek",
+        "child": "Akt",
+        "reasoning": "Mek \u2192 Akt is not biologically well-supported in the sachs domain. Akt is typically activated by PIP3 and PI3K, and in some cases, Akt can modulate Mek activity. Reversing this edge to Akt \u2192 Mek aligns better with known signaling mechanisms."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Raf\n- Mek\n- Plcg\n- PIP2\n- PIP3\n- Erk\n- Akt\n- PKA\n- PKC\n- P38\n- Jnk\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Mek \u2192 Raf\n  P38 \u2192 Mek\n  PIP2 \u2192 Plcg\n  P38 \u2192 Plcg\n  P38 \u2192 PIP2\n  Mek \u2192 Erk\n  Akt \u2192 Erk\n  Mek \u2192 Akt\n  P38 \u2192 Akt\n  Erk \u2192 PKA\n  Akt \u2192 PKA\n  PKC \u2192 P38\n  PKC \u2192 Jnk\n  P38 \u2192 Jnk\n\nCurrent Log-Likelihood: -100293.04310453293\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -103321.5924, proposed operations: [('REVERSE', 'Mek', 'Raf')]\nAttempt 2: LL too low: -102067.4014, proposed operations: [('DELETE', 'P38', 'PIP2')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: P38\u2192PIP2; REVERSE: Mek\u2192Raf\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n\"overall_reasoning\": \"The current DAG contains the edge Mek \u2192 Akt. However, based on known signaling pathways in the sachs domain, Akt is typically activated downstream of PIP3 and PI3K, and not directly by Mek. Reversing this edge to Akt \u2192 Mek may better reflect the known causal flow, as Akt is known to modulate Mek activity in some contexts. This change is both biologically plausible and could lead to a more accurate and acyclic representation of the system.\",\n\"confirmed_edges\": [\"Mek -> Raf\", \"PIP2 -> Plcg\", \"Mek -> Erk\", \"Akt -> Erk\", \"Erk -> PKA\", \"Akt -> PKA\", \"PKC -> P38\", \"PKC -> Jnk\", \"P38 -> Jnk\"],\n\"edge_notes\": {\n    \"P38 -> Plcg\": \"P38 is known to influence Plcg activity, but the strength and directness of this relationship is still under investigation.\",\n    \"Mek -> Akt\": \"This edge is tentative and may not represent the true causal direction. Reversing it is being proposed for testing.\"\n},\n\"operations\": [\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"Mek\",\n    \"child\": \"Akt\",\n    \"reasoning\": \"Mek \u2192 Akt is not biologically well-supported in the sachs domain. Akt is typically activated by PIP3 and PI3K, and in some cases, Akt can modulate Mek activity. Reversing this edge to Akt \u2192 Mek aligns better with known signaling mechanisms.\"\n}\n]\n}"
+    },
+    "log_likelihood": -100323.87385022995,
+    "num_parameters": 63382,
+    "bic": 100323.87385022995,
+    "evaluation_metrics": {
+      "true_positive": 3,
+      "false_positive": 11,
+      "false_negative": 14,
+      "true_negative": 93,
+      "precision": 0.2143,
+      "recall": 0.1765,
+      "f1_score": 0.1935,
+      "accuracy": 0.7934,
+      "shd": 20
+    }
+  },
+  "nodes": [
+    {
+      "name": "Raf",
+      "parents": [
+        "Mek"
+      ]
+    },
+    {
+      "name": "Mek",
+      "parents": [
+        "P38",
+        "Akt"
+      ]
+    },
+    {
+      "name": "Plcg",
+      "parents": [
+        "PIP2",
+        "P38"
+      ]
+    },
+    {
+      "name": "PIP2",
+      "parents": [
+        "P38"
+      ]
+    },
+    {
+      "name": "PIP3",
+      "parents": []
+    },
+    {
+      "name": "Erk",
+      "parents": [
+        "Mek",
+        "Akt"
+      ]
+    },
+    {
+      "name": "Akt",
+      "parents": [
+        "P38"
+      ]
+    },
+    {
+      "name": "PKA",
+      "parents": [
+        "Erk",
+        "Akt"
+      ]
+    },
+    {
+      "name": "PKC",
+      "parents": []
+    },
+    {
+      "name": "P38",
+      "parents": [
+        "PKC"
+      ]
+    },
+    {
+      "name": "Jnk",
+      "parents": [
+        "PKC",
+        "P38"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

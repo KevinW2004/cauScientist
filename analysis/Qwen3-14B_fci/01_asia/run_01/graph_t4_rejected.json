@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 4,
+    "num_variables": 8,
+    "num_edges": 10,
+    "reasoning": "Based on the interventional evidence, the edge 'either \u2192 dysp' appears to be a logical artifact rather than a direct causal link. The evidence shows that 'either' has a significant effect on 'dysp' when other variables are controlled, which suggests that 'either' may not be a direct cause but rather a proxy or logical combination of 'tub' and 'lung'. This aligns with the domain knowledge that dyspnea is more directly caused by 'tub', 'lung', or 'bronc', not by a logical disjunction of two conditions. Thus, removing 'either \u2192 dysp' is a valid and evidence-supported modification.",
+    "confirmed_edges": [],
+    "edge_notes": {
+      "either \u2192 dysp": "This edge may be spurious and is likely mediated by 'tub', 'lung', or 'bronc'. Further validation is needed to confirm its removal."
+    },
+    "changes": {
+      "added_edges": [],
+      "removed_edges": [
+        [
+          "either",
+          "dysp"
+        ]
+      ],
+      "num_added": 0,
+      "num_removed": 1
+    },
+    "proposed_operations": [
+      {
+        "type": "DELETE",
+        "parent": "either",
+        "child": "dysp",
+        "reasoning": "The interventional evidence indicates that 'either' has a significant effect on 'dysp', but this is likely indirect or mediated by other variables such as 'tub', 'lung', or 'bronc'. Since 'either' is a logical disjunction and not a direct cause of dyspnea, the edge 'either \u2192 dysp' is likely spurious and should be removed."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current causal graph for the Asia domain is a well-known benchmark in causal inference, representing the relationships between various medical conditions and symptoms. However, based on domain knowledge and a critical review of the graph, there are a few potential improvements that could enhance the accuracy and completeness of the model. Here are three candidate changes and the corresponding experiments to validate them:\n\n1. **Add a direct edge from 'tub' to 'dysp'**: In the current graph, 'tub' only influences 'dysp' indirectly through 'either' and 'xray'. However, tuberculosis (tub) can directly cause dyspnea (dysp), so a direct causal path may be missing.\n\n2. **Delete the edge from 'either' to 'dysp'**: The 'either' variable is a logical disjunction of 'tub' and 'lung', and it is not a direct cause of dysp. Instead, dyspnea is more directly caused by 'tub', 'lung', or 'bronc'. The presence of 'either' as a parent of 'dysp' may be an artifact of the logical structure rather than a direct causal link.\n\n3. **Add a direct edge from 'xray' to 'dysp'**: While 'xray' is primarily used for diagnosing 'tub' and 'lung', it is not a direct cause of 'dysp'. However, in some contexts, the presence of a visible lesion on an x-ray could influence a patient's perception or experience of dyspnea, suggesting a potential direct influence that may not be fully captured in the current model.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. ADD: tub \u2192 dysp (Reasoning: Tuberculosis (tub) can directly lead to dyspnea (dysp) due to lung involvement, so a direct causal relationship is plausible.)\n2. DELETE: either \u2192 dysp (Reasoning: The variable 'either' is a logical disjunction and not a direct cause of dysp. Dyspnea is more directly caused by 'tub', 'lung', or 'bronc'.)\n3. ADD: xray \u2192 dysp (Reasoning: An x-ray result may influence a patient's perception of dyspnea, especially if it reveals an underlying condition, suggesting a potential direct effect.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'bronc'], do(smoke) affects lung (avg_TVD=0.0077). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'tub'], do(smoke) affects bronc (avg_TVD=0.0150). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['lung'], do(tub) affects either (avg_TVD=0.2324). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['bronc', 'lung'], do(either) affects dysp (avg_TVD=0.1699). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['tub', 'lung'], do(either) affects xray (avg_TVD=0.5539). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['smoke'], do(asia) affects lung (avg_TVD=0.0174). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['tub', 'lung'], do(either) affects dysp (avg_TVD=0.2015). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'either'], do(bronc) affects dysp (avg_TVD=0.0623). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['lung'], do(tub) affects either (avg_TVD=0.2324). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['tub', 'lung'], do(either) affects xray (avg_TVD=0.5539). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['lung', 'tub'], do(bronc) affects dysp (avg_TVD=0.0744). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'lung', 'xray'], do(dysp) affects either (avg_TVD=0.0000). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['lung', 'bronc'], do(tub) affects dysp (avg_TVD=0.1625). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'lung', 'bronc'], do(either) affects dysp (avg_TVD=0.0714). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['tub', 'lung', 'bronc'], do(xray) affects dysp (avg_TVD=0.0559). Link is likely INDIRECT / fully mediated by current set.\n\n\nCurrent Graph (Iteration 1):\n  asia \u2192 tub\n  smoke \u2192 tub\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  tub \u2192 xray\n  lung \u2192 xray\n  bronc \u2192 dysp\n  lung \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -25330.64273220534\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -27123.2203, proposed operations: [('DELETE', 'bronc', 'dysp')]\nAttempt 2: STRICT VIOLATION: Cannot REVERSE either \u2192 dysp. The proposed direction dysp \u2192 either is explicitly contradicted by evidence (- RESULT: [NOT SIGNIFICANT] Given ['tub', 'lung', 'xray'], do(dysp) affects either (avg_TVD=0.0000). Link is likely INDIRECT / fully mediated by current set.).\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: bronc\u2192dysp; REVERSE: either\u2192dysp\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence, the edge 'either \u2192 dysp' appears to be a logical artifact rather than a direct causal link. The evidence shows that 'either' has a significant effect on 'dysp' when other variables are controlled, which suggests that 'either' may not be a direct cause but rather a proxy or logical combination of 'tub' and 'lung'. This aligns with the domain knowledge that dyspnea is more directly caused by 'tub', 'lung', or 'bronc', not by a logical disjunction of two conditions. Thus, removing 'either \u2192 dysp' is a valid and evidence-supported modification.\",\n  \"confirmed_edges\": [],\n  \"edge_notes\": {\n    \"either \u2192 dysp\": \"This edge may be spurious and is likely mediated by 'tub', 'lung', or 'bronc'. Further validation is needed to confirm its removal.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"either\",\n      \"child\": \"dysp\",\n      \"reasoning\": \"The interventional evidence indicates that 'either' has a significant effect on 'dysp', but this is likely indirect or mediated by other variables such as 'tub', 'lung', or 'bronc'. Since 'either' is a logical disjunction and not a direct cause of dyspnea, the edge 'either \u2192 dysp' is likely spurious and should be removed.\"\n    }\n  ]\n}"
+    },
+    "log_likelihood": -25850.265346616186,
+    "num_parameters": 43024,
+    "bic": 25850.265346616186,
+    "evaluation_metrics": {
+      "true_positive": 6,
+      "false_positive": 4,
+      "false_negative": 2,
+      "true_negative": 52,
+      "precision": 0.6,
+      "recall": 0.75,
+      "f1_score": 0.6667,
+      "accuracy": 0.9062,
+      "shd": 6
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": [
+        "asia",
+        "smoke"
+      ]
+    },
+    {
+      "name": "lung",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "bronc",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "bronc",
+        "lung"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

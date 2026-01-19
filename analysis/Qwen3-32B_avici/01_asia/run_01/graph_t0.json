@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 0,
+    "num_variables": 8,
+    "num_edges": 7,
+    "reasoning": "The 'asia' domain is centered around diagnosing tuberculosis (tub) and other respiratory conditions. Let's begin by analyzing the variables and their plausible causal relationships based on domain knowledge and the baseline hints from the AVICI algorithm. \n\n1. **asia**: This variable is a binary indicator of whether the patient is from Asia. It is a background characteristic and does not directly cause any other variables, but it may be a confounder. It will have no parents in the causal graph. \n\n2. **tub**: Tuberculosis is a condition that can be caused by exposure to the tuberculosis bacteria. It is a root cause for some downstream variables like 'either' and 'xray'. \n\n3. **smoke**: Smoking is a risk factor for both 'lung' and 'bronc', and it is a root variable. It has no parents in the causal graph. \n\n4. **lung**: Lung cancer is a condition that can be caused by smoking. It is a direct cause of 'either' and may contribute to 'xray'. \n\n5. **bronc**: Bronchitis is also a condition that can be caused by smoking. It is a direct cause of 'dysp' (dyspnea) and may contribute to 'either'. \n\n6. **either**: This variable represents the disjunction of 'tub' and 'lung' (i.e., the patient has either tuberculosis or lung cancer). It is a logical consequence of 'tub' and 'lung'. \n\n7. **xray**: An X-ray is a diagnostic test that can be influenced by the presence of either 'tub' or 'lung'. \n\n8. **dysp**: Dyspnea (shortness of breath) is a symptom that can be caused by 'bronc' and also by the presence of 'either' (tub or lung). \n\nBased on this reasoning, the following direct causal relationships are plausible: \n- 'tub' \u2192 'either' \n- 'lung' \u2192 'either' \n- 'either' \u2192 'xray' \n- 'bronc' \u2192 'dysp' \n- 'either' \u2192 'dysp' \n- 'smoke' \u2192 'lung' \n- 'smoke' \u2192 'bronc' \n\nThe graph is acyclic and respects the temporal and causal order of these variables, with no cycles formed.",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": null,
+    "proposed_operations": null,
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Generate an initial causal graph hypothesis for the asia domain.\n\nVariables to analyze:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\n==================================================\n\ud83d\udcca STATISTICAL BASELINE REFERENCE (from traditional methods):\n==================================================\nThe following causal relationships were suggested by traditional algorithms.\nUse them as hints, but rely on your domain knowledge and interventional evidence.\n\n[AVICI Algorithm]:\n  - tub \u2192 either\n  - lung \u2192 either\n  - either \u2192 xray\n  - bronc \u2192 dysp\n  - either \u2192 dysp\n\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+      "llm_response": "{\n\"reasoning\": \"The 'asia' domain is centered around diagnosing tuberculosis (tub) and other respiratory conditions. Let's begin by analyzing the variables and their plausible causal relationships based on domain knowledge and the baseline hints from the AVICI algorithm. \\n\\n1. **asia**: This variable is a binary indicator of whether the patient is from Asia. It is a background characteristic and does not directly cause any other variables, but it may be a confounder. It will have no parents in the causal graph. \\n\\n2. **tub**: Tuberculosis is a condition that can be caused by exposure to the tuberculosis bacteria. It is a root cause for some downstream variables like 'either' and 'xray'. \\n\\n3. **smoke**: Smoking is a risk factor for both 'lung' and 'bronc', and it is a root variable. It has no parents in the causal graph. \\n\\n4. **lung**: Lung cancer is a condition that can be caused by smoking. It is a direct cause of 'either' and may contribute to 'xray'. \\n\\n5. **bronc**: Bronchitis is also a condition that can be caused by smoking. It is a direct cause of 'dysp' (dyspnea) and may contribute to 'either'. \\n\\n6. **either**: This variable represents the disjunction of 'tub' and 'lung' (i.e., the patient has either tuberculosis or lung cancer). It is a logical consequence of 'tub' and 'lung'. \\n\\n7. **xray**: An X-ray is a diagnostic test that can be influenced by the presence of either 'tub' or 'lung'. \\n\\n8. **dysp**: Dyspnea (shortness of breath) is a symptom that can be caused by 'bronc' and also by the presence of 'either' (tub or lung). \\n\\nBased on this reasoning, the following direct causal relationships are plausible: \\n- 'tub' \u2192 'either' \\n- 'lung' \u2192 'either' \\n- 'either' \u2192 'xray' \\n- 'bronc' \u2192 'dysp' \\n- 'either' \u2192 'dysp' \\n- 'smoke' \u2192 'lung' \\n- 'smoke' \u2192 'bronc' \\n\\nThe graph is acyclic and respects the temporal and causal order of these variables, with no cycles formed.\",\n\"nodes\": [\n{\n    \"name\": \"asia\",\n    \"parents\": []\n},\n{\n    \"name\": \"tub\",\n    \"parents\": []\n},\n{\n    \"name\": \"smoke\",\n    \"parents\": []\n},\n{\n    \"name\": \"lung\",\n    \"parents\": [\"smoke\"]\n},\n{\n    \"name\": \"bronc\",\n    \"parents\": [\"smoke\"]\n},\n{\n    \"name\": \"either\",\n    \"parents\": [\"tub\", \"lung\"]\n},\n{\n    \"name\": \"xray\",\n    \"parents\": [\"either\"]\n},\n{\n    \"name\": \"dysp\",\n    \"parents\": [\"bronc\", \"either\"]\n}\n]\n}"
+    },
+    "log_likelihood": -20100.311722043993,
+    "num_parameters": 43024,
+    "bic": 20100.311722043993,
+    "evaluation_metrics": {
+      "true_positive": 7,
+      "false_positive": 0,
+      "false_negative": 1,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1_score": 0.9333,
+      "accuracy": 0.9844,
+      "shd": 1
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": []
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "lung",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "bronc",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "either"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "bronc",
+        "either"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 3,
+    "num_variables": 8,
+    "num_edges": 8,
+    "reasoning": "The interventional evidence suggests that 'tub' may be a direct ancestor of 'xray', as the marginal effect of do(tub) on xray is significant (TVD=0.4198). However, the existing indirect path 'tub \u2192 either \u2192 xray' could explain this effect. To determine whether a direct edge 'tub \u2192 xray' should be added, we must check if the effect of 'tub' on 'xray' remains significant after conditioning on 'either'. The evidence shows that conditioning on 'either' results in a non-significant effect (avg_TVD=0.0155), which suggests that the effect of 'tub' on 'xray' is fully mediated by 'either'. Therefore, the current structure is sufficient, and no direct edge 'tub \u2192 xray' should be added. Similarly, there is no evidence to support direct edges from 'bronc' or 'lung' to 'xray'.",
+    "confirmed_edges": [
+      "tub \u2192 either",
+      "lung \u2192 either",
+      "either \u2192 xray",
+      "either \u2192 dysp",
+      "bronc \u2192 dysp",
+      "asia \u2192 tub",
+      "smoke \u2192 lung",
+      "smoke \u2192 bronc"
+    ],
+    "edge_notes": {
+      "tub \u2192 xray": "Effect of 'tub' on 'xray' is likely mediated by 'either'; no direct edge is needed."
+    },
+    "changes": {
+      "added_edges": [],
+      "removed_edges": [],
+      "num_added": 0,
+      "num_removed": 0
+    },
+    "proposed_operations": [],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current causal graph includes an indirect path from 'tub' to 'xray' via 'either'. However, the tentative note suggests that 'tub' may be a direct ancestor of 'xray', which would imply an additional edge 'tub \u2192 xray' that is currently missing. To confirm this, we need to test for a direct causal influence of 'tub' on 'xray' by intervening on 'tub' and observing 'xray', while controlling for 'either' to eliminate the indirect path. Additionally, we suspect that 'either' may be a collider or have other dependencies that could be refined. We also consider whether 'bronc' has a direct effect on 'xray', which is not currently in the graph but may be relevant given the influence on 'dysp'. Lastly, we evaluate if 'lung' has a direct influence on 'xray', as it is a cause of 'either', which in turn causes 'xray'.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. ADD: tub \u2192 xray (Reasoning: The tentative note suggests that 'tub' may be a direct ancestor of 'xray', despite the existing indirect path via 'either'. Adding this edge would allow us to test for a direct causal influence of 'tub' on 'xray'.)\n2. ADD: bronc \u2192 xray (Reasoning: While 'bronc' is not currently connected to 'xray', it is a cause of 'dysp' and may have an independent effect on 'xray' that is not mediated through 'either'. This could represent an unmodeled direct causal relationship.)\n3. ADD: lung \u2192 xray (Reasoning: Given that 'lung' is a cause of 'either', which in turn causes 'xray', it is possible that 'lung' has a direct influence on 'xray' as well. This would suggest an additional path from 'lung' to 'xray', independent of 'either'.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] Given ['asia', 'tub'], do(smoke) affects lung (avg_TVD=0.0038). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['tub', 'bronc'], do(lung) affects either (avg_TVD=0.3933). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['lung', 'bronc'], do(tub) affects either (avg_TVD=0.1524). Link is likely DIRECT / not fully mediated by current set.\n- INSUFFICIENT DATA to condition on ['asia', 'either', 'lung', 'bronc', 'dysp']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(tub) affects xray (TVD=0.4198). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- INSUFFICIENT DATA to condition on ['asia', 'either', 'lung', 'bronc', 'xray']. FALLBACK to Marginal: RESULT: [SIGNIFICANT] do(tub) affects dysp (TVD=0.2054). This SUPPORTS ANCESTRAL path (check for intermediate nodes before adding direct edge).\n- INSUFFICIENT DATA to condition on ['asia', 'lung', 'bronc', 'either', 'xray', 'dysp']. FALLBACK to Marginal: RESULT: [NOT SIGNIFICANT] do(smoke) affects tub (TVD=0.0036). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [NOT SIGNIFICANT] Given ['either'], do(tub) affects xray (avg_TVD=0.0155). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['either'], do(tub) affects dysp (avg_TVD=0.0418). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['either'], do(bronc) affects xray (avg_TVD=0.0193). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['either'], do(tub) affects xray (avg_TVD=0.0155). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['either', 'dysp'], do(bronc) affects xray (avg_TVD=0.0212). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['either'], do(lung) affects xray (avg_TVD=0.0136). Link is likely INDIRECT / fully mediated by current set.\n\n\nCurrent Graph (Iteration 1):\n  asia \u2192 tub\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  either \u2192 dysp\n  bronc \u2192 dysp\n\nCurrent Log-Likelihood: -20067.114008542903\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: STRICT VIOLATION: Cannot DELETE tub \u2192 either. Even after conditioning, the effect remains SIGNIFICANT (- RESULT: [SIGNIFICANT] Given ['lung', 'bronc'], do(tub) affects either (avg_TVD=0.1524). Link is likely DIRECT / not fully mediated by current set.).\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: tub\u2192either\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"The interventional evidence suggests that 'tub' may be a direct ancestor of 'xray', as the marginal effect of do(tub) on xray is significant (TVD=0.4198). However, the existing indirect path 'tub \u2192 either \u2192 xray' could explain this effect. To determine whether a direct edge 'tub \u2192 xray' should be added, we must check if the effect of 'tub' on 'xray' remains significant after conditioning on 'either'. The evidence shows that conditioning on 'either' results in a non-significant effect (avg_TVD=0.0155), which suggests that the effect of 'tub' on 'xray' is fully mediated by 'either'. Therefore, the current structure is sufficient, and no direct edge 'tub \u2192 xray' should be added. Similarly, there is no evidence to support direct edges from 'bronc' or 'lung' to 'xray'.\",\n  \"confirmed_edges\": [\"tub \u2192 either\", \"lung \u2192 either\", \"either \u2192 xray\", \"either \u2192 dysp\", \"bronc \u2192 dysp\", \"asia \u2192 tub\", \"smoke \u2192 lung\", \"smoke \u2192 bronc\"],\n  \"edge_notes\": {\n    \"tub \u2192 xray\": \"Effect of 'tub' on 'xray' is likely mediated by 'either'; no direct edge is needed.\"\n  },\n  \"operations\": []\n}"
+    },
+    "log_likelihood": -20067.114008542903,
+    "num_parameters": 43024,
+    "bic": 20067.114008542903,
+    "evaluation_metrics": {
+      "true_positive": 8,
+      "false_positive": 0,
+      "false_negative": 0,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy": 1.0,
+      "shd": 0
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": [
+        "asia"
+      ]
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "lung",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "bronc",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "either"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "either",
+        "bronc"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

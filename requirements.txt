@@ -1,0 +1,23 @@
+# Core Scientific Computing
+numpy>=1.21.0
+pandas>=1.3.0
+
+# Machine Learning & Deep Learning
+torch>=2.0.0
+scikit-learn>=1.0.0
+
+# Causal Discovery
+causal-learn>=0.1.3.0
+
+# Large Language Models
+transformers>=4.30.0
+openai>=1.0.0
+vllm>=0.3.0
+
+# Visualization
+# remember to `install graphviz` in your own system
+pyvis>=0.3.2
+networkx>=3.0
+
+# Other
+toml >= 0.10.2

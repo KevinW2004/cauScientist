@@ -1,0 +1,2959 @@
+[
+  {
+    "iteration": 0,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 0,
+        "num_variables": 11,
+        "num_edges": 10,
+        "reasoning": "In the context of protein signaling networks in human immune cells, the variables represent key kinases, phosphatases, and phospholipids involved in intracellular signaling pathways. Based on domain knowledge, the following relationships are plausible: \n\n1. **Plcg** (Phospholipase C gamma) is a key enzyme that hydrolyzes PIP2 (phosphatidylinositol 4,5-bisphosphate) into IP3 and DAG, so **Plcg \u2192 PIP2** is a direct effect. \n\n2. **PKC** (Protein Kinase C) is activated by DAG, which is a product of Plcg activity. However, the AVICI algorithm suggests **PKC \u2192 PKA**, which is less direct. Given that PKC and PKA can be activated by different pathways, we consider **PKC \u2192 PKA** as a possible direct effect, though it may be influenced by other upstream signals. \n\n3. **PKA** (Protein Kinase A) is known to phosphorylate and activate Jnk and P38, which are members of the MAPK family, so **PKA \u2192 Jnk** and **PKA \u2192 P38** are reasonable direct relationships. \n\n4. **Erk** (Extracellular signal-regulated kinase) is part of the MAPK cascade and is known to phosphorylate and activate Akt, so **Erk \u2192 Akt** is a plausible direct effect. \n\n5. **Raf, Mek, and Erk** are part of the classical MAPK/ERK pathway, so **Raf \u2192 Mek** and **Mek \u2192 Erk** are direct causal relationships. \n\n6. **PIP3** is a downstream product of PI3K activity, but it is not directly mentioned in the AVICI results. Given that PIP2 can be converted to PIP3 through PI3K, and since PIP3 is upstream of Akt, it is likely that **PIP3 \u2192 Akt** is a direct relationship. \n\n7. **Jnk and P38** are stress-activated kinases and are not known to directly regulate other variables in this list, so they are likely to be terminal nodes. \n\n8. **Akt** is downstream of multiple pathways, including Erk and PIP3, so it has multiple parents. \n\nFinally, to ensure the graph is a DAG, we avoid any feedback loops and ensure all edges are unidirectional and based on known biological pathways.",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": null,
+        "proposed_operations": null,
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Generate an initial causal graph hypothesis for the sachs domain.\n\nVariables to analyze:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\n==================================================\n\ud83d\udcca STATISTICAL BASELINE REFERENCE (from traditional methods):\n==================================================\nThe following causal relationships were suggested by traditional algorithms.\nUse them as hints, but rely on your domain knowledge and interventional evidence.\n\n[AVICI Algorithm]:\n  - PKC \u2192 PKA\n  - PKA \u2192 Jnk\n  - PKA \u2192 P38\n  - Erk \u2192 Akt\n  - Plcg \u2192 PIP2\n\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+          "llm_response": "{\n\"reasoning\": \"In the context of protein signaling networks in human immune cells, the variables represent key kinases, phosphatases, and phospholipids involved in intracellular signaling pathways. Based on domain knowledge, the following relationships are plausible: \\n\\n1. **Plcg** (Phospholipase C gamma) is a key enzyme that hydrolyzes PIP2 (phosphatidylinositol 4,5-bisphosphate) into IP3 and DAG, so **Plcg \u2192 PIP2** is a direct effect. \\n\\n2. **PKC** (Protein Kinase C) is activated by DAG, which is a product of Plcg activity. However, the AVICI algorithm suggests **PKC \u2192 PKA**, which is less direct. Given that PKC and PKA can be activated by different pathways, we consider **PKC \u2192 PKA** as a possible direct effect, though it may be influenced by other upstream signals. \\n\\n3. **PKA** (Protein Kinase A) is known to phosphorylate and activate Jnk and P38, which are members of the MAPK family, so **PKA \u2192 Jnk** and **PKA \u2192 P38** are reasonable direct relationships. \\n\\n4. **Erk** (Extracellular signal-regulated kinase) is part of the MAPK cascade and is known to phosphorylate and activate Akt, so **Erk \u2192 Akt** is a plausible direct effect. \\n\\n5. **Raf, Mek, and Erk** are part of the classical MAPK/ERK pathway, so **Raf \u2192 Mek** and **Mek \u2192 Erk** are direct causal relationships. \\n\\n6. **PIP3** is a downstream product of PI3K activity, but it is not directly mentioned in the AVICI results. Given that PIP2 can be converted to PIP3 through PI3K, and since PIP3 is upstream of Akt, it is likely that **PIP3 \u2192 Akt** is a direct relationship. \\n\\n7. **Jnk and P38** are stress-activated kinases and are not known to directly regulate other variables in this list, so they are likely to be terminal nodes. \\n\\n8. **Akt** is downstream of multiple pathways, including Erk and PIP3, so it has multiple parents. \\n\\nFinally, to ensure the graph is a DAG, we avoid any feedback loops and ensure all edges are unidirectional and based on known biological pathways.\",\n\"nodes\": [\n{\n    \"name\": \"Plcg\",\n    \"parents\": []\n},\n{\n    \"name\": \"PKC\",\n    \"parents\": [\"Plcg\"]\n},\n{\n    \"name\": \"PKA\",\n    \"parents\": [\"PKC\"]\n},\n{\n    \"name\": \"Jnk\",\n    \"parents\": [\"PKA\"]\n},\n{\n    \"name\": \"P38\",\n    \"parents\": [\"PKA\"]\n},\n{\n    \"name\": \"Raf\",\n    \"parents\": []\n},\n{\n    \"name\": \"Mek\",\n    \"parents\": [\"Raf\"]\n},\n{\n    \"name\": \"Erk\",\n    \"parents\": [\"Mek\"]\n},\n{\n    \"name\": \"Akt\",\n    \"parents\": [\"Erk\", \"PIP3\"]\n},\n{\n    \"name\": \"PIP3\",\n    \"parents\": [\"PIP2\"]\n},\n{\n    \"name\": \"PIP2\",\n    \"parents\": [\"Plcg\"]\n}\n]\n}"
+        },
+        "log_likelihood": -119481.13401391242,
+        "num_parameters": 63382,
+        "bic": 119481.13401391242,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 3,
+          "false_negative": 10,
+          "true_negative": 101,
+          "precision": 0.7,
+          "recall": 0.4118,
+          "f1_score": 0.5185,
+          "accuracy": 0.8926,
+          "shd": 12
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": [
+            "Plcg"
+          ]
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -119481.13401391242,
+    "current_ll": -119481.13401391242,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 3,
+      "false_negative": 10,
+      "true_negative": 101,
+      "precision": 0.7,
+      "recall": 0.4118,
+      "f1_score": 0.5185,
+      "accuracy": 0.8926,
+      "shd": 12
+    },
+    "results": {
+      "log_likelihood": -119481.13401391242,
+      "bic": 119481.13401391242,
+      "num_edges": 10
+    }
+  },
+  {
+    "iteration": 1,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 1,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "The current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.",
+        "confirmed_edges": [
+          "Plcg -> PIP2",
+          "PIP2 -> PIP3",
+          "Raf -> Mek",
+          "Mek -> Erk",
+          "Erk -> Akt",
+          "PIP3 -> Akt",
+          "PKA -> Jnk",
+          "PKA -> P38"
+        ],
+        "edge_notes": {
+          "Plcg -> PKC": "This edge may be an indirect inference; further validation with interventional data or pathway analysis is needed to confirm a direct causal relationship between Plcg and PKC."
+        },
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [
+            [
+              "Plcg",
+              "PKC"
+            ]
+          ],
+          "num_added": 0,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "Plcg does not directly activate PKC; instead, Plcg hydrolyzes PIP2 into DAG, which activates PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC is not well-supported by domain knowledge and should be removed."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nIn the context of protein signaling networks in human immune cells, the variables represent key kinases, phosphatases, and phospholipids involved in intracellular signaling pathways. Based on domain knowledge, the following relationships are plausible: \n\n1. **Plcg** (Phospholipase C gamma) is a key enzyme that hydrolyzes PIP2 (phosphatidylinositol 4,5-bisphosphate) into IP3 and DAG, so **Plcg \u2192 PIP2** is a direct effect. \n\n2. **PKC** (Protein Kinase C) is activated by DAG, which is a product of Plcg activity. However, the AVICI algorithm suggests **PKC \u2192 PKA**, which is less direct. Given that PKC and PKA can be activated by different pathways, we consider **PKC \u2192 PKA** as a possible direct effect, though it may be influenced by other upstream signals. \n\n3. **PKA** (Protein Kinase A) is known to phosphorylate and activate Jnk and P38, which are members of the MAPK family, so **PKA \u2192 Jnk** and **PKA \u2192 P38** are reasonable direct relationships. \n\n4. **Erk** (Extracellular signal-regulated kinase) is part of the MAPK cascade and is known to phosphorylate and activate Akt, so **Erk \u2192 Akt** is a plausible direct effect. \n\n5. **Raf, Mek, and Erk** are part of the classical MAPK/ERK pathway, so **Raf \u2192 Mek** and **Mek \u2192 Erk** are direct causal relationships. \n\n6. **PIP3** is a downstream product of PI3K activity, but it is not directly mentioned in the AVICI results. Given that PIP2 can be converted to PIP3 through PI3K, and since PIP3 is upstream of Akt, it is likely that **PIP3 \u2192 Akt** is a direct relationship. \n\n7. **Jnk and P38** are stress-activated kinases and are not known to directly regulate other variables in this list, so they are likely to be terminal nodes. \n\n8. **Akt** is downstream of multiple pathways, including Erk and PIP3, so it has multiple parents. \n\nFinally, to ensure the graph is a DAG, we avoid any feedback loops and ensure all edges are unidirectional and based on known biological pathways.\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Plcg \u2192 PKC\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119481.13401391242\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge may be an indirect inference; further validation with interventional data or pathway analysis is needed to confirm a direct causal relationship between Plcg and PKC.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"Plcg does not directly activate PKC; instead, Plcg hydrolyzes PIP2 into DAG, which activates PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC is not well-supported by domain knowledge and should be removed.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -119473.85659733234,
+        "num_parameters": 63382,
+        "bic": 119473.85659733234,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 2,
+          "false_negative": 10,
+          "true_negative": 102,
+          "precision": 0.7778,
+          "recall": 0.4118,
+          "f1_score": 0.5385,
+          "accuracy": 0.9008,
+          "shd": 11
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -119473.85659733234,
+    "current_ll": -119473.85659733234,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 2,
+      "false_negative": 10,
+      "true_negative": 102,
+      "precision": 0.7778,
+      "recall": 0.4118,
+      "f1_score": 0.5385,
+      "accuracy": 0.9008,
+      "shd": 11
+    },
+    "results": {
+      "log_likelihood": -119473.85659733234,
+      "bic": 119473.85659733234,
+      "num_edges": 9
+    }
+  },
+  {
+    "iteration": 2,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 2,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "Plcg does not directly activate PKC. Instead, Plcg hydrolyzes PIP2 into DAG, which is a known activator of PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC is not biologically justified and should be removed."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes the edge 'Plcg \u2192 PKC', which is not directly supported by domain knowledge. Phospholipase C\u03b3 (Plcg) primarily acts on PIP2, hydrolyzing it into IP3 and DAG. DAG is a well-known activator of PKC, but since DAG is not included in the variable set, we cannot directly add this intermediate. Instead, the direct edge from Plcg to PKC should be removed, as it represents an indirect or unverified causal relationship. This change aligns the graph more closely with established signaling pathways in immune cells.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge is not directly supported by domain knowledge; Plcg influences PKC indirectly through PIP2 and DAG, which is not explicitly modeled here.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"Plcg does not directly activate PKC. Instead, Plcg hydrolyzes PIP2 into DAG, which is a known activator of PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC is not biologically justified and should be removed.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 3,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 3,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg acts on PIP2, which leads to the production of DAG, a known activator of PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC should be removed to better reflect the actual signaling cascade."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' which is not well-supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which then activates PKC. Since DAG is not in the variable list, we cannot explicitly model this pathway. However, the edge 'Plcg \u2192 PKC' is likely an indirect inference and should be removed to improve alignment with known signaling mechanisms. This change should help refine the graph to better reflect the true causal structure of the sachs domain.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge may represent an indirect or inferred relationship rather than a direct causal one. Further experimental validation is needed to confirm or refute this connection.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg acts on PIP2, which leads to the production of DAG, a known activator of PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC should be removed to better reflect the actual signaling cascade.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 4,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 4,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg activates PKC indirectly through PIP2 hydrolysis into DAG, which is not present in the variable set. Removing this edge better aligns the graph with known signaling pathways."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' that is not directly supported by domain knowledge. Phospholipase C gamma (Plcg) primarily hydrolyzes PIP2 into IP3 and DAG, which are second messengers. DAG is a known activator of PKC, but since DAG is not in the current variable set, we cannot directly add an edge from DAG to PKC. However, the direct edge from Plcg to PKC is not biologically justified and should be removed. This change aligns the graph with known signaling pathways and removes an unsupported edge.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge is not directly supported by domain knowledge; Plcg's effect on PKC is indirect through PIP2 hydrolysis and DAG (not in variable set).\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg activates PKC indirectly through PIP2 hydrolysis into DAG, which is not present in the variable set. Removing this edge better aligns the graph with known signaling pathways.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 5,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 5,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "Plcg does not directly activate PKC. Instead, Plcg hydrolyzes PIP2 into DAG, which activates PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC is not biologically justified and should be removed."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph contains an edge 'Plcg \u2192 PKC', which is not directly supported by domain knowledge. Phospholipase C gamma (Plcg) primarily catalyzes the hydrolysis of PIP2 into IP3 and DAG, which are second messengers. DAG is a well-known activator of PKC, but since DAG is not present in the variable list, we cannot explicitly model this pathway. However, the existing edges 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' are well-supported and should remain. Therefore, the edge 'Plcg \u2192 PKC' should be removed to better reflect the known signaling cascade.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge is likely an indirect inference and does not align with known biochemical pathways. It should be removed to better reflect the true causal structure.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"Plcg does not directly activate PKC. Instead, Plcg hydrolyzes PIP2 into DAG, which activates PKC. Since DAG is not in the variable list, the direct edge from Plcg to PKC is not biologically justified and should be removed.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 6,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 6,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg primarily affects PIP2, and PKC activation is mediated through DAG, which is not included in the current variable set. Removing this edge better reflects the known signaling cascade."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 4: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' which is not directly supported by domain knowledge. Based on the sachs domain context, Plcg primarily acts on PIP2, leading to downstream effects, and PKC is activated via DAG, which is not present in the variable list. Therefore, removing the edge 'Plcg \u2192 PKC' is necessary to align the graph with known signaling pathways. This change should improve the model's fidelity to biological mechanisms.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge may be an indirect inference and lacks direct biological support; further validation with experimental data is needed.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg primarily affects PIP2, and PKC activation is mediated through DAG, which is not included in the current variable set. Removing this edge better reflects the known signaling cascade.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 7,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 7,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg influences PKC indirectly via PIP2 hydrolysis into DAG, which is not included in the variable list. Removing this edge improves alignment with known signaling pathways."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 4: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' that is not directly supported by domain knowledge. Based on biological understanding, Plcg hydrolyzes PIP2 into IP3 and DAG, which are known to activate PKC indirectly. Since DAG is not in the variable list, the most plausible refinement is to remove the unsupported edge 'Plcg \u2192 PKC' and retain the well-supported edges 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3'. This change aligns with the known signaling cascade and avoids introducing biologically implausible direct effects.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"PKC -> PKA\": \"This edge is currently present but lacks strong domain support; further experimental validation is needed to confirm its directionality.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg influences PKC indirectly via PIP2 hydrolysis into DAG, which is not included in the variable list. Removing this edge improves alignment with known signaling pathways.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 8,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 8,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg primarily affects PIP2, not PKC directly. This edge likely represents an indirect or inferred relationship that should be removed to improve the graph's biological accuracy."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 4: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 6: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' that is not directly supported by domain knowledge. Based on biological understanding, Plcg primarily acts on PIP2, not directly on PKC. Instead, Plcg hydrolyzes PIP2 into IP3 and DAG, with DAG being a known activator of PKC. However, since DAG is not part of the variable set, we cannot explicitly model this intermediate step. Therefore, the most appropriate local refinement is to remove the unsupported edge 'Plcg \u2192 PKC' to align the graph with established signaling pathways.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge is likely an indirect inference and not directly supported by domain knowledge. Removal is necessary for accuracy.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg primarily affects PIP2, not PKC directly. This edge likely represents an indirect or inferred relationship that should be removed to improve the graph's biological accuracy.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 9,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 9,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg influences PKC indirectly through the hydrolysis of PIP2 into DAG, which is not present in the current variable set. Removing this edge improves the alignment of the graph with known signaling pathways."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 4: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 6: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 7: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' that is not well-supported by domain knowledge. Phospholipase C gamma (Plcg) primarily catalyzes the hydrolysis of PIP2 into IP3 and DAG, which are second messengers. DAG is a known activator of PKC, but since DAG is not included in the variable set, we cannot directly add an edge from DAG to PKC. However, we can remove the unsupported edge 'Plcg \u2192 PKC' and retain the well-supported edges 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3'. This refinement better aligns with established signaling pathways in immune cells.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge lacks direct experimental support; removal is proposed based on domain knowledge of signaling cascades.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not directly supported by domain knowledge. Plcg influences PKC indirectly through the hydrolysis of PIP2 into DAG, which is not present in the current variable set. Removing this edge improves the alignment of the graph with known signaling pathways.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 10,
+    "graph": {
+      "metadata": {
+        "domain": "sachs",
+        "iteration": 10,
+        "num_variables": 11,
+        "num_edges": 9,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "DELETE",
+            "parent": "Plcg",
+            "child": "PKC",
+            "reasoning": "The edge 'Plcg \u2192 PKC' is not supported by domain knowledge. Plcg primarily affects PIP2, not PKC directly. Removing this edge improves the graph's alignment with known signaling pathways in immune cells."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'Plcg \u2192 PKC', which may not be directly supported by domain knowledge. Plcg primarily affects PIP2 by hydrolyzing it into IP3 and DAG, which in turn activates PKC. Thus, the direct edge from Plcg to PKC may be an indirect inference. Reversing this edge to 'PKC \u2192 Plcg' is not biologically plausible, but removing it and adding a more direct pathway (e.g., DAG \u2192 PKC) would better align with known signaling cascades. However, since DAG is not in the current variable list, we will instead remove the edge 'Plcg \u2192 PKC' and keep the existing 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' edges, which are well-supported by domain knowledge.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - Plcg -> PIP2\n  - PIP2 -> PIP3\n  - Raf -> Mek\n  - Mek -> Erk\n  - Erk -> Akt\n  - PIP3 -> Akt\n  - PKA -> Jnk\n  - PKA -> P38\n\n\n\n\nCurrent Graph (Iteration 1):\n  PKC \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  PIP3 \u2192 Akt\n  PIP2 \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -119473.85659733234\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 2: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 3: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 4: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 5: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 6: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 7: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\nAttempt 8: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the sachs domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC, Plcg\u2192PKC\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes an edge 'Plcg \u2192 PKC' that is not well-supported by domain knowledge. Phospholipase C gamma (Plcg) primarily acts on PIP2, converting it into IP3 and DAG. DAG is a known activator of PKC, but since DAG is not part of the variable set, we cannot directly model this pathway. However, the existing edges 'Plcg \u2192 PIP2' and 'PIP2 \u2192 PIP3' are well-established and supported. Therefore, removing the unsupported edge 'Plcg \u2192 PKC' would better align the graph with known signaling mechanisms in immune cells.\",\n  \"confirmed_edges\": [\n    \"Plcg -> PIP2\",\n    \"PIP2 -> PIP3\",\n    \"Raf -> Mek\",\n    \"Mek -> Erk\",\n    \"Erk -> Akt\",\n    \"PIP3 -> Akt\",\n    \"PKA -> Jnk\",\n    \"PKA -> P38\"\n  ],\n  \"edge_notes\": {\n    \"Plcg -> PKC\": \"This edge is not well-supported by domain knowledge. Plcg does not directly activate PKC; instead, it affects PIP2, which indirectly influences PKC through DAG (not in the variable list).\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Plcg\",\n      \"child\": \"PKC\",\n      \"reasoning\": \"The edge 'Plcg \u2192 PKC' is not supported by domain knowledge. Plcg primarily affects PIP2, not PKC directly. Removing this edge improves the graph's alignment with known signaling pathways in immune cells.\"\n    }\n  ]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Plcg",
+          "parents": []
+        },
+        {
+          "name": "PKC",
+          "parents": []
+        },
+        {
+          "name": "PKA",
+          "parents": [
+            "PKC"
+          ]
+        },
+        {
+          "name": "Jnk",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "P38",
+          "parents": [
+            "PKA"
+          ]
+        },
+        {
+          "name": "Raf",
+          "parents": []
+        },
+        {
+          "name": "Mek",
+          "parents": [
+            "Raf"
+          ]
+        },
+        {
+          "name": "Erk",
+          "parents": [
+            "Mek"
+          ]
+        },
+        {
+          "name": "Akt",
+          "parents": [
+            "Erk",
+            "PIP3"
+          ]
+        },
+        {
+          "name": "PIP3",
+          "parents": [
+            "PIP2"
+          ]
+        },
+        {
+          "name": "PIP2",
+          "parents": [
+            "Plcg"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -119473.85659733234,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: DELETE operation failed: edge Plcg \u2192 PKC not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "DELETE operation failed: edge Plcg \u2192 PKC not in valid operations"
+      ]
+    }
+  }
+]

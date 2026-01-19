@@ -1,0 +1,125 @@
+{
+  "metadata": {
+    "domain": "cancer",
+    "iteration": 2,
+    "num_variables": 5,
+    "num_edges": 8,
+    "reasoning": "Based on the interventional evidence, the edge Pollution \u2192 Xray is likely indirect and mediated by Cancer, as the effect of do(Pollution) on Xray becomes non-significant when Cancer is conditioned on. This supports the deletion of the Pollution \u2192 Xray edge. The other candidate operations (Smoker \u2192 Xray and Xray \u2192 Dyspnoea) are not supported by the evidence, as the effect of do(Smoker) on Xray remains significant, and do(Xray) on Dyspnoea is not significant. Thus, only the deletion of Pollution \u2192 Xray is justified under the strict evidence-first policy.",
+    "confirmed_edges": [
+      "Cancer -> Xray",
+      "Cancer -> Dyspnoea"
+    ],
+    "edge_notes": {
+      "Smoker -> Xray": "The effect of do(Smoker) on Xray remains significant, suggesting the link is not fully mediated and should be retained for now.",
+      "Xray -> Dyspnoea": "The effect of do(Xray) on Dyspnoea is not significant, suggesting this edge may not be valid and requires further investigation."
+    },
+    "changes": {
+      "added_edges": [],
+      "removed_edges": [
+        [
+          "Pollution",
+          "Xray"
+        ]
+      ],
+      "num_added": 0,
+      "num_removed": 1
+    },
+    "proposed_operations": [
+      {
+        "type": "DELETE",
+        "parent": "Pollution",
+        "child": "Xray",
+        "reasoning": "The interventional evidence shows that do(Pollution) affects Xray only when Cancer is not conditioned on, suggesting the link is mediated by Cancer and not a direct causal relationship."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and cancer domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the cancer domain.\n\nVariables:\n- Pollution\n- Smoker\n- Cancer\n- Xray\n- Dyspnoea\n\n\nDomain Context:\nLung cancer risk factors.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current causal graph includes several edges from Pollution and Smoker to Xray and Dyspnoea, as well as from Cancer to Xray and Dyspnoea. Based on the tentative notes, the relationships Cancer \u2192 Xray and Cancer \u2192 Dyspnoea are supported by experimental evidence and cannot be deleted. However, some of the other edges may be over-specified or indirect. For example, the edges Pollution \u2192 Xray and Smoker \u2192 Xray may be mediated by Cancer, or the effect of Pollution and Smoker on Xray and Dyspnoea may be confounded by other variables. Additionally, there may be missing direct causal relationships, such as between Xray and Dyspnoea, which could be a confounder in the current setup. We propose three candidate operations to refine the graph: (1) delete the edge Pollution \u2192 Xray, (2) delete the edge Smoker \u2192 Xray, and (3) add the edge Xray \u2192 Dyspnoea. These operations are prioritized based on the need to reduce over-specification and to ensure all direct causal relationships are explicitly modeled.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. DELETE: Pollution \u2192 Xray (Reasoning: The edge Pollution \u2192 Xray may be an indirect effect mediated by Cancer. If Cancer is a mediator, then the direct effect of Pollution on Xray may not exist once Cancer is accounted for.)\n2. DELETE: Smoker \u2192 Xray (Reasoning: Similar to the Pollution \u2192 Xray edge, the Smoker \u2192 Xray edge may be mediated by Cancer. If Cancer is a mediator, the direct effect of Smoker on Xray may be spurious.)\n3. ADD: Xray \u2192 Dyspnoea (Reasoning: Xray may directly influence Dyspnoea, for example, if a positive Xray result leads to increased awareness or treatment that affects breathing symptoms. This direct effect may be missing in the current graph.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- RESULT: [NOT SIGNIFICANT] do(Pollution) affects Smoker (TVD=0.0060). This CONTRADICTS existence / SUPPORTS deletion.\n- RESULT: [SIGNIFICANT] Given ['Smoker', 'Pollution'], do(Cancer) affects Xray (avg_TVD=0.2882). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['Smoker', 'Pollution', 'Xray'], do(Cancer) affects Dyspnoea (avg_TVD=0.1729). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] Given ['Cancer'], do(Pollution) affects Xray (avg_TVD=0.0524). Link is likely INDIRECT / fully mediated by current set.\n- RESULT: [SIGNIFICANT] Given ['Cancer'], do(Smoker) affects Xray (avg_TVD=0.1364). Link is likely DIRECT / not fully mediated by current set.\n- RESULT: [NOT SIGNIFICANT] do(Xray) affects Dyspnoea (TVD=0.0040). This CONTRADICTS existence / SUPPORTS deletion.\n\n\nCurrent Graph (Iteration 1):\n  Pollution \u2192 Cancer\n  Smoker \u2192 Cancer\n  Pollution \u2192 Xray\n  Smoker \u2192 Xray\n  Cancer \u2192 Xray\n  Pollution \u2192 Dyspnoea\n  Smoker \u2192 Dyspnoea\n  Cancer \u2192 Dyspnoea\n  Xray \u2192 Dyspnoea\n\nCurrent Log-Likelihood: -17988.964539562676\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"Based on the interventional evidence, the edge Pollution \u2192 Xray is likely indirect and mediated by Cancer, as the effect of do(Pollution) on Xray becomes non-significant when Cancer is conditioned on. This supports the deletion of the Pollution \u2192 Xray edge. The other candidate operations (Smoker \u2192 Xray and Xray \u2192 Dyspnoea) are not supported by the evidence, as the effect of do(Smoker) on Xray remains significant, and do(Xray) on Dyspnoea is not significant. Thus, only the deletion of Pollution \u2192 Xray is justified under the strict evidence-first policy.\",\n  \"confirmed_edges\": [\"Cancer -> Xray\", \"Cancer -> Dyspnoea\"],\n  \"edge_notes\": {\n    \"Smoker -> Xray\": \"The effect of do(Smoker) on Xray remains significant, suggesting the link is not fully mediated and should be retained for now.\",\n    \"Xray -> Dyspnoea\": \"The effect of do(Xray) on Dyspnoea is not significant, suggesting this edge may not be valid and requires further investigation.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"DELETE\",\n      \"parent\": \"Pollution\",\n      \"child\": \"Xray\",\n      \"reasoning\": \"The interventional evidence shows that do(Pollution) affects Xray only when Cancer is not conditioned on, suggesting the link is mediated by Cancer and not a direct causal relationship.\"\n    }\n  ]\n}"
+    },
+    "log_likelihood": -17961.16498333449,
+    "num_parameters": 24970,
+    "bic": 17961.16498333449,
+    "evaluation_metrics": {
+      "true_positive": 4,
+      "false_positive": 4,
+      "false_negative": 0,
+      "true_negative": 17,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "accuracy": 0.84,
+      "shd": 4
+    }
+  },
+  "nodes": [
+    {
+      "name": "Pollution",
+      "parents": []
+    },
+    {
+      "name": "Smoker",
+      "parents": []
+    },
+    {
+      "name": "Cancer",
+      "parents": [
+        "Pollution",
+        "Smoker"
+      ]
+    },
+    {
+      "name": "Xray",
+      "parents": [
+        "Smoker",
+        "Cancer"
+      ]
+    },
+    {
+      "name": "Dyspnoea",
+      "parents": [
+        "Pollution",
+        "Smoker",
+        "Cancer",
+        "Xray"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

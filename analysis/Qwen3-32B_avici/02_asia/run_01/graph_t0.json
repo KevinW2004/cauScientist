@@ -1,0 +1,162 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 0,
+    "num_variables": 8,
+    "num_edges": 8,
+    "reasoning": "In the Asia domain, the focus is on diagnosing tuberculosis (tub) and related respiratory conditions. The key variables are as follows: 'asia' refers to the patient being from Asia; 'tub' indicates tuberculosis; 'smoke' indicates smoking history; 'lung' indicates lung cancer; 'bronc' indicates bronchitis; 'either' is a logical OR of 'tub' and 'lung'; 'xray' is the result of a chest X-ray; and 'dysp' is dyspnea (shortness of breath).\n\n1. 'asia' is a root node (no direct causes). It may influence the likelihood of 'tub' due to geographical prevalence.\n2. 'smoke' is a root node. It directly increases the risk of 'lung' and 'bronc'.\n3. 'tub' is caused by 'asia' (as a risk factor) and may also be independent due to other factors.\n4. 'lung' is caused by 'smoke' as smoking is a known cause of lung cancer.\n5. 'bronc' is caused by 'smoke' as smoking is a known cause of bronchitis.\n6. 'either' is a logical OR of 'tub' and 'lung', so it has both as direct causes.\n7. 'xray' is influenced by 'either' because chest X-rays are used to detect either tuberculosis or lung cancer.\n8. 'dysp' is influenced by both 'either' (as both conditions can cause shortness of breath) and 'bronc' (since bronchitis can also lead to dyspnea).",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": null,
+    "proposed_operations": null,
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Generate an initial causal graph hypothesis for the asia domain.\n\nVariables to analyze:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+      "llm_response": "{\n\"reasoning\": \"In the Asia domain, the focus is on diagnosing tuberculosis (tub) and related respiratory conditions. The key variables are as follows: 'asia' refers to the patient being from Asia; 'tub' indicates tuberculosis; 'smoke' indicates smoking history; 'lung' indicates lung cancer; 'bronc' indicates bronchitis; 'either' is a logical OR of 'tub' and 'lung'; 'xray' is the result of a chest X-ray; and 'dysp' is dyspnea (shortness of breath).\\n\\n1. 'asia' is a root node (no direct causes). It may influence the likelihood of 'tub' due to geographical prevalence.\\n2. 'smoke' is a root node. It directly increases the risk of 'lung' and 'bronc'.\\n3. 'tub' is caused by 'asia' (as a risk factor) and may also be independent due to other factors.\\n4. 'lung' is caused by 'smoke' as smoking is a known cause of lung cancer.\\n5. 'bronc' is caused by 'smoke' as smoking is a known cause of bronchitis.\\n6. 'either' is a logical OR of 'tub' and 'lung', so it has both as direct causes.\\n7. 'xray' is influenced by 'either' because chest X-rays are used to detect either tuberculosis or lung cancer.\\n8. 'dysp' is influenced by both 'either' (as both conditions can cause shortness of breath) and 'bronc' (since bronchitis can also lead to dyspnea).\",\n\"nodes\": [\n{\n    \"name\": \"asia\",\n    \"parents\": []\n},\n{\n    \"name\": \"tub\",\n    \"parents\": [\"asia\"]\n},\n{\n    \"name\": \"smoke\",\n    \"parents\": []\n},\n{\n    \"name\": \"lung\",\n    \"parents\": [\"smoke\"]\n},\n{\n    \"name\": \"bronc\",\n    \"parents\": [\"smoke\"]\n},\n{\n    \"name\": \"either\",\n    \"parents\": [\"tub\", \"lung\"]\n},\n{\n    \"name\": \"xray\",\n    \"parents\": [\"either\"]\n},\n{\n    \"name\": \"dysp\",\n    \"parents\": [\"either\", \"bronc\"]\n}\n]\n}"
+    },
+    "log_likelihood": -4072.747483434154,
+    "num_parameters": 43024,
+    "bic": 4072.747483434154,
+    "evaluation_metrics": {
+      "true_positive": 8,
+      "false_positive": 0,
+      "false_negative": 0,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy": 1.0,
+      "shd": 0
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": [
+        "asia"
+      ]
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "lung",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "bronc",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "either"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "either",
+        "bronc"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

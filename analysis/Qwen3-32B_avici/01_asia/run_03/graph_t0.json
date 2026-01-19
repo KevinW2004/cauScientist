@@ -1,0 +1,162 @@
+{
+  "metadata": {
+    "domain": "asia",
+    "iteration": 0,
+    "num_variables": 8,
+    "num_edges": 8,
+    "reasoning": "The asia domain is related to diagnosing tuberculosis (tub) and other lung-related conditions in a patient, with variables such as smoking (smoke), lung cancer (lung), bronchitis (bronc), and symptoms like dyspnea (dysp) and chest x-ray findings (xray). The variable 'asia' is typically used to represent a patient's country of origin (Asia), which is associated with a higher risk of tuberculosis. \n\n1. **asia \u2192 tub**: Tuberculosis is more prevalent in certain regions like Asia, so 'asia' is a risk factor for 'tub'.\n2. **smoke \u2192 lung**: Smoking is a known risk factor for lung cancer.\n3. **smoke \u2192 bronc**: Smoking is also a major cause of bronchitis.\n4. **tub \u2192 either**: If a patient has tuberculosis, it contributes to the 'either' condition (either tuberculosis or lung cancer).\n5. **lung \u2192 either**: Lung cancer also contributes to the 'either' condition.\n6. **either \u2192 xray**: Chest x-ray findings are diagnostic for 'either' condition (tuberculosis or lung cancer).\n7. **either \u2192 dysp**: Both tuberculosis and lung cancer can cause dyspnea.\n8. **bronc \u2192 dysp**: Bronchitis is a common cause of dyspnea.\n\nThe structure avoids cycles and is based on medical knowledge of how these conditions interact. 'asia' is a root node since it's a background variable, while 'xray' and 'dysp' are leaf nodes as they are outcomes or symptoms.",
+    "confirmed_edges": [],
+    "edge_notes": {},
+    "changes": null,
+    "proposed_operations": null,
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Generate an initial causal graph hypothesis for the asia domain.\n\nVariables to analyze:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\n==================================================\n\ud83d\udcca STATISTICAL BASELINE REFERENCE (from traditional methods):\n==================================================\nThe following causal relationships were suggested by traditional algorithms.\nUse them as hints, but rely on your domain knowledge and interventional evidence.\n\n[AVICI Algorithm]:\n  - tub \u2192 either\n  - lung \u2192 either\n  - either \u2192 xray\n  - bronc \u2192 dysp\n  - either \u2192 dysp\n\n\n\n\n\n\n\nInstructions:\n1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure\n2. For each variable, determine its DIRECT CAUSES (parent variables)\n3. Consider only direct causal relationships\n4. Ensure the graph is a DAG (no cycles) - this is critical\n5. Base reasoning on domain knowledge and temporal ordering\n\nOutput Format (IMPORTANT - use this exact structure):\n{\n\"reasoning\": \"Step-by-step reasoning about the causal structure before proposing the graph. Explain your thought process, domain knowledge, and why certain relationships exist or don't exist.\",\n\"nodes\": [\n{\n    \"name\": \"VariableName1\",\n    \"parents\": [\"ParentVar1\", \"ParentVar2\"]\n},\n{\n    \"name\": \"VariableName2\",\n    \"parents\": []\n}\n]\n}\n\nCRITICAL: \n- Put \"reasoning\" FIRST before \"nodes\" to encourage thinking before outputting\n- Use \"nodes\" as a LIST (not a dictionary)\n- Each node must have \"name\" and \"parents\" fields\n- \"parents\" must be a list (use [] for root nodes)\n- Output ONLY valid JSON",
+      "llm_response": "{\n\"reasoning\": \"The asia domain is related to diagnosing tuberculosis (tub) and other lung-related conditions in a patient, with variables such as smoking (smoke), lung cancer (lung), bronchitis (bronc), and symptoms like dyspnea (dysp) and chest x-ray findings (xray). The variable 'asia' is typically used to represent a patient's country of origin (Asia), which is associated with a higher risk of tuberculosis. \\n\\n1. **asia \u2192 tub**: Tuberculosis is more prevalent in certain regions like Asia, so 'asia' is a risk factor for 'tub'.\\n2. **smoke \u2192 lung**: Smoking is a known risk factor for lung cancer.\\n3. **smoke \u2192 bronc**: Smoking is also a major cause of bronchitis.\\n4. **tub \u2192 either**: If a patient has tuberculosis, it contributes to the 'either' condition (either tuberculosis or lung cancer).\\n5. **lung \u2192 either**: Lung cancer also contributes to the 'either' condition.\\n6. **either \u2192 xray**: Chest x-ray findings are diagnostic for 'either' condition (tuberculosis or lung cancer).\\n7. **either \u2192 dysp**: Both tuberculosis and lung cancer can cause dyspnea.\\n8. **bronc \u2192 dysp**: Bronchitis is a common cause of dyspnea.\\n\\nThe structure avoids cycles and is based on medical knowledge of how these conditions interact. 'asia' is a root node since it's a background variable, while 'xray' and 'dysp' are leaf nodes as they are outcomes or symptoms.\",\n\"nodes\": [\n{\n    \"name\": \"asia\",\n    \"parents\": []\n},\n{\n    \"name\": \"tub\",\n    \"parents\": [\"asia\"]\n},\n{\n    \"name\": \"smoke\",\n    \"parents\": []\n},\n{\n    \"name\": \"lung\",\n    \"parents\": [\"smoke\"]\n},\n{\n    \"name\": \"bronc\",\n    \"parents\": [\"smoke\"]\n},\n{\n    \"name\": \"either\",\n    \"parents\": [\"tub\", \"lung\"]\n},\n{\n    \"name\": \"xray\",\n    \"parents\": [\"either\"]\n},\n{\n    \"name\": \"dysp\",\n    \"parents\": [\"either\", \"bronc\"]\n}\n]\n}"
+    },
+    "log_likelihood": -20067.114008542903,
+    "num_parameters": 43024,
+    "bic": 20067.114008542903,
+    "evaluation_metrics": {
+      "true_positive": 8,
+      "false_positive": 0,
+      "false_negative": 0,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy": 1.0,
+      "shd": 0
+    }
+  },
+  "nodes": [
+    {
+      "name": "asia",
+      "parents": []
+    },
+    {
+      "name": "tub",
+      "parents": [
+        "asia"
+      ]
+    },
+    {
+      "name": "smoke",
+      "parents": []
+    },
+    {
+      "name": "lung",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "bronc",
+      "parents": [
+        "smoke"
+      ]
+    },
+    {
+      "name": "either",
+      "parents": [
+        "tub",
+        "lung"
+      ]
+    },
+    {
+      "name": "xray",
+      "parents": [
+        "either"
+      ]
+    },
+    {
+      "name": "dysp",
+      "parents": [
+        "either",
+        "bronc"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

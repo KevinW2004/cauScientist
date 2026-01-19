@@ -1,0 +1,1663 @@
+[
+  {
+    "iteration": 0,
+    "graph": {
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "tub",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "smoke",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "lung",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "bronc",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ],
+          "weight": {
+            "tub": 0.9966194,
+            "lung": 0.9904353
+          }
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ],
+          "weight": {
+            "either": 0.9970227
+          }
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either"
+          ],
+          "weight": {
+            "bronc": 0.9233922,
+            "either": 0.87944955
+          }
+        }
+      ],
+      "metadata": {
+        "num_variables": 8,
+        "num_edges": 5,
+        "iteration": 0,
+        "log_likelihood": -20653.721204298246,
+        "num_parameters": 43024,
+        "bic": 20653.721204298246,
+        "evaluation_metrics": {
+          "true_positive": 5,
+          "false_positive": 0,
+          "false_negative": 3,
+          "true_negative": 56,
+          "precision": 1.0,
+          "recall": 0.625,
+          "f1_score": 0.7692,
+          "accuracy": 0.9531,
+          "shd": 3
+        }
+      },
+      "weighted_matrix": [
+        [
+          0.0,
+          0.00015654307,
+          8.600501e-05,
+          4.6858146e-05,
+          1.6370228e-05,
+          1.2780566e-05,
+          6.288392e-07,
+          1.5544472e-06
+        ],
+        [
+          3.520649e-05,
+          0.0,
+          4.293643e-05,
+          0.00016171049,
+          3.9982086e-07,
+          5.2551975e-08,
+          4.9629384e-10,
+          2.5845129e-08
+        ],
+        [
+          0.010733187,
+          0.003307904,
+          0.0,
+          0.013540344,
+          0.00024405822,
+          0.00045130626,
+          0.00012235942,
+          6.7081004e-05
+        ],
+        [
+          4.114613e-06,
+          8.3460574e-05,
+          3.300878e-05,
+          0.0,
+          6.191014e-08,
+          1.56545e-08,
+          2.1586691e-10,
+          4.6419144e-09
+        ],
+        [
+          0.0004959469,
+          0.0061588204,
+          0.027579738,
+          0.07298949,
+          0.0,
+          0.0009722015,
+          4.287129e-05,
+          0.0005659693
+        ],
+        [
+          6.032065e-06,
+          0.9966194,
+          8.505687e-05,
+          0.9904353,
+          3.3704112e-07,
+          0.0,
+          8.663938e-09,
+          1.2787905e-07
+        ],
+        [
+          0.00013385306,
+          0.0005653824,
+          4.2331514e-05,
+          0.00037575103,
+          5.2099746e-05,
+          0.9970227,
+          0.0,
+          9.550691e-06
+        ],
+        [
+          0.00013122568,
+          0.013786076,
+          0.0014179249,
+          0.011630388,
+          0.9233922,
+          0.87944955,
+          0.0002977663,
+          0.0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -20653.721204298246,
+    "current_ll": -20653.721204298246,
+    "metrics": {
+      "true_positive": 5,
+      "false_positive": 0,
+      "false_negative": 3,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 0.625,
+      "f1_score": 0.7692,
+      "accuracy": 0.9531,
+      "shd": 3
+    },
+    "results": {
+      "log_likelihood": -20653.721204298246,
+      "bic": 20653.721204298246,
+      "num_edges": 5
+    }
+  },
+  {
+    "iteration": 1,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 1,
+        "num_variables": 8,
+        "num_edges": 6,
+        "reasoning": "The current graph lacks a direct causal link between 'smoke' and 'lung', which is a well-established relationship in the asia domain. Smoking is a known risk factor for lung cancer and lung disease, so adding this edge would better reflect the causal mechanism underlying the domain. This change is supported by domain knowledge and is likely to improve the model's fit.",
+        "confirmed_edges": [
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "bronc -> dysp",
+          "either -> dysp"
+        ],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [
+            [
+              "smoke",
+              "lung"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "smoke",
+            "child": "lung",
+            "reasoning": "Smoking is a direct cause of lung disease, which is a key causal relationship in the asia domain. Adding this edge aligns with medical knowledge and is expected to improve the model's accuracy."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20653.721204298246\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph lacks a direct causal link between 'smoke' and 'lung', which is a well-established relationship in the asia domain. Smoking is a known risk factor for lung cancer and lung disease, so adding this edge would better reflect the causal mechanism underlying the domain. This change is supported by domain knowledge and is likely to improve the model's fit.\",\n  \"confirmed_edges\": [\"tub -> either\", \"lung -> either\", \"either -> xray\", \"bronc -> dysp\", \"either -> dysp\"],\n  \"edge_notes\": {},\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"smoke\",\n      \"child\": \"lung\",\n      \"reasoning\": \"Smoking is a direct cause of lung disease, which is a key causal relationship in the asia domain. Adding this edge aligns with medical knowledge and is expected to improve the model's accuracy.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -20496.964254270668,
+        "num_parameters": 43024,
+        "bic": 20496.964254270668,
+        "evaluation_metrics": {
+          "true_positive": 6,
+          "false_positive": 0,
+          "false_negative": 2,
+          "true_negative": 56,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1_score": 0.8571,
+          "accuracy": 0.9688,
+          "shd": 2
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": []
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -20496.964254270668,
+    "current_ll": -20496.964254270668,
+    "metrics": {
+      "true_positive": 6,
+      "false_positive": 0,
+      "false_negative": 2,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1_score": 0.8571,
+      "accuracy": 0.9688,
+      "shd": 2
+    },
+    "results": {
+      "log_likelihood": -20496.964254270668,
+      "bic": 20496.964254270668,
+      "num_edges": 6
+    }
+  },
+  {
+    "iteration": 2,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 2,
+        "num_variables": 8,
+        "num_edges": 7,
+        "reasoning": "The current graph includes the edge 'smoke \u2192 lung', which aligns with domain knowledge that smoking is a risk factor for lung disease. However, this edge may not be sufficient to capture the full causal mechanism, as smoking can also influence bronchitis (bronc) directly. Adding a direct causal link from 'smoke' to 'bronc' would better reflect the known health effects of smoking, such as its role in causing chronic bronchitis. This addition is supported by medical literature and would likely improve the model's fit by capturing additional pathways in the causal structure.",
+        "confirmed_edges": [
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "bronc -> dysp",
+          "either -> dysp",
+          "smoke -> lung"
+        ],
+        "edge_notes": {
+          "smoke -> bronc": "This edge is tentative and requires further validation through interventional data or expert consultation to confirm the direct causal effect of smoking on bronchitis."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "smoke",
+              "bronc"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "smoke",
+            "child": "bronc",
+            "reasoning": "Smoking is a known cause of bronchitis, and adding this edge better reflects the causal mechanism of how smoking contributes to respiratory diseases beyond lung cancer."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph lacks a direct causal link between 'smoke' and 'lung', which is a well-established relationship in the asia domain. Smoking is a known risk factor for lung cancer and lung disease, so adding this edge would better reflect the causal mechanism underlying the domain. This change is supported by domain knowledge and is likely to improve the model's fit.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n\n\n\n\nCurrent Graph (Iteration 1):\n  smoke \u2192 lung\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20496.964254270668\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes the edge 'smoke \u2192 lung', which aligns with domain knowledge that smoking is a risk factor for lung disease. However, this edge may not be sufficient to capture the full causal mechanism, as smoking can also influence bronchitis (bronc) directly. Adding a direct causal link from 'smoke' to 'bronc' would better reflect the known health effects of smoking, such as its role in causing chronic bronchitis. This addition is supported by medical literature and would likely improve the model's fit by capturing additional pathways in the causal structure.\",\n  \"confirmed_edges\": [\n    \"tub -> either\",\n    \"lung -> either\",\n    \"either -> xray\",\n    \"bronc -> dysp\",\n    \"either -> dysp\",\n    \"smoke -> lung\"\n  ],\n  \"edge_notes\": {\n    \"smoke -> bronc\": \"This edge is tentative and requires further validation through interventional data or expert consultation to confirm the direct causal effect of smoking on bronchitis.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"smoke\",\n      \"child\": \"bronc\",\n      \"reasoning\": \"Smoking is a known cause of bronchitis, and adding this edge better reflects the causal mechanism of how smoking contributes to respiratory diseases beyond lung cancer.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -20100.311722043993,
+        "num_parameters": 43024,
+        "bic": 20100.311722043993,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 0,
+          "false_negative": 1,
+          "true_negative": 56,
+          "precision": 1.0,
+          "recall": 0.875,
+          "f1_score": 0.9333,
+          "accuracy": 0.9844,
+          "shd": 1
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -20100.311722043993,
+    "current_ll": -20100.311722043993,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 0,
+      "false_negative": 1,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1_score": 0.9333,
+      "accuracy": 0.9844,
+      "shd": 1
+    },
+    "results": {
+      "log_likelihood": -20100.311722043993,
+      "bic": 20100.311722043993,
+      "num_edges": 7
+    }
+  },
+  {
+    "iteration": 3,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 3,
+        "num_variables": 8,
+        "num_edges": 7,
+        "reasoning": "The current graph already includes the edge 'smoke \u2192 lung', which is well-supported by domain knowledge. However, based on the experimental intent and reasoning, the edge 'smoke \u2192 bronc' has been added in the current graph. This aligns with medical understanding that smoking is a known cause of bronchitis. Since this addition is supported by both domain knowledge and the intent to improve the model, it should be confirmed as a direct causal relationship. No further local amendments are necessary at this stage, as the graph appears to capture the key causal pathways related to tuberculosis diagnosis.",
+        "confirmed_edges": [
+          "smoke -> lung",
+          "smoke -> bronc",
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "bronc -> dysp",
+          "either -> dysp"
+        ],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph includes the edge 'smoke \u2192 lung', which aligns with domain knowledge that smoking is a risk factor for lung disease. However, this edge may not be sufficient to capture the full causal mechanism, as smoking can also influence bronchitis (bronc) directly. Adding a direct causal link from 'smoke' to 'bronc' would better reflect the known health effects of smoking, such as its role in causing chronic bronchitis. This addition is supported by medical literature and would likely improve the model's fit by capturing additional pathways in the causal structure.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n  - smoke -> lung\n\n\n\n\nCurrent Graph (Iteration 2):\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20100.311722043993\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph already includes the edge 'smoke \u2192 lung', which is well-supported by domain knowledge. However, based on the experimental intent and reasoning, the edge 'smoke \u2192 bronc' has been added in the current graph. This aligns with medical understanding that smoking is a known cause of bronchitis. Since this addition is supported by both domain knowledge and the intent to improve the model, it should be confirmed as a direct causal relationship. No further local amendments are necessary at this stage, as the graph appears to capture the key causal pathways related to tuberculosis diagnosis.\",\n  \"confirmed_edges\": [\"smoke -> lung\", \"smoke -> bronc\", \"tub -> either\", \"lung -> either\", \"either -> xray\", \"bronc -> dysp\", \"either -> dysp\"],\n  \"edge_notes\": {},\n  \"operations\": []\n}"
+        },
+        "log_likelihood": -20100.311722043993,
+        "num_parameters": 43024,
+        "bic": 20100.311722043993,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 0,
+          "false_negative": 1,
+          "true_negative": 56,
+          "precision": 1.0,
+          "recall": 0.875,
+          "f1_score": 0.9333,
+          "accuracy": 0.9844,
+          "shd": 1
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -20100.311722043993,
+    "current_ll": -20100.311722043993,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 0,
+      "false_negative": 1,
+      "true_negative": 56,
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1_score": 0.9333,
+      "accuracy": 0.9844,
+      "shd": 1
+    },
+    "results": {
+      "log_likelihood": -20100.311722043993,
+      "bic": 20100.311722043993,
+      "num_edges": 7
+    }
+  },
+  {
+    "iteration": 4,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 4,
+        "num_variables": 8,
+        "num_edges": 8,
+        "reasoning": "The current causal graph appears to capture the essential causal relationships in the asia domain, including the direct effects of smoking on both lung and bronchitis, the contribution of tuberculosis and lung disease to the 'either' variable, and the downstream effects on xray and dysp. However, there is a potential missing direct causal link between 'tub' and 'xray', as tuberculosis can directly influence the outcome of an X-ray. This relationship is plausible and could improve the log-likelihood by better capturing the direct diagnostic pathway.",
+        "confirmed_edges": [
+          "smoke -> lung",
+          "smoke -> bronc",
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "bronc -> dysp",
+          "either -> dysp"
+        ],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [
+            [
+              "tub",
+              "xray"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "tub",
+            "child": "xray",
+            "reasoning": "Tuberculosis can directly affect the results of an X-ray, so adding the edge 'tub -> xray' aligns with domain knowledge and may improve the model's accuracy in capturing diagnostic pathways."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph already includes the edge 'smoke \u2192 lung', which is well-supported by domain knowledge. However, based on the experimental intent and reasoning, the edge 'smoke \u2192 bronc' has been added in the current graph. This aligns with medical understanding that smoking is a known cause of bronchitis. Since this addition is supported by both domain knowledge and the intent to improve the model, it should be confirmed as a direct causal relationship. No further local amendments are necessary at this stage, as the graph appears to capture the key causal pathways related to tuberculosis diagnosis.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - smoke -> lung\n  - smoke -> bronc\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n\n\n\n\nCurrent Graph (Iteration 3):\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20100.311722043993\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current causal graph appears to capture the essential causal relationships in the asia domain, including the direct effects of smoking on both lung and bronchitis, the contribution of tuberculosis and lung disease to the 'either' variable, and the downstream effects on xray and dysp. However, there is a potential missing direct causal link between 'tub' and 'xray', as tuberculosis can directly influence the outcome of an X-ray. This relationship is plausible and could improve the log-likelihood by better capturing the direct diagnostic pathway.\",\n  \"confirmed_edges\": [\n    \"smoke -> lung\",\n    \"smoke -> bronc\",\n    \"tub -> either\",\n    \"lung -> either\",\n    \"either -> xray\",\n    \"bronc -> dysp\",\n    \"either -> dysp\"\n  ],\n  \"edge_notes\": {},\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"tub\",\n      \"child\": \"xray\",\n      \"reasoning\": \"Tuberculosis can directly affect the results of an X-ray, so adding the edge 'tub -> xray' aligns with domain knowledge and may improve the model's accuracy in capturing diagnostic pathways.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -20113.458693494573,
+        "num_parameters": 43024,
+        "bic": 20113.458693494573,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 1,
+          "false_negative": 1,
+          "true_negative": 55,
+          "precision": 0.875,
+          "recall": 0.875,
+          "f1_score": 0.875,
+          "accuracy": 0.9688,
+          "shd": 2
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either",
+            "tub"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -20100.311722043993,
+    "current_ll": -20113.458693494573,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 1,
+      "false_negative": 1,
+      "true_negative": 55,
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1_score": 0.875,
+      "accuracy": 0.9688,
+      "shd": 2
+    },
+    "results": {
+      "log_likelihood": -20113.458693494573,
+      "bic": 20113.458693494573,
+      "num_edges": 8
+    },
+    "rejection_reason": "LL too low: -20113.4587, proposed operations: [('ADD', 'tub', 'xray')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "tub",
+        "xray"
+      ]
+    ]
+  },
+  {
+    "iteration": 5,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 5,
+        "num_variables": 8,
+        "num_edges": 7,
+        "reasoning": "The current graph includes well-supported edges such as 'smoke \u2192 lung' and 'smoke \u2192 bronc', which are consistent with medical knowledge. The confirmed relationships already capture key pathways like 'either \u2192 xray' and 'either \u2192 dysp', which are central to the diagnostic process. However, the edge 'bronc \u2192 dysp' may be worth reevaluating, as dyspnea (dysp) can be caused by multiple factors, including both bronchitis and other conditions like lung disease or tuberculosis. Reversing this edge could test whether dysp is a more upstream condition or if bronchitis is a consequence of dysp, which may not align with clinical understanding. Thus, a reversal is a strategic local refinement to explore this relationship further.",
+        "confirmed_edges": [
+          "smoke -> lung",
+          "smoke -> bronc",
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "either -> dysp"
+        ],
+        "edge_notes": {
+          "bronc -> dysp": "Need to test whether bronchitis is a direct cause of dyspnea or if dyspnea is a more upstream condition. This edge is tentative and could be reversed based on further analysis."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "dysp",
+              "bronc"
+            ]
+          ],
+          "removed_edges": [
+            [
+              "bronc",
+              "dysp"
+            ]
+          ],
+          "num_added": 1,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "REVERSE",
+            "parent": "bronc",
+            "child": "dysp",
+            "reasoning": "Dyspnea (dysp) is a symptom that can arise from multiple conditions, including lung disease, bronchitis, and tuberculosis. Reversing 'bronc \u2192 dysp' to 'dysp \u2192 bronc' would test whether dyspnea is a more upstream condition that leads to bronchitis, which may not align with clinical knowledge. This operation is a local refinement to explore the directionality of this relationship."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph already includes the edge 'smoke \u2192 lung', which is well-supported by domain knowledge. However, based on the experimental intent and reasoning, the edge 'smoke \u2192 bronc' has been added in the current graph. This aligns with medical understanding that smoking is a known cause of bronchitis. Since this addition is supported by both domain knowledge and the intent to improve the model, it should be confirmed as a direct causal relationship. No further local amendments are necessary at this stage, as the graph appears to capture the key causal pathways related to tuberculosis diagnosis.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - smoke -> lung\n  - smoke -> bronc\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n\n\n\n\nCurrent Graph (Iteration 3):\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20100.311722043993\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -20113.4587, proposed operations: [('ADD', 'tub', 'xray')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: tub\u2192xray\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes well-supported edges such as 'smoke \u2192 lung' and 'smoke \u2192 bronc', which are consistent with medical knowledge. The confirmed relationships already capture key pathways like 'either \u2192 xray' and 'either \u2192 dysp', which are central to the diagnostic process. However, the edge 'bronc \u2192 dysp' may be worth reevaluating, as dyspnea (dysp) can be caused by multiple factors, including both bronchitis and other conditions like lung disease or tuberculosis. Reversing this edge could test whether dysp is a more upstream condition or if bronchitis is a consequence of dysp, which may not align with clinical understanding. Thus, a reversal is a strategic local refinement to explore this relationship further.\",\n  \"confirmed_edges\": [\n    \"smoke -> lung\",\n    \"smoke -> bronc\",\n    \"tub -> either\",\n    \"lung -> either\",\n    \"either -> xray\",\n    \"either -> dysp\"\n  ],\n  \"edge_notes\": {\n    \"bronc -> dysp\": \"Need to test whether bronchitis is a direct cause of dyspnea or if dyspnea is a more upstream condition. This edge is tentative and could be reversed based on further analysis.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"REVERSE\",\n      \"parent\": \"bronc\",\n      \"child\": \"dysp\",\n      \"reasoning\": \"Dyspnea (dysp) is a symptom that can arise from multiple conditions, including lung disease, bronchitis, and tuberculosis. Reversing 'bronc \u2192 dysp' to 'dysp \u2192 bronc' would test whether dyspnea is a more upstream condition that leads to bronchitis, which may not align with clinical knowledge. This operation is a local refinement to explore the directionality of this relationship.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -20947.666849378587,
+        "num_parameters": 43024,
+        "bic": 20947.666849378587,
+        "evaluation_metrics": {
+          "true_positive": 6,
+          "false_positive": 1,
+          "false_negative": 2,
+          "true_negative": 55,
+          "precision": 0.8571,
+          "recall": 0.75,
+          "f1_score": 0.8,
+          "accuracy": 0.9531,
+          "shd": 2
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": [
+            "smoke",
+            "dysp"
+          ]
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "either"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -20100.311722043993,
+    "current_ll": -20947.666849378587,
+    "metrics": {
+      "true_positive": 6,
+      "false_positive": 1,
+      "false_negative": 2,
+      "true_negative": 55,
+      "precision": 0.8571,
+      "recall": 0.75,
+      "f1_score": 0.8,
+      "accuracy": 0.9531,
+      "shd": 2
+    },
+    "results": {
+      "log_likelihood": -20947.666849378587,
+      "bic": 20947.666849378587,
+      "num_edges": 7
+    },
+    "rejection_reason": "LL too low: -20947.6668, proposed operations: [('REVERSE', 'bronc', 'dysp')]",
+    "proposed_operations": [
+      [
+        "REVERSE",
+        "bronc",
+        "dysp"
+      ]
+    ]
+  },
+  {
+    "iteration": 6,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 6,
+        "num_variables": 8,
+        "num_edges": 8,
+        "reasoning": "The current graph already includes well-supported edges such as 'smoke \u2192 lung' and 'smoke \u2192 bronc', which are grounded in medical knowledge. The confirmed relationships include 'bronc \u2192 dysp' and 'either \u2192 dysp', which suggest that both bronchitis and the presence of either tuberculosis or lung cancer can independently contribute to dyspnea. However, it is unclear whether there is a direct causal relationship between 'tub' and 'dysp' that might be missing. Adding this edge could potentially improve the model's ability to capture the full causal structure related to dyspnea, especially in the context of tuberculosis diagnosis.",
+        "confirmed_edges": [
+          "smoke -> lung",
+          "smoke -> bronc",
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "bronc -> dysp",
+          "either -> dysp"
+        ],
+        "edge_notes": {
+          "tub -> dysp": "Need to test whether tuberculosis directly causes dyspnea, independent of 'either'."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "tub",
+              "dysp"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "tub",
+            "child": "dysp",
+            "reasoning": "Tuberculosis can directly lead to dyspnea (shortness of breath) due to lung involvement. Including this edge may better capture the direct causal pathway from tuberculosis to dyspnea, improving the model's accuracy."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph already includes the edge 'smoke \u2192 lung', which is well-supported by domain knowledge. However, based on the experimental intent and reasoning, the edge 'smoke \u2192 bronc' has been added in the current graph. This aligns with medical understanding that smoking is a known cause of bronchitis. Since this addition is supported by both domain knowledge and the intent to improve the model, it should be confirmed as a direct causal relationship. No further local amendments are necessary at this stage, as the graph appears to capture the key causal pathways related to tuberculosis diagnosis.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - smoke -> lung\n  - smoke -> bronc\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n\n\n\n\nCurrent Graph (Iteration 3):\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20100.311722043993\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -20113.4587, proposed operations: [('ADD', 'tub', 'xray')]\nAttempt 2: LL too low: -20947.6668, proposed operations: [('REVERSE', 'bronc', 'dysp')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: tub\u2192xray; REVERSE: bronc\u2192dysp\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph already includes well-supported edges such as 'smoke \u2192 lung' and 'smoke \u2192 bronc', which are grounded in medical knowledge. The confirmed relationships include 'bronc \u2192 dysp' and 'either \u2192 dysp', which suggest that both bronchitis and the presence of either tuberculosis or lung cancer can independently contribute to dyspnea. However, it is unclear whether there is a direct causal relationship between 'tub' and 'dysp' that might be missing. Adding this edge could potentially improve the model's ability to capture the full causal structure related to dyspnea, especially in the context of tuberculosis diagnosis.\",\n  \"confirmed_edges\": [\n    \"smoke -> lung\",\n    \"smoke -> bronc\",\n    \"tub -> either\",\n    \"lung -> either\",\n    \"either -> xray\",\n    \"bronc -> dysp\",\n    \"either -> dysp\"\n  ],\n  \"edge_notes\": {\n    \"tub -> dysp\": \"Need to test whether tuberculosis directly causes dyspnea, independent of 'either'.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"tub\",\n      \"child\": \"dysp\",\n      \"reasoning\": \"Tuberculosis can directly lead to dyspnea (shortness of breath) due to lung involvement. Including this edge may better capture the direct causal pathway from tuberculosis to dyspnea, improving the model's accuracy.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -20133.814250684292,
+        "num_parameters": 43024,
+        "bic": 20133.814250684292,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 1,
+          "false_negative": 1,
+          "true_negative": 55,
+          "precision": 0.875,
+          "recall": 0.875,
+          "f1_score": 0.875,
+          "accuracy": 0.9688,
+          "shd": 2
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either",
+            "tub"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -20100.311722043993,
+    "current_ll": -20133.814250684292,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 1,
+      "false_negative": 1,
+      "true_negative": 55,
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1_score": 0.875,
+      "accuracy": 0.9688,
+      "shd": 2
+    },
+    "results": {
+      "log_likelihood": -20133.814250684292,
+      "bic": 20133.814250684292,
+      "num_edges": 8
+    },
+    "rejection_reason": "LL too low: -20133.8143, proposed operations: [('ADD', 'tub', 'dysp')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "tub",
+        "dysp"
+      ]
+    ]
+  },
+  {
+    "iteration": 7,
+    "graph": {
+      "metadata": {
+        "domain": "asia",
+        "iteration": 7,
+        "num_variables": 8,
+        "num_edges": 8,
+        "reasoning": "The current graph includes the edge 'either \u2192 dysp', which may be conflating the effects of both lung and bronchitis on dyspnea. However, based on domain knowledge, dyspnea (difficulty breathing) is a symptom that can arise from either lung disease (e.g., lung cancer) or bronchitis. Therefore, it is plausible that both 'lung \u2192 dysp' and 'bronc \u2192 dysp' are direct causes of dyspnea, and 'either \u2192 dysp' may be a redundant or conflated pathway. Adding 'lung \u2192 dysp' would better reflect the direct causal relationship between lung disease and dyspnea.",
+        "confirmed_edges": [
+          "smoke -> lung",
+          "smoke -> bronc",
+          "tub -> either",
+          "lung -> either",
+          "either -> xray",
+          "bronc -> dysp"
+        ],
+        "edge_notes": {
+          "either -> dysp": "This edge may be redundant if both lung and bronc directly cause dysp. Further testing is needed to confirm whether 'either' is a necessary mediator or if it can be removed in favor of direct paths from lung and bronc to dysp."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "lung",
+              "dysp"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "lung",
+            "child": "dysp",
+            "reasoning": "Dyspnea is a known symptom of lung disease, so adding 'lung \u2192 dysp' aligns with medical understanding and may improve the model's ability to capture direct causal effects."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and asia domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the asia domain.\n\nVariables:\n- asia\n- tub\n- smoke\n- lung\n- bronc\n- either\n- xray\n- dysp\n\n\nDomain Context:\nTuberculosis diagnosis.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current graph already includes the edge 'smoke \u2192 lung', which is well-supported by domain knowledge. However, based on the experimental intent and reasoning, the edge 'smoke \u2192 bronc' has been added in the current graph. This aligns with medical understanding that smoking is a known cause of bronchitis. Since this addition is supported by both domain knowledge and the intent to improve the model, it should be confirmed as a direct causal relationship. No further local amendments are necessary at this stage, as the graph appears to capture the key causal pathways related to tuberculosis diagnosis.\n\n\n\ud83d\udcdc CAUSAL DOSSIER (Accumulated Knowledge):\nConfirmed Relationships (Highly certain):\n  - smoke -> lung\n  - smoke -> bronc\n  - tub -> either\n  - lung -> either\n  - either -> xray\n  - bronc -> dysp\n  - either -> dysp\n\n\n\n\nCurrent Graph (Iteration 3):\n  smoke \u2192 lung\n  smoke \u2192 bronc\n  tub \u2192 either\n  lung \u2192 either\n  either \u2192 xray\n  bronc \u2192 dysp\n  either \u2192 dysp\n\nCurrent Log-Likelihood: -20100.311722043993\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -20113.4587, proposed operations: [('ADD', 'tub', 'xray')]\nAttempt 2: LL too low: -20947.6668, proposed operations: [('REVERSE', 'bronc', 'dysp')]\nAttempt 3: LL too low: -20133.8143, proposed operations: [('ADD', 'tub', 'dysp')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the asia domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: tub\u2192xray, tub\u2192dysp; REVERSE: bronc\u2192dysp\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n  \"overall_reasoning\": \"The current graph includes the edge 'either \u2192 dysp', which may be conflating the effects of both lung and bronchitis on dyspnea. However, based on domain knowledge, dyspnea (difficulty breathing) is a symptom that can arise from either lung disease (e.g., lung cancer) or bronchitis. Therefore, it is plausible that both 'lung \u2192 dysp' and 'bronc \u2192 dysp' are direct causes of dyspnea, and 'either \u2192 dysp' may be a redundant or conflated pathway. Adding 'lung \u2192 dysp' would better reflect the direct causal relationship between lung disease and dyspnea.\",\n  \"confirmed_edges\": [\n    \"smoke -> lung\",\n    \"smoke -> bronc\",\n    \"tub -> either\",\n    \"lung -> either\",\n    \"either -> xray\",\n    \"bronc -> dysp\"\n  ],\n  \"edge_notes\": {\n    \"either -> dysp\": \"This edge may be redundant if both lung and bronc directly cause dysp. Further testing is needed to confirm whether 'either' is a necessary mediator or if it can be removed in favor of direct paths from lung and bronc to dysp.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"lung\",\n      \"child\": \"dysp\",\n      \"reasoning\": \"Dyspnea is a known symptom of lung disease, so adding 'lung \u2192 dysp' aligns with medical understanding and may improve the model's ability to capture direct causal effects.\"\n    }\n  ]\n}"
+        },
+        "log_likelihood": -20131.085550046475,
+        "num_parameters": 43024,
+        "bic": 20131.085550046475,
+        "evaluation_metrics": {
+          "true_positive": 7,
+          "false_positive": 1,
+          "false_negative": 1,
+          "true_negative": 55,
+          "precision": 0.875,
+          "recall": 0.875,
+          "f1_score": 0.875,
+          "accuracy": 0.9688,
+          "shd": 2
+        }
+      },
+      "nodes": [
+        {
+          "name": "asia",
+          "parents": []
+        },
+        {
+          "name": "tub",
+          "parents": []
+        },
+        {
+          "name": "smoke",
+          "parents": []
+        },
+        {
+          "name": "lung",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "bronc",
+          "parents": [
+            "smoke"
+          ]
+        },
+        {
+          "name": "either",
+          "parents": [
+            "tub",
+            "lung"
+          ]
+        },
+        {
+          "name": "xray",
+          "parents": [
+            "either"
+          ]
+        },
+        {
+          "name": "dysp",
+          "parents": [
+            "bronc",
+            "either",
+            "lung"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -20100.311722043993,
+    "current_ll": -20131.085550046475,
+    "metrics": {
+      "true_positive": 7,
+      "false_positive": 1,
+      "false_negative": 1,
+      "true_negative": 55,
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1_score": 0.875,
+      "accuracy": 0.9688,
+      "shd": 2
+    },
+    "results": {
+      "log_likelihood": -20131.085550046475,
+      "bic": 20131.085550046475,
+      "num_edges": 8
+    },
+    "rejection_reason": "LL too low: -20131.0856, proposed operations: [('ADD', 'lung', 'dysp')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "lung",
+        "dysp"
+      ]
+    ]
+  }
+]

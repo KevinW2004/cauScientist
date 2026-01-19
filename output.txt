@@ -1,0 +1,906 @@
+============================================================
+RUNNING SCORE FUNCTION VALIDATION
+============================================================
+
+>>> 正在启动鲁棒性验证实验: asia (重复次数=5)
+  Found asia at row 2 in real.csv
+  变量类型: discrete (Device: cuda)
+
+[1] 计算基准: Ground Truth (100 epochs)...
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 100 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9742
+[Model Fitting] BIC Score = 4072.7475
+[Model Fitting] Number of Parameters = 43024
+    Base GT BIC: 4072.75
+
+[2] 开始扰动测试 (每种模式 5 次)...
+  测试模式: remove...
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.3409
+[Model Fitting] BIC Score = 4799.1931
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 1/5: Delta BIC = 726.45
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0100
+[Model Fitting] BIC Score = 4137.4213
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 2/5: Delta BIC = 64.67
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0663
+[Model Fitting] BIC Score = 4243.1153
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 3/5: Delta BIC = 170.37
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0018
+[Model Fitting] BIC Score = 4120.9642
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 4/5: Delta BIC = 48.22
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9780
+[Model Fitting] BIC Score = 4073.4305
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 5/5: Delta BIC = 0.68
+  测试模式: add...
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9750
+[Model Fitting] BIC Score = 4081.2929
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 1/5: Delta BIC = 8.55
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9718
+[Model Fitting] BIC Score = 4095.5810
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 2/5: Delta BIC = 22.83
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9751
+[Model Fitting] BIC Score = 4081.4772
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 3/5: Delta BIC = 8.73
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9750
+[Model Fitting] BIC Score = 4102.0324
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 4/5: Delta BIC = 29.28
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9686
+[Model Fitting] BIC Score = 4089.2072
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 5/5: Delta BIC = 16.46
+  测试模式: reverse...
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0715
+[Model Fitting] BIC Score = 4267.3350
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 1/5: Delta BIC = 194.59
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9769
+[Model Fitting] BIC Score = 4078.1329
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 2/5: Delta BIC = 5.39
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0715
+[Model Fitting] BIC Score = 4267.2820
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 3/5: Delta BIC = 194.53
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9772
+[Model Fitting] BIC Score = 4078.7769
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 4/5: Delta BIC = 6.03
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9858
+[Model Fitting] BIC Score = 4095.8729
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 5/5: Delta BIC = 23.13
+  测试模式: shuffle...
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.9517
+[Model Fitting] BIC Score = 6027.7176
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 1/5: Delta BIC = 1954.97
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.9534
+[Model Fitting] BIC Score = 6031.0455
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 2/5: Delta BIC = 1958.30
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.6468
+[Model Fitting] BIC Score = 5417.8801
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 3/5: Delta BIC = 1345.13
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.9511
+[Model Fitting] BIC Score = 6026.4702
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 4/5: Delta BIC = 1953.72
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -3.0467
+[Model Fitting] BIC Score = 6217.7982
+[Model Fitting] Number of Parameters = 43024
+    - Repeat 5/5: Delta BIC = 2145.05
+
+================================================================================
+鲁棒性验证汇总结果 (asia)
+================================================================================
+Perturbation Mode  Avg Delta BIC  Std Dev  Min Delta  Max Delta
+           remove         202.08   267.99       0.68     726.45
+              add          17.17     8.06       8.55      29.28
+          reverse          84.73    89.90       5.39     194.59
+          shuffle        1871.43   273.19    1345.13    2145.05
+
+✅ 验证通过：在所有重复实验中，真实图的 BIC 始终优于扰动图！
+
+>>> 正在启动渐进式扰动实验: asia (max_steps=10, n_repeats=5)
+  Found asia at row 2 in real.csv
+  变量类型: discrete (Device: cuda)
+
+[1] 计算基准: Ground Truth (100 epochs)...
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 100 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9742
+[Model Fitting] BIC Score = 4072.7475
+[Model Fitting] Number of Parameters = 43024
+
+[2] 开始渐进式扰动轨迹...
+  轨迹 1/5:
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9859
+[Model Fitting] BIC Score = 4096.1578
+[Model Fitting] Number of Parameters = 43024
+    Step 1: SHD=2, Delta BIC=23.41
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9854
+[Model Fitting] BIC Score = 4101.9958
+[Model Fitting] Number of Parameters = 43024
+    Step 2: SHD=3, Delta BIC=29.25
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0101
+[Model Fitting] BIC Score = 4144.5074
+[Model Fitting] Number of Parameters = 43024
+    Step 3: SHD=2, Delta BIC=71.76
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.2147
+[Model Fitting] BIC Score = 4539.9426
+[Model Fitting] Number of Parameters = 43024
+    Step 4: SHD=3, Delta BIC=467.20
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.2151
+[Model Fitting] BIC Score = 4554.5421
+[Model Fitting] Number of Parameters = 43024
+    Step 5: SHD=4, Delta BIC=481.79
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.2137
+[Model Fitting] BIC Score = 4558.5736
+[Model Fitting] Number of Parameters = 43024
+    Step 6: SHD=5, Delta BIC=485.83
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5800
+[Model Fitting] BIC Score = 5312.0129
+[Model Fitting] Number of Parameters = 43024
+    Step 7: SHD=7, Delta BIC=1239.27
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4730
+[Model Fitting] BIC Score = 5104.8270
+[Model Fitting] Number of Parameters = 43024
+    Step 8: SHD=8, Delta BIC=1032.08
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4971
+[Model Fitting] BIC Score = 5146.2562
+[Model Fitting] Number of Parameters = 43024
+    Step 9: SHD=9, Delta BIC=1073.51
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4977
+[Model Fitting] BIC Score = 5133.4788
+[Model Fitting] Number of Parameters = 43024
+    Step 10: SHD=8, Delta BIC=1060.73
+  轨迹 2/5:
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9746
+[Model Fitting] BIC Score = 4080.5314
+[Model Fitting] Number of Parameters = 43024
+    Step 1: SHD=1, Delta BIC=7.78
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9743
+[Model Fitting] BIC Score = 4093.7154
+[Model Fitting] Number of Parameters = 43024
+    Step 2: SHD=2, Delta BIC=20.97
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9755
+[Model Fitting] BIC Score = 4089.2330
+[Model Fitting] Number of Parameters = 43024
+    Step 3: SHD=1, Delta BIC=16.49
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9730
+[Model Fitting] BIC Score = 4097.9805
+[Model Fitting] Number of Parameters = 43024
+    Step 4: SHD=2, Delta BIC=25.23
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0076
+[Model Fitting] BIC Score = 4153.2604
+[Model Fitting] Number of Parameters = 43024
+    Step 5: SHD=3, Delta BIC=80.51
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0890
+[Model Fitting] BIC Score = 4316.1222
+[Model Fitting] Number of Parameters = 43024
+    Step 6: SHD=5, Delta BIC=243.37
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0875
+[Model Fitting] BIC Score = 4326.9985
+[Model Fitting] Number of Parameters = 43024
+    Step 7: SHD=6, Delta BIC=254.25
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1128
+[Model Fitting] BIC Score = 4363.8264
+[Model Fitting] Number of Parameters = 43024
+    Step 8: SHD=7, Delta BIC=291.08
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1128
+[Model Fitting] BIC Score = 4384.4858
+[Model Fitting] Number of Parameters = 43024
+    Step 9: SHD=7, Delta BIC=311.74
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1137
+[Model Fitting] BIC Score = 4400.1199
+[Model Fitting] Number of Parameters = 43024
+    Step 10: SHD=8, Delta BIC=327.37
+  轨迹 3/5:
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1814
+[Model Fitting] BIC Score = 4487.1788
+[Model Fitting] Number of Parameters = 43024
+    Step 1: SHD=2, Delta BIC=414.43
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5456
+[Model Fitting] BIC Score = 5208.5926
+[Model Fitting] Number of Parameters = 43024
+    Step 2: SHD=3, Delta BIC=1135.85
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5454
+[Model Fitting] BIC Score = 5215.2391
+[Model Fitting] Number of Parameters = 43024
+    Step 3: SHD=4, Delta BIC=1142.49
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5486
+[Model Fitting] BIC Score = 5221.4680
+[Model Fitting] Number of Parameters = 43024
+    Step 4: SHD=6, Delta BIC=1148.72
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5834
+[Model Fitting] BIC Score = 5284.2762
+[Model Fitting] Number of Parameters = 43024
+    Step 5: SHD=7, Delta BIC=1211.53
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5823
+[Model Fitting] BIC Score = 5295.8725
+[Model Fitting] Number of Parameters = 43024
+    Step 6: SHD=8, Delta BIC=1223.13
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5820
+[Model Fitting] BIC Score = 5308.9909
+[Model Fitting] Number of Parameters = 43024
+    Step 7: SHD=9, Delta BIC=1236.24
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.6065
+[Model Fitting] BIC Score = 5351.0848
+[Model Fitting] Number of Parameters = 43024
+    Step 8: SHD=10, Delta BIC=1278.34
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4999
+[Model Fitting] BIC Score = 5144.8249
+[Model Fitting] Number of Parameters = 43024
+    Step 9: SHD=11, Delta BIC=1072.08
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5663
+[Model Fitting] BIC Score = 5291.5016
+[Model Fitting] Number of Parameters = 43024
+    Step 10: SHD=13, Delta BIC=1218.75
+  轨迹 4/5:
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9781
+[Model Fitting] BIC Score = 4080.6303
+[Model Fitting] Number of Parameters = 43024
+    Step 1: SHD=2, Delta BIC=7.88
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0022
+[Model Fitting] BIC Score = 4121.8054
+[Model Fitting] Number of Parameters = 43024
+    Step 2: SHD=3, Delta BIC=49.06
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0004
+[Model Fitting] BIC Score = 4111.3438
+[Model Fitting] Number of Parameters = 43024
+    Step 3: SHD=2, Delta BIC=38.60
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0941
+[Model Fitting] BIC Score = 4284.9710
+[Model Fitting] Number of Parameters = 43024
+    Step 4: SHD=3, Delta BIC=212.22
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.0326
+[Model Fitting] BIC Score = 4175.7640
+[Model Fitting] Number of Parameters = 43024
+    Step 5: SHD=4, Delta BIC=103.02
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.3994
+[Model Fitting] BIC Score = 4929.9567
+[Model Fitting] Number of Parameters = 43024
+    Step 6: SHD=6, Delta BIC=857.21
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.3999
+[Model Fitting] BIC Score = 4937.8601
+[Model Fitting] Number of Parameters = 43024
+    Step 7: SHD=7, Delta BIC=865.11
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.3981
+[Model Fitting] BIC Score = 4941.2746
+[Model Fitting] Number of Parameters = 43024
+    Step 8: SHD=8, Delta BIC=868.53
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.5155
+[Model Fitting] BIC Score = 5148.4935
+[Model Fitting] Number of Parameters = 43024
+    Step 9: SHD=9, Delta BIC=1075.75
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4995
+[Model Fitting] BIC Score = 5144.0515
+[Model Fitting] Number of Parameters = 43024
+    Step 10: SHD=10, Delta BIC=1071.30
+  轨迹 5/5:
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -1.9734
+[Model Fitting] BIC Score = 4098.7213
+[Model Fitting] Number of Parameters = 43024
+    Step 1: SHD=1, Delta BIC=25.97
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.3383
+[Model Fitting] BIC Score = 4849.3034
+[Model Fitting] Number of Parameters = 43024
+    Step 2: SHD=3, Delta BIC=776.56
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.3416
+[Model Fitting] BIC Score = 4855.9119
+[Model Fitting] Number of Parameters = 43024
+    Step 3: SHD=5, Delta BIC=783.16
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4150
+[Model Fitting] BIC Score = 4988.9689
+[Model Fitting] Number of Parameters = 43024
+    Step 4: SHD=7, Delta BIC=916.22
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4149
+[Model Fitting] BIC Score = 4981.6925
+[Model Fitting] Number of Parameters = 43024
+    Step 5: SHD=6, Delta BIC=908.95
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4144
+[Model Fitting] BIC Score = 4994.6512
+[Model Fitting] Number of Parameters = 43024
+    Step 6: SHD=7, Delta BIC=921.90
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.4118
+[Model Fitting] BIC Score = 5017.0699
+[Model Fitting] Number of Parameters = 43024
+    Step 7: SHD=8, Delta BIC=944.32
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1796
+[Model Fitting] BIC Score = 4545.6259
+[Model Fitting] Number of Parameters = 43024
+    Step 8: SHD=6, Delta BIC=472.88
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1834
+[Model Fitting] BIC Score = 4567.1367
+[Model Fitting] Number of Parameters = 43024
+    Step 9: SHD=7, Delta BIC=494.39
+[Model Fitting] Variable type: discrete -> is_categorical=True
+
+[Model Fitting] Training ENCO-based model for 50 epochs...
+[Model Fitting] Using intervention information: 889/1000 samples have interventions
+[SimpleCausalModel] Detected num_categs from data: 2
+[SimpleCausalModel] Variable states: [2, 2, 2, 2, 2, 2, 2, 2]
+[Model] Using categorical model with 2 categories
+[Model Fitting] Using categorical data (no standardization)
+[Model Fitting] Final Log-Likelihood F_t = -2.1833
+[Model Fitting] BIC Score = 4546.2794
+[Model Fitting] Number of Parameters = 43024
+    Step 10: SHD=7, Delta BIC=473.53
+
+Pearson 相关系数 (SHD vs Delta BIC): 0.7531
+
+✅ 散点图已保存至: progressive_check_result.png

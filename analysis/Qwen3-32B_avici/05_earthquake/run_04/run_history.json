@@ -1,0 +1,710 @@
+[
+  {
+    "iteration": 0,
+    "graph": {
+      "nodes": [
+        {
+          "name": "Burglary",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "Earthquake",
+          "parents": [],
+          "weight": {}
+        },
+        {
+          "name": "Alarm",
+          "parents": [
+            "Burglary",
+            "Earthquake"
+          ],
+          "weight": {
+            "Burglary": 0.9672634,
+            "Earthquake": 0.5685036
+          }
+        },
+        {
+          "name": "JohnCalls",
+          "parents": [
+            "Alarm"
+          ],
+          "weight": {
+            "Alarm": 0.9999584
+          }
+        },
+        {
+          "name": "MaryCalls",
+          "parents": [
+            "Alarm"
+          ],
+          "weight": {
+            "Alarm": 0.9999771
+          }
+        }
+      ],
+      "metadata": {
+        "num_variables": 5,
+        "num_edges": 4,
+        "iteration": 0,
+        "log_likelihood": -1153.7223472539326,
+        "num_parameters": 24970,
+        "bic": 1153.7223472539326,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 0,
+          "false_negative": 0,
+          "true_negative": 21,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "accuracy": 1.0,
+          "shd": 0
+        }
+      },
+      "weighted_matrix": [
+        [
+          0.0,
+          5.017731e-06,
+          2.260823e-08,
+          8.6739e-11,
+          4.711218e-10
+        ],
+        [
+          0.00096351095,
+          0.0,
+          1.6571457e-07,
+          5.5161538e-09,
+          2.7748726e-08
+        ],
+        [
+          0.9672634,
+          0.5685036,
+          0.0,
+          8.487038e-08,
+          2.9091552e-07
+        ],
+        [
+          0.0069531254,
+          4.241114e-06,
+          0.9999584,
+          0.0,
+          0.00012775637
+        ],
+        [
+          0.11434024,
+          4.115842e-06,
+          0.9999771,
+          7.3980766e-05,
+          0.0
+        ]
+      ]
+    },
+    "accepted": true,
+    "best_ll": -1153.7223472539326,
+    "current_ll": -1153.7223472539326,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 0,
+      "false_negative": 0,
+      "true_negative": 21,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy": 1.0,
+      "shd": 0
+    },
+    "results": {
+      "log_likelihood": -1153.7223472539326,
+      "bic": 1153.7223472539326,
+      "num_edges": 4
+    }
+  },
+  {
+    "iteration": 1,
+    "graph": {
+      "metadata": {
+        "domain": "earthquake",
+        "iteration": 1,
+        "num_variables": 5,
+        "num_edges": 5,
+        "reasoning": "The current graph assumes that both Burglary and Earthquake independently trigger the Alarm. However, in the context of a burglar alarm system, it is more plausible that an Earthquake might also trigger a Burglary (e.g., during chaos caused by a major seismic event). While the current graph is structurally sound, adding a direct causal edge from Earthquake to Burglary could better capture the real-world dynamics and potentially improve the model's likelihood by accounting for indirect effects.",
+        "confirmed_edges": [
+          "Burglary -> Alarm",
+          "Earthquake -> Alarm",
+          "Alarm -> JohnCalls",
+          "Alarm -> MaryCalls"
+        ],
+        "edge_notes": {
+          "Earthquake -> Burglary": "Hypothesized based on domain reasoning: major earthquakes may create opportunities for burglary. Further evidence is needed to confirm this relationship."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "Earthquake",
+              "Burglary"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "Earthquake",
+            "child": "Burglary",
+            "reasoning": "Earthquakes can create conditions (e.g., chaos, distraction, structural damage) that may indirectly lead to burglaries. Adding this edge aligns with plausible causal mechanisms in the domain."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and earthquake domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the earthquake domain.\n\nVariables:\n- Burglary\n- Earthquake\n- Alarm\n- JohnCalls\n- MaryCalls\n\n\nDomain Context:\nClassic burglar alarm.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Burglary \u2192 Alarm\n  Earthquake \u2192 Alarm\n  Alarm \u2192 JohnCalls\n  Alarm \u2192 MaryCalls\n\nCurrent Log-Likelihood: -1153.7223472539326\n\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the earthquake domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph assumes that both Burglary and Earthquake independently trigger the Alarm. However, in the context of a burglar alarm system, it is more plausible that an Earthquake might also trigger a Burglary (e.g., during chaos caused by a major seismic event). While the current graph is structurally sound, adding a direct causal edge from Earthquake to Burglary could better capture the real-world dynamics and potentially improve the model's likelihood by accounting for indirect effects.\",\n\"confirmed_edges\": [\"Burglary -> Alarm\", \"Earthquake -> Alarm\", \"Alarm -> JohnCalls\", \"Alarm -> MaryCalls\"],\n\"edge_notes\": {\n    \"Earthquake -> Burglary\": \"Hypothesized based on domain reasoning: major earthquakes may create opportunities for burglary. Further evidence is needed to confirm this relationship.\"\n},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"Earthquake\",\n    \"child\": \"Burglary\",\n    \"reasoning\": \"Earthquakes can create conditions (e.g., chaos, distraction, structural damage) that may indirectly lead to burglaries. Adding this edge aligns with plausible causal mechanisms in the domain.\"\n}\n]\n}"
+        },
+        "log_likelihood": -1158.5836366591966,
+        "num_parameters": 24970,
+        "bic": 1158.5836366591966,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 1,
+          "false_negative": 0,
+          "true_negative": 20,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1_score": 0.8889,
+          "accuracy": 0.96,
+          "shd": 1
+        }
+      },
+      "nodes": [
+        {
+          "name": "Burglary",
+          "parents": [
+            "Earthquake"
+          ]
+        },
+        {
+          "name": "Earthquake",
+          "parents": []
+        },
+        {
+          "name": "Alarm",
+          "parents": [
+            "Burglary",
+            "Earthquake"
+          ]
+        },
+        {
+          "name": "JohnCalls",
+          "parents": [
+            "Alarm"
+          ]
+        },
+        {
+          "name": "MaryCalls",
+          "parents": [
+            "Alarm"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -1153.7223472539326,
+    "current_ll": -1158.5836366591966,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 1,
+      "false_negative": 0,
+      "true_negative": 20,
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1_score": 0.8889,
+      "accuracy": 0.96,
+      "shd": 1
+    },
+    "results": {
+      "log_likelihood": -1158.5836366591966,
+      "bic": 1158.5836366591966,
+      "num_edges": 5
+    },
+    "rejection_reason": "LL too low: -1158.5836, proposed operations: [('ADD', 'Earthquake', 'Burglary')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "Earthquake",
+        "Burglary"
+      ]
+    ]
+  },
+  {
+    "iteration": 2,
+    "graph": {
+      "metadata": {
+        "domain": "earthquake",
+        "iteration": 2,
+        "num_variables": 5,
+        "num_edges": 5,
+        "reasoning": "The current graph already reflects a classic burglar alarm setup with a clear causal structure. However, since the log-likelihood is not optimal, we consider minor refinements that align with domain knowledge. A potential improvement is to explore whether JohnCalls and MaryCalls have a direct correlation independent of the Alarm. This could reflect different likelihoods in their calling behavior (e.g., one might be more likely to call regardless of alarm intensity). We will test this by adding a direct edge between JohnCalls and MaryCalls, as this is a plausible and non-redundant modification.",
+        "confirmed_edges": [
+          "Burglary -> Alarm",
+          "Earthquake -> Alarm",
+          "Alarm -> JohnCalls",
+          "Alarm -> MaryCalls"
+        ],
+        "edge_notes": {
+          "JohnCalls -> MaryCalls": "Uncertain if there's a direct correlation between John and Mary's calling behavior independent of the Alarm. This edge could capture differences in their responsiveness patterns."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "JohnCalls",
+              "MaryCalls"
+            ]
+          ],
+          "removed_edges": [],
+          "num_added": 1,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "JohnCalls",
+            "child": "MaryCalls",
+            "reasoning": "To explore potential direct correlation between John and Mary's calling behavior independent of the Alarm, which may improve the model's fit to the data."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and earthquake domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the earthquake domain.\n\nVariables:\n- Burglary\n- Earthquake\n- Alarm\n- JohnCalls\n- MaryCalls\n\n\nDomain Context:\nClassic burglar alarm.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Burglary \u2192 Alarm\n  Earthquake \u2192 Alarm\n  Alarm \u2192 JohnCalls\n  Alarm \u2192 MaryCalls\n\nCurrent Log-Likelihood: -1153.7223472539326\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -1158.5836, proposed operations: [('ADD', 'Earthquake', 'Burglary')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the earthquake domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Earthquake\u2192Burglary\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph already reflects a classic burglar alarm setup with a clear causal structure. However, since the log-likelihood is not optimal, we consider minor refinements that align with domain knowledge. A potential improvement is to explore whether JohnCalls and MaryCalls have a direct correlation independent of the Alarm. This could reflect different likelihoods in their calling behavior (e.g., one might be more likely to call regardless of alarm intensity). We will test this by adding a direct edge between JohnCalls and MaryCalls, as this is a plausible and non-redundant modification.\",\n\"confirmed_edges\": [\"Burglary -> Alarm\", \"Earthquake -> Alarm\", \"Alarm -> JohnCalls\", \"Alarm -> MaryCalls\"],\n\"edge_notes\": {\n    \"JohnCalls -> MaryCalls\": \"Uncertain if there's a direct correlation between John and Mary's calling behavior independent of the Alarm. This edge could capture differences in their responsiveness patterns.\"\n},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"JohnCalls\",\n    \"child\": \"MaryCalls\",\n    \"reasoning\": \"To explore potential direct correlation between John and Mary's calling behavior independent of the Alarm, which may improve the model's fit to the data.\"\n}\n]\n}"
+        },
+        "log_likelihood": -1164.9902360849073,
+        "num_parameters": 24970,
+        "bic": 1164.9902360849073,
+        "evaluation_metrics": {
+          "true_positive": 4,
+          "false_positive": 1,
+          "false_negative": 0,
+          "true_negative": 20,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1_score": 0.8889,
+          "accuracy": 0.96,
+          "shd": 1
+        }
+      },
+      "nodes": [
+        {
+          "name": "Burglary",
+          "parents": []
+        },
+        {
+          "name": "Earthquake",
+          "parents": []
+        },
+        {
+          "name": "Alarm",
+          "parents": [
+            "Burglary",
+            "Earthquake"
+          ]
+        },
+        {
+          "name": "JohnCalls",
+          "parents": [
+            "Alarm"
+          ]
+        },
+        {
+          "name": "MaryCalls",
+          "parents": [
+            "Alarm",
+            "JohnCalls"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -1153.7223472539326,
+    "current_ll": -1164.9902360849073,
+    "metrics": {
+      "true_positive": 4,
+      "false_positive": 1,
+      "false_negative": 0,
+      "true_negative": 20,
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1_score": 0.8889,
+      "accuracy": 0.96,
+      "shd": 1
+    },
+    "results": {
+      "log_likelihood": -1164.9902360849073,
+      "bic": 1164.9902360849073,
+      "num_edges": 5
+    },
+    "rejection_reason": "LL too low: -1164.9902, proposed operations: [('ADD', 'JohnCalls', 'MaryCalls')]",
+    "proposed_operations": [
+      [
+        "ADD",
+        "JohnCalls",
+        "MaryCalls"
+      ]
+    ]
+  },
+  {
+    "iteration": 3,
+    "graph": {
+      "metadata": {
+        "domain": "earthquake",
+        "iteration": 3,
+        "num_variables": 5,
+        "num_edges": 4,
+        "reasoning": "Applied 0/1 local operations successfully",
+        "confirmed_edges": [],
+        "edge_notes": {},
+        "changes": {
+          "added_edges": [],
+          "removed_edges": [],
+          "num_added": 0,
+          "num_removed": 0
+        },
+        "proposed_operations": [
+          {
+            "type": "ADD",
+            "parent": "JohnCalls",
+            "child": "MaryCalls",
+            "reasoning": "John and Mary may influence each other's decision to call, which could be modeled as a direct causal link. This is a domain-plausible addition that could improve the model's accuracy."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and earthquake domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the earthquake domain.\n\nVariables:\n- Burglary\n- Earthquake\n- Alarm\n- JohnCalls\n- MaryCalls\n\n\nDomain Context:\nClassic burglar alarm.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Burglary \u2192 Alarm\n  Earthquake \u2192 Alarm\n  Alarm \u2192 JohnCalls\n  Alarm \u2192 MaryCalls\n\nCurrent Log-Likelihood: -1153.7223472539326\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -1158.5836, proposed operations: [('ADD', 'Earthquake', 'Burglary')]\nAttempt 2: LL too low: -1164.9902, proposed operations: [('ADD', 'JohnCalls', 'MaryCalls')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the earthquake domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Earthquake\u2192Burglary, JohnCalls\u2192MaryCalls\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph assumes that both Burglary and Earthquake independently trigger the Alarm, and that the Alarm is the sole cause of JohnCalls and MaryCalls. However, in the classic burglar alarm domain, it is plausible that John and Mary may be influenced by each other (e.g., one calling might increase the chance of the other calling) in addition to the Alarm. Adding a direct influence between JohnCalls and MaryCalls could better capture indirect social influence or confirmation bias. However, we must avoid cycles and ensure the DAG remains valid. We propose a single ADD operation to test this potential influence.\",\n\"confirmed_edges\": [\"Burglary -> Alarm\", \"Earthquake -> Alarm\", \"Alarm -> JohnCalls\", \"Alarm -> MaryCalls\"],\n\"edge_notes\": {\n    \"JohnCalls -> MaryCalls\": \"Plausible indirect influence (e.g., one calling might prompt the other to call as well), but not yet confirmed. Needs to be tested for likelihood improvement.\"\n},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"JohnCalls\",\n    \"child\": \"MaryCalls\",\n    \"reasoning\": \"John and Mary may influence each other's decision to call, which could be modeled as a direct causal link. This is a domain-plausible addition that could improve the model's accuracy.\"\n}\n]\n}"
+        }
+      },
+      "nodes": [
+        {
+          "name": "Burglary",
+          "parents": []
+        },
+        {
+          "name": "Earthquake",
+          "parents": []
+        },
+        {
+          "name": "Alarm",
+          "parents": [
+            "Burglary",
+            "Earthquake"
+          ]
+        },
+        {
+          "name": "JohnCalls",
+          "parents": [
+            "Alarm"
+          ]
+        },
+        {
+          "name": "MaryCalls",
+          "parents": [
+            "Alarm"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -1153.7223472539326,
+    "current_ll": -Infinity,
+    "metrics": {},
+    "results": {
+      "log_likelihood": -Infinity,
+      "bic": null,
+      "num_edges": 0
+    },
+    "validation_failed": true,
+    "rejection_reason": "Validation failed: ADD operation failed: edge JohnCalls \u2192 MaryCalls not in valid operations; All 1 edge operations failed",
+    "validation_info": {
+      "success": false,
+      "has_cycle": false,
+      "cycle_path": null,
+      "missing_variables": [],
+      "extra_variables": [],
+      "invalid_parents": {},
+      "error_messages": [
+        "ADD operation failed: edge JohnCalls \u2192 MaryCalls not in valid operations",
+        "All 1 edge operations failed"
+      ],
+      "operation_errors": [
+        "ADD operation failed: edge JohnCalls \u2192 MaryCalls not in valid operations"
+      ]
+    }
+  },
+  {
+    "iteration": 4,
+    "graph": {
+      "metadata": {
+        "domain": "earthquake",
+        "iteration": 4,
+        "num_variables": 5,
+        "num_edges": 4,
+        "reasoning": "The current graph assumes that both Burglary and Earthquake are independent causes of the Alarm, and that the Alarm independently causes both JohnCalls and MaryCalls. Given the domain context of a classic burglar alarm problem, it is plausible that the causal structure is already quite accurate. However, it is worth testing whether the Alarm's influence on JohnCalls and MaryCalls could be better modeled by introducing a direct relationship between JohnCalls and MaryCalls, as it is possible that one person calling could influence the other to call as well. However, since this was previously attempted and failed, we instead consider reversing an existing edge to explore whether the Alarm is actually a result of the JohnCalls or MaryCalls (though this is unlikely). A more reasonable refinement is to test whether the Earthquake could be a cause of the Burglary, but this was already attempted and led to lower likelihood. Therefore, we consider reversing the edge from Alarm to JohnCalls to test whether JohnCalls could be a cause of the Alarm, which is implausible from a domain perspective, but would help validate the robustness of the current structure.",
+        "confirmed_edges": [
+          "Burglary -> Alarm",
+          "Earthquake -> Alarm",
+          "Alarm -> MaryCalls"
+        ],
+        "edge_notes": {
+          "Alarm -> JohnCalls": "This edge is plausible but worth testing whether it is necessary given the high correlation with MaryCalls. A reversal could help confirm the directionality."
+        },
+        "changes": {
+          "added_edges": [
+            [
+              "JohnCalls",
+              "Alarm"
+            ]
+          ],
+          "removed_edges": [
+            [
+              "Alarm",
+              "JohnCalls"
+            ]
+          ],
+          "num_added": 1,
+          "num_removed": 1
+        },
+        "proposed_operations": [
+          {
+            "type": "REVERSE",
+            "parent": "Alarm",
+            "child": "JohnCalls",
+            "reasoning": "Testing whether JohnCalls could be a cause of the Alarm (i.e., reverse direction) to assess the robustness of the current structure. Though unlikely, this could help clarify the causal influence."
+          }
+        ],
+        "prompts": {
+          "system_prompt": "You are an expert in causal inference and earthquake domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+          "user_prompt": "Perform LOCAL amendments to the causal graph for the earthquake domain.\n\nVariables:\n- Burglary\n- Earthquake\n- Alarm\n- JohnCalls\n- MaryCalls\n\n\nDomain Context:\nClassic burglar alarm.\n\n\n\n\n\n\nCurrent Graph (Iteration 0):\n  Burglary \u2192 Alarm\n  Earthquake \u2192 Alarm\n  Alarm \u2192 JohnCalls\n  Alarm \u2192 MaryCalls\n\nCurrent Log-Likelihood: -1153.7223472539326\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -1158.5836, proposed operations: [('ADD', 'Earthquake', 'Burglary')]\nAttempt 2: LL too low: -1164.9902, proposed operations: [('ADD', 'JohnCalls', 'MaryCalls')]\nAttempt 3: ADD operation failed: edge JohnCalls \u2192 MaryCalls not in valid operations; All 1 edge operations failed\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Local Refinement**: Analyze the current graph and identify specific edges that could be added, removed, or reversed to better reflect the causal structure of the earthquake domain.\n2. **Domain Knowledge**: Use your domain knowledge and the provided context to propose improvements. Focus on direct causal relationships, temporal ordering, and plausible mechanisms.\n3. **Strategic Selection**: Choose operations (ADD, DELETE, REVERSE) that you believe will most likely improve the graph's log-likelihood and accurately represent the system.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nADD: Earthquake\u2192Burglary, JohnCalls\u2192MaryCalls, JohnCalls\u2192MaryCalls\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+          "llm_response": "{\n\"overall_reasoning\": \"The current graph assumes that both Burglary and Earthquake are independent causes of the Alarm, and that the Alarm independently causes both JohnCalls and MaryCalls. Given the domain context of a classic burglar alarm problem, it is plausible that the causal structure is already quite accurate. However, it is worth testing whether the Alarm's influence on JohnCalls and MaryCalls could be better modeled by introducing a direct relationship between JohnCalls and MaryCalls, as it is possible that one person calling could influence the other to call as well. However, since this was previously attempted and failed, we instead consider reversing an existing edge to explore whether the Alarm is actually a result of the JohnCalls or MaryCalls (though this is unlikely). A more reasonable refinement is to test whether the Earthquake could be a cause of the Burglary, but this was already attempted and led to lower likelihood. Therefore, we consider reversing the edge from Alarm to JohnCalls to test whether JohnCalls could be a cause of the Alarm, which is implausible from a domain perspective, but would help validate the robustness of the current structure.\",\n\"confirmed_edges\": [\"Burglary -> Alarm\", \"Earthquake -> Alarm\", \"Alarm -> MaryCalls\"],\n\"edge_notes\": {\n    \"Alarm -> JohnCalls\": \"This edge is plausible but worth testing whether it is necessary given the high correlation with MaryCalls. A reversal could help confirm the directionality.\"\n},\n\"operations\": [\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"Alarm\",\n    \"child\": \"JohnCalls\",\n    \"reasoning\": \"Testing whether JohnCalls could be a cause of the Alarm (i.e., reverse direction) to assess the robustness of the current structure. Though unlikely, this could help clarify the causal influence.\"\n}\n]\n}"
+        },
+        "log_likelihood": -1659.4797212528053,
+        "num_parameters": 24970,
+        "bic": 1659.4797212528053,
+        "evaluation_metrics": {
+          "true_positive": 3,
+          "false_positive": 1,
+          "false_negative": 1,
+          "true_negative": 20,
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1_score": 0.75,
+          "accuracy": 0.92,
+          "shd": 1
+        }
+      },
+      "nodes": [
+        {
+          "name": "Burglary",
+          "parents": []
+        },
+        {
+          "name": "Earthquake",
+          "parents": []
+        },
+        {
+          "name": "Alarm",
+          "parents": [
+            "Burglary",
+            "Earthquake",
+            "JohnCalls"
+          ]
+        },
+        {
+          "name": "JohnCalls",
+          "parents": []
+        },
+        {
+          "name": "MaryCalls",
+          "parents": [
+            "Alarm"
+          ]
+        }
+      ],
+      "adjacency_matrix": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "accepted": false,
+    "best_ll": -1153.7223472539326,
+    "current_ll": -1659.4797212528053,
+    "metrics": {
+      "true_positive": 3,
+      "false_positive": 1,
+      "false_negative": 1,
+      "true_negative": 20,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1_score": 0.75,
+      "accuracy": 0.92,
+      "shd": 1
+    },
+    "results": {
+      "log_likelihood": -1659.4797212528053,
+      "bic": 1659.4797212528053,
+      "num_edges": 4
+    },
+    "rejection_reason": "LL too low: -1659.4797, proposed operations: [('REVERSE', 'Alarm', 'JohnCalls')]",
+    "proposed_operations": [
+      [
+        "REVERSE",
+        "Alarm",
+        "JohnCalls"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,258 @@
+============================================================
+RUNNING SCORE FUNCTION VALIDATION
+============================================================
+
+>>> 正在启动鲁棒性验证实验: alarm (重复次数=5)
+  Found alarm at row 1 in real.csv
+  变量类型: discrete (Device: cuda)
+
+[1] 计算基准: Ground Truth (100 epochs)...
+[SimpleCausalModel] Detected num_categs from data: 4
+[SimpleCausalModel] Variable states: [2, 2, 2, 3, 3, 3, 3, 2, 2, 2, 2, 3, 2, 2, 2, 3, 3, 2, 2, 3, 4, 4, 4, 4, 4, 4, 3, 3, 3, 4, 2, 3, 3, 3, 3, 3, 3]
+[Model] Using categorical model with 4 categories
+[Model Fitting] Local update: training 37 variables: ['HYPOVOLEMIA', 'LVFAILURE', 'HISTORY', 'LVEDVOLUME', 'CVP', 'PCWP', 'STROKEVOLUME', 'ERRLOWOUTPUT', 'ERRCAUTER', 'INSUFFANESTH', 'ANAPHYLAXIS', 'TPR', 'KINKEDTUBE', 'FIO2', 'PULMEMBOLUS', 'PAP', 'INTUBATION', 'SHUNT', 'DISCONNECT', 'MINVOLSET', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT', 'CO', 'BP']
+[Model Fitting] Final Score (Total BIC) = 126271.1169
+    Base GT BIC: 126271.12
+
+[2] 开始扰动测试 (每种模式 5 次)...
+  测试模式: remove...
+[Model Fitting] Local update: training 1 variables: ['STROKEVOLUME']
+[Model Fitting] Final Score (Total BIC) = 202983.1811
+    - Repeat 1/5: Delta BIC = 76712.06
+[Model Fitting] Local update: training 1 variables: ['CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 197344.4944
+    - Repeat 2/5: Delta BIC = 71073.38
+[Model Fitting] Local update: training 1 variables: ['SAO2']
+[Model Fitting] Final Score (Total BIC) = 202280.1927
+    - Repeat 3/5: Delta BIC = 76009.08
+[Model Fitting] Local update: training 1 variables: ['SHUNT']
+[Model Fitting] Final Score (Total BIC) = 202405.9843
+    - Repeat 4/5: Delta BIC = 76134.87
+[Model Fitting] Local update: training 1 variables: ['CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 195486.2869
+    - Repeat 5/5: Delta BIC = 69215.17
+  测试模式: add...
+[Model Fitting] Local update: training 1 variables: ['LVEDVOLUME']
+[Model Fitting] Final Score (Total BIC) = 206729.3805
+    - Repeat 1/5: Delta BIC = 80458.26
+[Model Fitting] Local update: training 1 variables: ['HRSAT']
+[Model Fitting] Final Score (Total BIC) = 205489.2589
+    - Repeat 2/5: Delta BIC = 79218.14
+[Model Fitting] Local update: training 1 variables: ['PRESS']
+[Model Fitting] Final Score (Total BIC) = 234042.0439
+    - Repeat 3/5: Delta BIC = 107770.93
+[Model Fitting] Local update: training 1 variables: ['BP']
+[Model Fitting] Final Score (Total BIC) = 214765.8577
+    - Repeat 4/5: Delta BIC = 88494.74
+[Model Fitting] Local update: training 1 variables: ['CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 236501.9323
+    - Repeat 5/5: Delta BIC = 110230.82
+  测试模式: reverse...
+[Model Fitting] Local update: training 1 variables: ['PVSAT']
+[Model Fitting] Final Score (Total BIC) = 207711.7180
+    - Repeat 1/5: Delta BIC = 81440.60
+[Model Fitting] Local update: training 2 variables: ['VENTALV', 'PVSAT']
+[Model Fitting] Final Score (Total BIC) = 213858.8490
+    - Repeat 2/5: Delta BIC = 87587.73
+[Model Fitting] Local update: training 2 variables: ['TPR', 'CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 195785.3180
+    - Repeat 3/5: Delta BIC = 69514.20
+[Model Fitting] Local update: training 2 variables: ['PULMEMBOLUS', 'SHUNT']
+[Model Fitting] Final Score (Total BIC) = 200094.7723
+    - Repeat 4/5: Delta BIC = 73823.66
+[Model Fitting] Local update: training 2 variables: ['STROKEVOLUME', 'CO']
+[Model Fitting] Final Score (Total BIC) = 202729.9242
+    - Repeat 5/5: Delta BIC = 76458.81
+  测试模式: shuffle...
+[Model Fitting] Local update: training 33 variables: ['HYPOVOLEMIA', 'LVFAILURE', 'HISTORY', 'LVEDVOLUME', 'CVP', 'PCWP', 'STROKEVOLUME', 'ERRLOWOUTPUT', 'TPR', 'KINKEDTUBE', 'PULMEMBOLUS', 'PAP', 'INTUBATION', 'SHUNT', 'DISCONNECT', 'MINVOLSET', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT', 'CO', 'BP']
+[Model Fitting] Final Score (Total BIC) = 155125.2584
+    - Repeat 1/5: Delta BIC = 28854.14
+[Model Fitting] Local update: training 29 variables: ['HYPOVOLEMIA', 'HISTORY', 'LVEDVOLUME', 'CVP', 'PCWP', 'STROKEVOLUME', 'ERRLOWOUTPUT', 'ERRCAUTER', 'TPR', 'FIO2', 'PAP', 'SHUNT', 'DISCONNECT', 'MINVOLSET', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'BP']
+[Model Fitting] Final Score (Total BIC) = 169672.6758
+    - Repeat 2/5: Delta BIC = 43401.56
+[Model Fitting] Local update: training 32 variables: ['HYPOVOLEMIA', 'HISTORY', 'LVEDVOLUME', 'CVP', 'PCWP', 'STROKEVOLUME', 'ERRCAUTER', 'ANAPHYLAXIS', 'TPR', 'FIO2', 'PULMEMBOLUS', 'PAP', 'INTUBATION', 'SHUNT', 'DISCONNECT', 'MINVOLSET', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT', 'BP']
+[Model Fitting] Final Score (Total BIC) = 138816.9864
+    - Repeat 3/5: Delta BIC = 12545.87
+[Model Fitting] Local update: training 27 variables: ['HYPOVOLEMIA', 'HISTORY', 'LVEDVOLUME', 'PCWP', 'ERRLOWOUTPUT', 'ERRCAUTER', 'TPR', 'KINKEDTUBE', 'PULMEMBOLUS', 'SHUNT', 'DISCONNECT', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT', 'CO', 'BP']
+[Model Fitting] Final Score (Total BIC) = 169245.0655
+    - Repeat 4/5: Delta BIC = 42973.95
+[Model Fitting] Local update: training 26 variables: ['LVFAILURE', 'LVEDVOLUME', 'STROKEVOLUME', 'ERRLOWOUTPUT', 'ERRCAUTER', 'INSUFFANESTH', 'FIO2', 'PULMEMBOLUS', 'PAP', 'SHUNT', 'MINVOLSET', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT', 'CO', 'BP']
+[Model Fitting] Final Score (Total BIC) = 140921.7396
+    - Repeat 5/5: Delta BIC = 14650.62
+
+================================================================================
+鲁棒性验证汇总结果 (alarm)
+================================================================================
+Perturbation Mode  Avg Delta BIC  Std Dev  Min Delta  Max Delta
+           remove       73828.91  3074.50   69215.17   76712.06
+              add       93234.58 13284.11   79218.14  110230.82
+          reverse       77765.00  6249.99   69514.20   87587.73
+          shuffle       28485.23 13251.53   12545.87   43401.56
+
+✅ 验证通过：在所有重复实验中，真实图的 BIC 始终优于扰动图！
+
+>>> 正在启动渐进式扰动实验: alarm (max_steps=10, n_repeats=5)
+  Found alarm at row 1 in real.csv
+  变量类型: discrete (Device: cuda)
+
+[1] 计算基准: Ground Truth (100 epochs)...
+[SimpleCausalModel] Detected num_categs from data: 4
+[SimpleCausalModel] Variable states: [2, 2, 2, 3, 3, 3, 3, 2, 2, 2, 2, 3, 2, 2, 2, 3, 3, 2, 2, 3, 4, 4, 4, 4, 4, 4, 3, 3, 3, 4, 2, 3, 3, 3, 3, 3, 3]
+[Model] Using categorical model with 4 categories
+[Model Fitting] Local update: training 37 variables: ['HYPOVOLEMIA', 'LVFAILURE', 'HISTORY', 'LVEDVOLUME', 'CVP', 'PCWP', 'STROKEVOLUME', 'ERRLOWOUTPUT', 'ERRCAUTER', 'INSUFFANESTH', 'ANAPHYLAXIS', 'TPR', 'KINKEDTUBE', 'FIO2', 'PULMEMBOLUS', 'PAP', 'INTUBATION', 'SHUNT', 'DISCONNECT', 'MINVOLSET', 'VENTMACH', 'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 'HRSAT', 'CO', 'BP']
+[Model Fitting] Final Score (Total BIC) = 126271.1169
+
+[2] 开始渐进式扰动轨迹...
+  轨迹 1/5:
+[Model Fitting] Local update: training 1 variables: ['HR']
+[Model Fitting] Final Score (Total BIC) = 205858.0271
+    Step 1: SHD=1, Delta BIC=79586.91
+[Model Fitting] Local update: training 2 variables: ['ERRCAUTER', 'HRSAT']
+[Model Fitting] Final Score (Total BIC) = 202790.2170
+    Step 2: SHD=3, Delta BIC=76519.10
+[Model Fitting] Local update: training 1 variables: ['STROKEVOLUME']
+[Model Fitting] Final Score (Total BIC) = 204652.1214
+    Step 3: SHD=4, Delta BIC=78381.00
+[Model Fitting] Local update: training 2 variables: ['ARTCO2', 'CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 195657.5864
+    Step 4: SHD=6, Delta BIC=69386.47
+[Model Fitting] Local update: training 1 variables: ['ANAPHYLAXIS']
+[Model Fitting] Final Score (Total BIC) = 197999.4733
+    Step 5: SHD=7, Delta BIC=71728.36
+[Model Fitting] Local update: training 1 variables: ['SHUNT']
+[Model Fitting] Final Score (Total BIC) = 197642.7137
+    Step 6: SHD=8, Delta BIC=71371.60
+[Model Fitting] Local update: training 1 variables: ['HISTORY']
+[Model Fitting] Final Score (Total BIC) = 198030.5291
+    Step 7: SHD=9, Delta BIC=71759.41
+[Model Fitting] Local update: training 1 variables: ['PRESS']
+[Model Fitting] Final Score (Total BIC) = 226806.8541
+    Step 8: SHD=9, Delta BIC=100535.74
+[Model Fitting] Local update: training 1 variables: ['SHUNT']
+[Model Fitting] Final Score (Total BIC) = 226648.8358
+    Step 9: SHD=10, Delta BIC=100377.72
+[Model Fitting] Local update: training 2 variables: ['PVSAT', 'SAO2']
+[Model Fitting] Final Score (Total BIC) = 229697.9648
+    Step 10: SHD=12, Delta BIC=103426.85
+  轨迹 2/5:
+[Model Fitting] Local update: training 2 variables: ['INSUFFANESTH', 'CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 195532.3416
+    Step 1: SHD=2, Delta BIC=69261.22
+[Model Fitting] Local update: training 1 variables: ['HRSAT']
+[Model Fitting] Final Score (Total BIC) = 205072.1121
+    Step 2: SHD=3, Delta BIC=78801.00
+[Model Fitting] Local update: training 1 variables: ['PRESS']
+[Model Fitting] Final Score (Total BIC) = 228668.8185
+    Step 3: SHD=3, Delta BIC=102397.70
+[Model Fitting] Local update: training 1 variables: ['LVEDVOLUME']
+[Model Fitting] Final Score (Total BIC) = 227590.1599
+    Step 4: SHD=4, Delta BIC=101319.04
+[Model Fitting] Local update: training 1 variables: ['PCWP']
+[Model Fitting] Final Score (Total BIC) = 229172.7012
+    Step 5: SHD=5, Delta BIC=102901.58
+[Model Fitting] Local update: training 2 variables: ['VENTMACH', 'VENTTUBE']
+[Model Fitting] Final Score (Total BIC) = 229649.9719
+    Step 6: SHD=7, Delta BIC=103378.85
+[Model Fitting] Local update: training 2 variables: ['VENTLUNG', 'MINVOL']
+[Model Fitting] Final Score (Total BIC) = 268978.6559
+    Step 7: SHD=9, Delta BIC=142707.54
+[Model Fitting] Local update: training 2 variables: ['CO', 'BP']
+[Model Fitting] Final Score (Total BIC) = 274027.8106
+    Step 8: SHD=11, Delta BIC=147756.69
+[Model Fitting] Local update: training 1 variables: ['LVFAILURE']
+[Model Fitting] Final Score (Total BIC) = 275333.2056
+    Step 9: SHD=12, Delta BIC=149062.09
+[Model Fitting] Local update: training 2 variables: ['VENTTUBE', 'VENTLUNG']
+[Model Fitting] Final Score (Total BIC) = 232627.7967
+    Step 10: SHD=14, Delta BIC=106356.68
+  轨迹 3/5:
+[Model Fitting] Local update: training 1 variables: ['TPR']
+[Model Fitting] Final Score (Total BIC) = 204371.1613
+    Step 1: SHD=1, Delta BIC=78100.04
+[Model Fitting] Local update: training 2 variables: ['SHUNT', 'SAO2']
+[Model Fitting] Final Score (Total BIC) = 201450.2571
+    Step 2: SHD=3, Delta BIC=75179.14
+[Model Fitting] Local update: training 1 variables: ['HRSAT']
+[Model Fitting] Final Score (Total BIC) = 203001.3097
+    Step 3: SHD=4, Delta BIC=76730.19
+    Step 4: SHD=6, Delta BIC=71342.10
+[Model Fitting] Local update: training 2 variables: ['LVEDVOLUME', 'CVP']
+[Model Fitting] Final Score (Total BIC) = 198260.4967
+    Step 5: SHD=8, Delta BIC=71989.38
+[Model Fitting] Local update: training 1 variables: ['HREKG']
+[Model Fitting] Final Score (Total BIC) = 206706.1509
+    Step 6: SHD=9, Delta BIC=80435.03
+[Model Fitting] Local update: training 1 variables: ['ARTCO2']
+[Model Fitting] Final Score (Total BIC) = 206661.2785
+    Step 7: SHD=10, Delta BIC=80390.16
+[Model Fitting] Local update: training 1 variables: ['LVFAILURE']
+[Model Fitting] Final Score (Total BIC) = 205697.6085
+    Step 8: SHD=11, Delta BIC=79426.49
+    Step 9: SHD=9, Delta BIC=84814.59
+[Model Fitting] Local update: training 1 variables: ['STROKEVOLUME']
+[Model Fitting] Final Score (Total BIC) = 213350.4035
+    Step 10: SHD=10, Delta BIC=87079.29
+  轨迹 4/5:
+[Model Fitting] Local update: training 1 variables: ['BP']
+[Model Fitting] Final Score (Total BIC) = 207326.3233
+    Step 1: SHD=1, Delta BIC=81055.21
+[Model Fitting] Local update: training 1 variables: ['PAP']
+[Model Fitting] Final Score (Total BIC) = 206807.6063
+    Step 2: SHD=2, Delta BIC=80536.49
+[Model Fitting] Local update: training 1 variables: ['BP']
+[Model Fitting] Final Score (Total BIC) = 202451.4829
+    Step 3: SHD=3, Delta BIC=76180.37
+[Model Fitting] Local update: training 1 variables: ['HYPOVOLEMIA']
+[Model Fitting] Final Score (Total BIC) = 202426.0269
+    Step 4: SHD=4, Delta BIC=76154.91
+[Model Fitting] Local update: training 2 variables: ['ERRLOWOUTPUT', 'HRBP']
+[Model Fitting] Final Score (Total BIC) = 198755.9141
+    Step 5: SHD=6, Delta BIC=72484.80
+[Model Fitting] Local update: training 2 variables: ['VENTTUBE', 'PRESS']
+[Model Fitting] Final Score (Total BIC) = 203972.4329
+    Step 6: SHD=8, Delta BIC=77701.32
+[Model Fitting] Local update: training 2 variables: ['CATECHOL', 'HR']
+[Model Fitting] Final Score (Total BIC) = 224821.8984
+    Step 7: SHD=10, Delta BIC=98550.78
+[Model Fitting] Local update: training 1 variables: ['CATECHOL']
+[Model Fitting] Final Score (Total BIC) = 204054.8070
+    Step 8: SHD=11, Delta BIC=77783.69
+[Model Fitting] Local update: training 1 variables: ['VENTALV']
+[Model Fitting] Final Score (Total BIC) = 217751.1903
+    Step 9: SHD=13, Delta BIC=91480.07
+[Model Fitting] Local update: training 1 variables: ['INSUFFANESTH']
+[Model Fitting] Final Score (Total BIC) = 218888.9034
+    Step 10: SHD=14, Delta BIC=92617.79
+  轨迹 5/5:
+[Model Fitting] Local update: training 1 variables: ['HREKG']
+[Model Fitting] Final Score (Total BIC) = 202274.9635
+    Step 1: SHD=1, Delta BIC=76003.85
+[Model Fitting] Local update: training 1 variables: ['ANAPHYLAXIS']
+[Model Fitting] Final Score (Total BIC) = 201502.3530
+    Step 2: SHD=3, Delta BIC=75231.24
+[Model Fitting] Local update: training 1 variables: ['MINVOLSET']
+[Model Fitting] Final Score (Total BIC) = 202662.5520
+    Step 3: SHD=4, Delta BIC=76391.44
+[Model Fitting] Local update: training 1 variables: ['VENTLUNG']
+[Model Fitting] Final Score (Total BIC) = 232350.1715
+    Step 4: SHD=5, Delta BIC=106079.05
+    Step 5: SHD=6, Delta BIC=105664.52
+[Model Fitting] Local update: training 1 variables: ['PRESS']
+[Model Fitting] Final Score (Total BIC) = 225456.4227
+    Step 6: SHD=7, Delta BIC=99185.31
+[Model Fitting] Local update: training 1 variables: ['VENTLUNG']
+[Model Fitting] Final Score (Total BIC) = 191519.3007
+    Step 7: SHD=8, Delta BIC=65248.18
+[Model Fitting] Local update: training 1 variables: ['CO']
+[Model Fitting] Final Score (Total BIC) = 189051.2355
+    Step 8: SHD=9, Delta BIC=62780.12
+[Model Fitting] Local update: training 1 variables: ['HRBP']
+[Model Fitting] Final Score (Total BIC) = 187303.0689
+    Step 9: SHD=10, Delta BIC=61031.95
+[Model Fitting] Local update: training 1 variables: ['DISCONNECT']
+[Model Fitting] Final Score (Total BIC) = 187094.9994
+    Step 10: SHD=11, Delta BIC=60823.88
+
+Pearson 相关系数 (SHD vs Delta BIC): 0.3113
+
+✅ 散点图已保存至: progressive_check_result.png

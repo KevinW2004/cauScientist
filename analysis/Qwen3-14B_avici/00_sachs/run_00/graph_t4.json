@@ -1,0 +1,270 @@
+{
+  "metadata": {
+    "domain": "sachs",
+    "iteration": 4,
+    "num_variables": 11,
+    "num_edges": 10,
+    "reasoning": "Based on the experimental evidence and the candidate operations, the most viable change to consider is the addition of the Raf \u2192 PKA edge. This proposed edge aligns with the tentative note suggesting a direct regulatory influence of Raf on PKA activity. Although no interventional evidence is currently available for this edge, the reasoning is supported by domain knowledge and the potential to refine the graph. No reversal or deletion operations are valid at this time due to the lack of experimental confirmation and the constraints of previous failed attempts.",
+    "confirmed_edges": [
+      "Raf -> Mek",
+      "Mek -> Erk",
+      "Erk -> Akt",
+      "Akt -> PIP3",
+      "Plcg -> PKC",
+      "Plcg -> PKA",
+      "PKA -> P38"
+    ],
+    "edge_notes": {
+      "Plcg -> PIP2": "This edge remains tentative due to lack of interventional evidence and previous failed reversal attempts.",
+      "PKA -> Jnk": "This edge is flagged for potential deletion based on tentative notes, but no interventional evidence has confirmed its spurious nature yet."
+    },
+    "changes": {
+      "added_edges": [
+        [
+          "Raf",
+          "PKA"
+        ]
+      ],
+      "removed_edges": [],
+      "num_added": 1,
+      "num_removed": 0
+    },
+    "proposed_operations": [
+      {
+        "type": "ADD",
+        "parent": "Raf",
+        "child": "PKA",
+        "reasoning": "The addition of Raf \u2192 PKA is proposed based on tentative domain knowledge suggesting a direct regulatory influence of Raf on PKA activity. This change may improve the model's accuracy if such a relationship exists."
+      }
+    ],
+    "prompts": {
+      "system_prompt": "You are an expert in causal inference and sachs domain knowledge.\nYour task is to generate or refine causal graph hypotheses representing causal relationships.\nAlways ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.\n",
+      "user_prompt": "Perform LOCAL amendments to the causal graph for the sachs domain.\n\nVariables:\n- Plcg\n- PKC\n- PKA\n- Jnk\n- P38\n- Raf\n- Mek\n- Erk\n- Akt\n- PIP3\n- PIP2\n\n\nDomain Context:\nProtein signaling networks in human immune cells.\n\n\n\ud83e\udde0 YOUR EXPERIMENTAL INTENT & REASONING:\nThe current causal graph is based on domain knowledge and observational data, but several relationships lack interventional confirmation. Based on the tentative notes, the most critical candidate changes involve the reversal of the Plcg \u2192 PIP2 edge, the deletion of the PKA \u2192 Jnk edge, and the addition of a Raf \u2192 PKA edge. These changes are prioritized based on the tentative notes and the potential for improving the graph's accuracy through interventional experiments. Each proposed change is accompanied by an experiment that tests the causal influence directly.\n\n\n\n\ud83d\udccb CANDIDATE OPERATIONS TO EVALUATE:\n1. REVERSE: PIP2 \u2192 Plcg (Reasoning: The tentative note suggests that the causal relationship may be reversed (PIP2 \u2192 Plcg), potentially reflecting a regulatory feedback loop. This reversal could better capture the biological mechanism where PIP2 modulates Plcg activity.)\n2. DELETE: PKA \u2192 Jnk (Reasoning: The current edge PKA \u2192 Jnk is flagged as potentially indirect or spurious. If this edge is not directly causal, its removal would refine the graph and avoid overfitting to observational correlations.)\n3. ADD: Raf \u2192 PKA (Reasoning: The tentative note proposes a candidate addition of Raf \u2192 PKA, which could reflect a direct regulatory influence of Raf on PKA activity. This addition may improve the model's accuracy if such a relationship exists.)\n\n\n\ud83d\udd2c INTERVENTIONAL EVIDENCE (from experiments):\n- Experiment Plcg -> PIP2: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment Raf -> Mek: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment Akt -> PIP3: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment Raf -> PKA: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PKA -> Jnk: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PIP2 -> Plcg: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PIP2 -> Plcg: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PKA -> Jnk: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment Raf -> PKA: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PIP2 -> Plcg: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PKA -> Jnk: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment Raf -> PKA: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PIP2 -> Plcg: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment PKA -> Jnk: Error - Conditional intervention testing for continuous data not yet fully implemented\n- Experiment Raf -> PKA: Error - Conditional intervention testing for continuous data not yet fully implemented\n\n\nCurrent Graph (Iteration 1):\n  Plcg \u2192 PKC\n  Plcg \u2192 PKA\n  PKA \u2192 Jnk\n  PKA \u2192 P38\n  Raf \u2192 Mek\n  Mek \u2192 Erk\n  Erk \u2192 Akt\n  Akt \u2192 PIP3\n  Plcg \u2192 PIP2\n\nCurrent Log-Likelihood: -121873.158126263\n\n\n################################################################################\n\u26a0\ufe0f PREVIOUS FAILED ATTEMPTS & FEEDBACK (CRITICAL: DO NOT REPEAT):\n\u26a0\ufe0f Previous Failed Attempts:\nAttempt 1: LL too low: -124023.8558, proposed operations: [('REVERSE', 'Plcg', 'PIP2')]\nAttempt 2: LL too low: -123690.1834, proposed operations: [('DELETE', 'PKA', 'Jnk')]\n\nPlease try different modifications.\n################################################################################\n\n\n========================================\nRefinement Instructions:\n========================================\n1. **Analyze Candidates & Evidence**: Carefully evaluate each operation in the \ud83d\udccb CANDIDATE OPERATIONS list using the \ud83d\udd2c INTERVENTIONAL EVIDENCE and your \ud83e\udde0 EXPERIMENTAL INTENT.\n2. **Decision Rule (STRICT EVIDENCE-FIRST POLICY)**: \n   - You must treat \ud83d\udd2c INTERVENTIONAL EVIDENCE as the Ground Truth. If domain knowledge conflicts with experimental evidence, **EVIDENCE WINS**.\n   - You are ONLY allowed to output operations that were listed as CANDIDATES.\n   - For each candidate, follow this Decision Matrix:\n\n     | Candidate Op | Experiment Result (do(X) -> Y) | Decision | Reason |\n     |--------------|-------------------------------|----------|--------|\n     | ADD X -> Y   | SIGNIFICANT effect            | CONSIDER | Evidence confirms X is an ANCESTOR. Check for intermediate variables before adding. |\n     | ADD X -> Y   | NO significant effect         | DISCARD  | Evidence fails to support any causal path. |\n     | DELETE X -> Y| NO significant effect         | APPLY    | Evidence confirms the link is spurious. |\n     | DELETE X -> Y| SIGNIFICANT effect            | DISCARD  | **STRICT FORBIDDEN**: Cannot delete a link with significant effect. |\n     | REVERSE X->Y | do(X)->Y < do(Y)->X           | APPLY    | Reversed direction is better supported. |\n\n3. **Direct vs. Indirect Causality (CRITICAL)**:\n   - A significant `do(X) -> Y` effect only proves X is an **ANCESTOR** of Y, not necessarily a **DIRECT PARENT**.\n   - **DO NOT** add a direct edge X -> Y if:\n     a) There is a known physiological path between X and Y involving other variables in the current variable list.\n     b) The effect of X on Y can be explained by a sequence of other edges (e.g., X -> Z -> Y).\n   - If you only have Marginal Evidence (no successful conditional test), you must assume the link might be indirect if intermediate variables are present.\n\n4. **Anti-Hallucination Guardrail**: \n   - Never use \"domain knowledge\" to justify deleting an edge that has a SIGNIFICANT interventional effect. \n   - If an experiment shows TVD > 0.1 or p-value < 0.05, the relationship is REAL for this specific dataset.\n4. **Update Dossier**: \n   - Add relationships you are now SURE about to \"confirmed_edges\" (format: \"A -> B\").\n   - For relationships you are still UNCERTAIN about, do NOT delete them. Instead, add a note to \"edge_notes\" explaining what you need to test next.\n\n\n\u26a0\ufe0f EXCLUDED Operations (previously failed, don't try again):\nDELETE: PKA\u2192Jnk; REVERSE: Plcg\u2192PIP2\n\n========================================\nCRITICAL CONSTRAINTS:\n========================================\n- ONLY use operations from the CANDIDATE list.\n- Propose at most 1 operations.\n- Output ONLY valid JSON.\n\nInstructions:\n**THINK FIRST**: Before proposing operations:\n1. Analyze which changes would improve the likelihood based on the current structure and evidence.\n2. Choose operations that make sense based on domain knowledge and interventional data.\n\nIMPORTANT - REVERSE operation semantics:\n- If you want to reverse edge A\u2192B to B\u2192A, specify \"parent\": \"A\", \"child\": \"B\"\n- The parent and child in your JSON should match the EXISTING edge direction\n- Example: Current edge X1\u2192X2, to reverse it, use {\"type\": \"REVERSE\", \"parent\": \"X1\", \"child\": \"X2\"}\n- This will change X1\u2192X2 into X2\u2192X1\n\nOutput Format (IMPORTANT - use this exact JSON structure):\n{\n\"overall_reasoning\": \"...\",\n\"confirmed_edges\": [\"VarA -> VarB\"],\n\"edge_notes\": {\"VarX -> VarY\": \"Reasoning for keeping/tentative status\"},\n\"operations\": [\n{\n    \"type\": \"ADD\",\n    \"parent\": \"VariableName1\",\n    \"child\": \"VariableName2\",\n    \"reasoning\": \"Why this specific edge should be added\"\n},\n{\n    \"type\": \"DELETE\",\n    \"parent\": \"VariableName3\",\n    \"child\": \"VariableName4\",\n    \"reasoning\": \"Why this specific edge should be removed\"\n},\n{\n    \"type\": \"REVERSE\",\n    \"parent\": \"VariableName5\",\n    \"child\": \"VariableName6\",\n    \"reasoning\": \"Why edge VariableName5\u2192VariableName6 should be reversed to VariableName6\u2192VariableName5\"\n}\n]\n}\n\nCRITICAL: \n- Put \"overall_reasoning\" FIRST to encourage strategic thinking\n- Output ONLY valid JSON\n- Include UP TO 1 operations\n- Valid operation types: \"ADD\", \"DELETE\", \"REVERSE\"\n- Each operation must have: type, parent, child, reasoning\n- For REVERSE: always use the EXISTING edge direction (parent\u2192child) in your JSON",
+      "llm_response": "{\n  \"overall_reasoning\": \"Based on the experimental evidence and the candidate operations, the most viable change to consider is the addition of the Raf \u2192 PKA edge. This proposed edge aligns with the tentative note suggesting a direct regulatory influence of Raf on PKA activity. Although no interventional evidence is currently available for this edge, the reasoning is supported by domain knowledge and the potential to refine the graph. No reversal or deletion operations are valid at this time due to the lack of experimental confirmation and the constraints of previous failed attempts.\",\n  \"confirmed_edges\": [\"Raf -> Mek\", \"Mek -> Erk\", \"Erk -> Akt\", \"Akt -> PIP3\", \"Plcg -> PKC\", \"Plcg -> PKA\", \"PKA -> P38\"],\n  \"edge_notes\": {\n    \"Plcg -> PIP2\": \"This edge remains tentative due to lack of interventional evidence and previous failed reversal attempts.\",\n    \"PKA -> Jnk\": \"This edge is flagged for potential deletion based on tentative notes, but no interventional evidence has confirmed its spurious nature yet.\"\n  },\n  \"operations\": [\n    {\n      \"type\": \"ADD\",\n      \"parent\": \"Raf\",\n      \"child\": \"PKA\",\n      \"reasoning\": \"The addition of Raf \u2192 PKA is proposed based on tentative domain knowledge suggesting a direct regulatory influence of Raf on PKA activity. This change may improve the model's accuracy if such a relationship exists.\"\n    }\n  ]\n}"
+    },
+    "log_likelihood": -120542.45908715461,
+    "num_parameters": 63382,
+    "bic": 120542.45908715461,
+    "evaluation_metrics": {
+      "true_positive": 6,
+      "false_positive": 4,
+      "false_negative": 11,
+      "true_negative": 100,
+      "precision": 0.6,
+      "recall": 0.3529,
+      "f1_score": 0.4444,
+      "accuracy": 0.876,
+      "shd": 14
+    }
+  },
+  "nodes": [
+    {
+      "name": "Plcg",
+      "parents": []
+    },
+    {
+      "name": "PKC",
+      "parents": [
+        "Plcg"
+      ]
+    },
+    {
+      "name": "PKA",
+      "parents": [
+        "Plcg",
+        "Raf"
+      ]
+    },
+    {
+      "name": "Jnk",
+      "parents": [
+        "PKA"
+      ]
+    },
+    {
+      "name": "P38",
+      "parents": [
+        "PKA"
+      ]
+    },
+    {
+      "name": "Raf",
+      "parents": []
+    },
+    {
+      "name": "Mek",
+      "parents": [
+        "Raf"
+      ]
+    },
+    {
+      "name": "Erk",
+      "parents": [
+        "Mek"
+      ]
+    },
+    {
+      "name": "Akt",
+      "parents": [
+        "Erk"
+      ]
+    },
+    {
+      "name": "PIP3",
+      "parents": [
+        "Akt"
+      ]
+    },
+    {
+      "name": "PIP2",
+      "parents": [
+        "Plcg"
+      ]
+    }
+  ],
+  "adjacency_matrix": [
+    [
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}
