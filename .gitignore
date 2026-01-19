@@ -7,4 +7,6 @@ __pycache__/
 config/secret.toml
 
 # 实验运行文件
+/cma_experiments/
 visualizations/
+*.puml

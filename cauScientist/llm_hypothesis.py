@@ -181,6 +181,8 @@ class LLMHypothesisGenerator:
         
         # 步骤2: 标准化格式
         normalized_graph = self._normalize_graph_structure(json_obj, variable_list)
+
+        print(f"Reasoning from LLM: {normalized_graph.get('reasoning', '')}\n")
         
         return normalized_graph
     
