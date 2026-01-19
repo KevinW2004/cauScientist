@@ -1,6 +1,0 @@
-{
-  "run_id": 4,
-  "domain": "water",
-  "status": "failed",
-  "error": "[Errno 2] No such file or directory: 'predict/graphs/bnlearn_water_fci_pred.csv'"
-}

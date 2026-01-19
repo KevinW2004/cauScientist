@@ -18,6 +18,7 @@ vllm>=0.3.0
 # remember to `install graphviz` in your own system
 pyvis>=0.3.2
 networkx>=3.0
+matplotlib>=3.5.0
 
 # Other
 toml >= 0.10.2
