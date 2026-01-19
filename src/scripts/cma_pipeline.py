@@ -12,7 +12,6 @@ import os
 from typing import Dict, List
 
 from llm_hypothesis import LLMHypothesisGenerator
-from model_fitting import ModelFittingEngine
 from post_processing import PostProcessor
 from data_loader import CausalDataset, DOMAIN_CONTEXTS
 from utils.score_functions import score_graph_with_bic
@@ -113,10 +112,6 @@ class CMAPipeline:
         # 统一注入 llm_loader 到 hypothesis generator 和 post processor
         self.hypothesis_generator = LLMHypothesisGenerator(llm_loader=self.llm_loader)
         # self.post_processor = PostProcessor(llm_loader=self.llm_loader)
-        
-        
-        # 模型拟合引擎（不需要LLM）
-        self.fitting_engine = ModelFittingEngine(device=self.device)
         
         # 存储历史
         self.iteration_history = []

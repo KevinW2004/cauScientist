@@ -1,6 +1,7 @@
 # 基本配置
 .vscode/
 __pycache__/
+lib/
 *.pyc
 
 # 环境/用户配置文件
