@@ -1,6 +1,16 @@
-avici_models/
-cma_experiments/
-predict/
+# 基本配置
+.vscode/
+__pycache__/
 **/__pycache__/
 *.pyc
 *.pyo
+
+# 环境/用户配置文件
+config/secret.toml
+
+# 实验运行文件
+/cma_experiments/
+predict/
+visualizations/
+avici_models/
+*.puml

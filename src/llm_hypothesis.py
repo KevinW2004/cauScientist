@@ -1,63 +1,23 @@
 """
 LLM Hypothesis Generation Module
-支持OpenAI API和本地模型（如Qwen）的切换
-重构版：更好的错误处理和格式兼容性
 """
 
 import json
-import numpy as np
-import pandas as pd
 from typing import Dict, List, Tuple, Optional
-from collections import defaultdict
-from vllm import SamplingParams
-import re
-from llm.parse_response import parse_and_normalize_response, parse_edge_operations, apply_edge_operations, create_structured_graph
-from llm.prompts import construct_system_prompt, construct_initial_prompt, construct_amendment_prompt, construct_local_amendment_prompt, construct_experiment_proposal_prompt
+from utils.llm.parse_response import parse_and_normalize_response, parse_edge_operations, apply_edge_operations, create_structured_graph
+from utils.llm.prompts import construct_system_prompt, construct_initial_prompt, construct_amendment_prompt, construct_local_amendment_prompt, construct_experiment_proposal_prompt
+from utils.config_manager import ConfigManager
+from llm_loader import LLMLoader
 
 
 class LLMHypothesisGenerator:
     """
-    LLM假设生成器 - 支持多种模型后端和灵活的输出格式
+    LLM假设生成器 - 使用统一的 LLMLoader 接口
     """
     
-    def __init__(
-        self, 
-        model_type: str = "openai",
-        base_url: str = None, 
-        api_key: str = None,
-        model_path: str = None,
-        shared_tokenizer=None,
-        shared_model=None
-    ):
-        """
-        初始化LLM客户端
-        
-        Args:
-            model_type: 模型类型 ("openai" 或 "local")
-            base_url: OpenAI API的base_url
-            api_key: OpenAI API的密钥
-            model_path: 本地模型路径
-            shared_tokenizer: 共享的tokenizer实例
-            shared_model: 共享的model实例
-        """
-        self.model_type = model_type
-        
-        if model_type == "openai":
-            from openai import OpenAI
-            self.client = OpenAI(
-                base_url=base_url or "http://35.220.164.252:3888/v1/",
-                api_key=api_key or "sk-x1DLgF9tW1t2IwCrUFyCfIIYFookGgO4qseCxb9vefNHQPcp"
-            )
-            self.tokenizer = None
-            self.model = None
-            
-        elif model_type == "local":
-            self.client = None
-            assert shared_model is not None, "shared_model must be provided when model_type='local'"
-            self.tokenizer = shared_tokenizer
-            self.model = shared_model
-        else:
-            raise ValueError(f"Unsupported model_type: {model_type}")
+    def __init__(self, llm_loader: LLMLoader):
+        self.llm_loader = llm_loader
+        self.config = ConfigManager()
 
     def propose_experiments(
         self,
@@ -65,10 +25,6 @@ class LLMHypothesisGenerator:
         domain_name: str,
         domain_context: str = "",
         previous_graph: Optional[Dict] = None,
-        num_experiments: int = 3,
-        model: str = "gpt-4o",
-        temperature: float = 0.6,
-        max_tokens: int = 2048,
         edge_notes: Dict[str, str] = None
     ) -> Tuple[List[Dict], str, List[Dict]]:
         """
@@ -82,10 +38,10 @@ class LLMHypothesisGenerator:
         )
         
         print(f"\n[Intervention] Requesting candidates and experiments from LLM...")
-        response_text = self._call_llm(
-            system_prompt, user_prompt, model, temperature, max_tokens
-        )
+        response_text = self._call_llm(system_prompt, user_prompt)
         
+        num_experiments = self.config.get("experiment.num_experiments", 5)
+
         try:
             # 解析 JSON 响应
             start = response_text.find('{')
@@ -116,10 +72,6 @@ class LLMHypothesisGenerator:
         previous_graph: Optional[Dict] = None,
         memory: Optional[str] = None,
         iteration: int = 0,
-        model: str = "gpt-4o",
-        temperature: float = 0.6,
-        max_tokens: int = 4096,
-        use_local_amendment: bool = False,
         num_edge_operations: int = 3,
         skeleton_constraints: Optional[Dict] = None,
         failed_attempts: Optional[List[Dict]] = None,
@@ -158,7 +110,7 @@ class LLMHypothesisGenerator:
         is_initial = (iteration == 0) or (previous_graph is None)
 
         system_prompt = construct_system_prompt(domain_name)
-        if previous_graph is None or not use_local_amendment: # TODO:
+        if previous_graph is None: # TODO:
             response_type = "global"
             valid_ops=None
             if is_initial:
@@ -198,9 +150,7 @@ class LLMHypothesisGenerator:
                 )
 
         print(user_prompt)
-        response_text = self._call_llm(
-            system_prompt, user_prompt, model, temperature, max_tokens
-        )
+        response_text = self._call_llm(system_prompt, user_prompt)
         print(response_text)
         structured_graph, validation_info = self.parse_response_to_graph(response_text, variable_list, response_type, previous_graph, domain_name, iteration, num_edge_operations=num_edge_operations, valid_ops=valid_ops)
         
@@ -249,71 +199,17 @@ class LLMHypothesisGenerator:
         self,
         system_prompt: str,
         user_prompt: str,
-        model: str,
-        temperature: float,
-        max_tokens: int
     ) -> str:
         """
         调用LLM并返回响应文本
         """
-        if self.model_type == "openai":
-            return self._call_openai(system_prompt, user_prompt, model, temperature)
-        else:
-            return self._call_local_model(system_prompt, user_prompt, temperature, max_tokens)
-        
+        temperature = self.config.get("training.temperature", 0.7)
+        return self.llm_loader.generate(
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            temperature=temperature
+        )
     
-    def _call_openai(
-        self,
-        system_prompt: str,
-        user_prompt: str,
-        model: str,
-        temperature: float
-    ) -> str:
-        """调用OpenAI API"""
-        
-        response = self.client.chat.completions.create(
-            model=model,
-            temperature=temperature,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ]
-        )
-        
-        return response.choices[0].message.content
-
-    def _call_local_model(self, system_prompt: str, user_prompt: str, 
-                temperature: float, max_tokens: int ):
-        """使用 vLLM 进行推理"""
-        
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ]
-        prompt = self.tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-            enable_thinking=False
-        )
-        # print("begin call llm, prompt:",prompt)
-        
-        # 设置采样参数
-        sampling_params = SamplingParams(
-            temperature=temperature,
-            top_p=0.95 if temperature > 0 else 1.0,
-            max_tokens=max_tokens,
-            stop=["<|im_end|>", "<|endoftext|>"],  # Qwen 的停止符
-            skip_special_tokens=True
-        )
-        
-        # 生成
-        outputs = self.model.generate([prompt], sampling_params)
-        response_text = outputs[0].outputs[0].text
-        
-        # print("\n\n\nend call llm, output:", response_text)
-        
-        return response_text.strip()
     
     def _get_valid_operations(
         self,

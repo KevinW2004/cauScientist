@@ -1,0 +1,96 @@
+# CMA Pipeline 配置文件
+[llm]
+type = "openai"  # "openai" 或 "local"
+
+[llm.local]
+model_path = "/mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B"
+device = "cuda"  # "cpu" 或 "cuda"
+max_tokens = 8192  # LLM 最大输出token数
+
+[llm.openai]
+base_url = "https://ark.cn-beijing.volces.com/api/v3"
+api_key = ""  # 请在 secret.toml 中设置实际的API密钥
+model_name = "deepseek-v3-1-terminus"
+
+
+[training]
+num_iterations = 3  # null 表示由 iterations_per_node 自动计算
+iterations_per_node = 1.0  # 当 num_iterations 为 null 时，每节点分配的迭代次数
+early_stopping_patience = 5  # 早停耐心值：连续多少次图修改未被接受则停止迭代
+num_runs = 1  # 显著性测试的独立运行次数
+num_epochs = 50
+learning_rate = 0.01
+temperature = 0.7
+verbose = true
+max_retries = 10  # 最大重试次数
+
+
+[experiment]
+mode = "batch"  # "single", "batch" 或 "llm-only"
+csv_path = "/home/wukaiwen/projects/CDLLM/real_test.csv"  # 批量实验的CSV配置文件
+output_dir = "./cma_experiments"  # 输出目录
+device = "cuda"  # "cpu" 或 "cuda"
+use_observational_only = true  # 是否只使用观测数据（排除干预样本）
+split = "test"  # test, train, 或 val
+
+[experiment.single]
+domain_name = "earthquake"
+variable_list = ["Burglary", "Earthquake", "Alarm", "JohnCalls", "MaryCalls"]
+num_samples = 500
+use_synthetic_data = true  # 如果为false，需要指定数据路径
+
+[experiment.single.data]
+# 仅在 use_synthetic_data = false 时需要指定
+fp_data = ""
+fp_graph = ""
+fp_regime = ""
+
+# 搜索策略配置
+[search]
+use_hill_climbing = false  # 启用爬山策略(基于LL接受/拒绝图修改)
+acceptance_tolerance = 0.0  # 爬山策略的接受范围: new_ll >= best_ll - tolerance
+use_mcts = false  # 使用MCTS搜索策略（与use_hill_climbing互斥）
+
+[search.mcts]
+simulations = 50  # MCTS每次迭代的模拟次数
+exploration_weight = 1.414  # MCTS的UCB1探索权重（sqrt(2)≈1.414）
+max_depth = 5  # MCTS的最大搜索深度
+
+# 骨架构建配置
+[skeleton]
+use_skeleton = false  # 启用MMHC骨架构建，用统计方法缩小搜索空间
+alpha = 0.05  # 骨架构建的独立性检验显著性水平
+max_cond_size = 3  # 骨架构建的最大条件集大小
+
+# NOTEARS优化配置
+[notears]
+use_refinement = false  # 使用NOTEARS优化
+use_mlp = false  # NOTEARS使用MLP作为score（推荐，更准确）
+alpha = 0.001  # L2正则化（仅Ridge版本）
+threshold = 0.15  # 边权重阈值
+poly_degree = 2  # 多项式阶数（仅Ridge版本）
+start_iter = 0  # 从第几轮迭代开始使用NOTEARS
+
+# 贪心优化配置（推荐）
+[greedy]
+use_refinement = false  # 使用贪心图优化（推荐）
+max_modifications = 10  # 贪心优化的最大修改次数
+min_improvement = 0.01  # 贪心优化的最小LL改进阈值
+eval_epochs = 15  # 贪心评估时的训练轮数（降低以加速）
+max_candidates = 30  # 每种操作最多测试的候选数（加速大图）
+start_iter = 0  # 从第几轮迭代开始使用贪心优化
+
+# 基线参考配置
+[baseline]
+use_reference = false  # 使用传统方法的预测结果作为LLM参考
+predict_dir = "predict"  # predict目录路径（包含预先计算的预测结果）
+methods = ["corr", "invcov"]  # 要加载的基线方法列表
+top_k = 10  # 每个方法显示top-k个最强关系
+threshold = 0.5  # 筛选阈值的百分位数（0-100）
+use_local_amendment = false  # 使用本地修正
+choose_best = false  # 在初始阶段比较基线方法和全局LLM生成的结果，选择BIC更好的那个
+
+# 干预测试配置
+[intervention]
+use_test = false  # 启用干预实验验证逻辑
+num_experiments = 3  # 每轮允许提出的最大干预实验数

@@ -1,7 +1,7 @@
 import numpy as np
 import re
 from typing import List, Dict, Tuple, Optional
-from data_loader import CausalDataset
+from src.data_loader.data_loader import CausalDataset
 from scipy import stats
 
 class InterventionTester:

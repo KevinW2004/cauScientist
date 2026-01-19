@@ -4,7 +4,7 @@ import torch
 import random
 import os
 from typing import Dict, List
-from data_loader import DataLoader
+from src.data_loader.data_loader import DataLoader
 from model_fitting import ModelFittingEngine
 import matplotlib
 matplotlib.use('Agg')

@@ -10,7 +10,7 @@ import json
 import copy
 import math
 import random
-from metrics import _compute_metrics
+from src.utils.metrics import _compute_metrics
 
 
 class SearchStrategy(ABC):
@@ -550,7 +550,7 @@ class HillClimbingStrategy(SearchStrategy):
             
             if notears_ll > original_ll:
                 print(f"✅ NOTEARS improved!")
-                from cma_pipeline import _compute_metrics
+                from src.core.cma_pipeline import _compute_metrics
                 metrics = _compute_metrics(self.pipeline, notears_graph)
                 notears_graph['metadata']['evaluation_metrics'] = metrics
                 notears_graph['metadata']['notears_refinement'] = refinement_info
@@ -595,7 +595,7 @@ class HillClimbingStrategy(SearchStrategy):
             
             if greedy_ll > original_ll:
                 print(f"✅ Greedy improved!")
-                from cma_pipeline import _compute_metrics
+                from src.core.cma_pipeline import _compute_metrics
                 metrics = _compute_metrics(self.pipeline, greedy_graph)
                 greedy_graph['metadata']['evaluation_metrics'] = metrics
                 greedy_graph['metadata']['greedy_refinement'] = greedy_info
@@ -753,7 +753,7 @@ class MCTSStrategy(SearchStrategy):
         best_ll = initial_ll
         
         # 记录初始图
-        from cma_pipeline import _compute_metrics
+        from src.core.cma_pipeline import _compute_metrics
         initial_metrics = _compute_metrics(self.pipeline, initial_graph)
         initial_graph['metadata']['evaluation_metrics'] = initial_metrics
         

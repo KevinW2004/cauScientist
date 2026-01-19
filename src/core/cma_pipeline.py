@@ -14,13 +14,15 @@ from typing import Dict, List, Optional
 from llm_hypothesis import LLMHypothesisGenerator
 from model_fitting import ModelFittingEngine
 from post_processing import PostProcessor
-from data_loader import DataLoader, CausalDataset, DOMAIN_CONTEXTS
+from data_loader.data_loader import DataLoader, CausalDataset, DOMAIN_CONTEXTS
 from skeleton_builder import SkeletonBuilder, _skeleton_to_graph_format
 from transformers import AutoTokenizer
-from metrics import _compute_metrics
+from utils.metrics import _compute_metrics
+from utils.config_manager import ConfigManager
 from search_strategies import HillClimbingStrategy, MCTSStrategy
 from baseline_reference import load_baseline_reference_from_predict
 from intervention_utils import InterventionTester, EvidencePolicyVerifier
+from llm_loader import LLMLoader
 
 os.environ['VLLM_ATTENTION_BACKEND'] = 'FLASH_ATTN'
 
@@ -77,15 +79,8 @@ class CMAPipeline:
         output_dir: str = "./cma_output",
         device: str = 'cpu',
         
-        # LLM配置
-        llm_type: str = "openai",  # "openai" 或 "local"
-        llm_model_path: str = None,  # 本地模型路径
-        openai_base_url: str = None,  # OpenAI API URL
-        openai_api_key: str = None,   # OpenAI API key
-        
         # 预加载的模型（用于批量实验复用）
-        shared_tokenizer = None,
-        shared_model = None
+        shared_llmloader: LLMLoader = None
     ):
         """
         初始化CMA流程
@@ -149,6 +144,7 @@ class CMAPipeline:
         self.output_dir = output_dir
         self.device = device
         self.llm_type = llm_type
+        self.shared_llmloader = shared_llmloader
         self.use_skeleton = use_skeleton
         self.skeleton_constraints = None
         
@@ -319,45 +315,6 @@ class CMAPipeline:
         self.mcts_exploration_weight = mcts_exploration_weight
         self.mcts_max_depth = mcts_max_depth
         
-        if llm_type == "local":
-            # 检查是否提供了预加载的模型
-            assert shared_model is not None, "shared_model must be provided when llm_type='local'"
-            self.tokenizer = shared_tokenizer
-            self.model = shared_model
-            
-            # 使用共享的模型初始化各模块
-            self.hypothesis_generator = LLMHypothesisGenerator(
-                model_type="local",
-                shared_tokenizer=self.tokenizer,
-                shared_model=self.model
-            )
-            
-            self.post_processor = PostProcessor(
-                model_type="local",
-                tokenizer=self.tokenizer,
-                model=self.model
-            )
-            
-        else:  # openai
-            print(f"Using OpenAI-compatible API")
-            if openai_base_url:
-                print(f"Base URL: {openai_base_url}")
-            
-            # OpenAI不需要预加载模型
-            self.tokenizer = None
-            self.model = None
-            
-            self.hypothesis_generator = LLMHypothesisGenerator(
-                model_type="openai",
-                base_url=openai_base_url,
-                api_key=openai_api_key
-            )
-            
-            self.post_processor = PostProcessor(
-                model_type="openai",
-                base_url=openai_base_url,
-                api_key=openai_api_key
-            )
         
         # 模型拟合引擎（不需要LLM）
         self.fitting_engine = ModelFittingEngine(device=device)
@@ -956,62 +913,60 @@ if __name__ == "__main__":
     
     import argparse
     
-    # 命令行参数解析
+    # 初始化配置管理器
+    config = ConfigManager()
+    
+    # 命令行参数解析（用于覆盖配置文件中的设置）
     parser = argparse.ArgumentParser(description='CMA Pipeline - Causal Discovery')
-    parser.add_argument('--mode', type=str, default='batch', choices=['single', 'batch', 'llm-only'],
+    parser.add_argument('--mode', type=str, default=None, choices=['single', 'batch', 'llm-only'],
                        help='运行模式: single(单个实验), batch(批量实验) 或 llm-only(仅LLM生成一次)')
-    parser.add_argument('--llm_type', type=str, default='local', choices=['local', 'openai'],
+    parser.add_argument('--llm_type', type=str, default=None, choices=['local', 'openai'],
                        help='LLM类型: local 或 openai')
-    parser.add_argument('--model_path', type=str, 
-                       default='/mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B',
+    parser.add_argument('--model_path', type=str, default=None,
                        help='本地模型路径(llm_type=local时使用)')
-    parser.add_argument('--openai_url', type=str,
-                       default='http://35.220.164.252:3888/v1/',
+    parser.add_argument('--openai_url', type=str, default=None,
                        help='OpenAI API URL')
-    parser.add_argument('--openai_key', type=str,
-                       default='sk-x1DLgF9tW1t2IwCrUFyCfIIYFookGgO4qseCxb9vefNHQPcp',
+    parser.add_argument('--openai_key', type=str, default=None,
                        help='OpenAI API key')
-    parser.add_argument('--csv_path', type=str,
-                       default='/mnt/shared-storage-user/pengbo/created/projects/CDLLM/Test-1213/real_test.csv',
+    parser.add_argument('--csv_path', type=str, default=None,
                        help='批量实验的CSV配置文件路径')
-    parser.add_argument('--output_dir', type=str,
-                       default='./cma_experiments',
+    parser.add_argument('--output_dir', type=str, default=None,
                        help='输出目录')
     parser.add_argument('--num_iterations', type=int, default=None,
                        help='CMA迭代次数（默认为None，由iterations_per_node计算）')
-    parser.add_argument('--iterations_per_node', type=float, default=1.0,
+    parser.add_argument('--iterations_per_node', type=float, default=None,
                        help='当num_iterations为None时，每节点分配的迭代次数')
-    parser.add_argument('--early_stopping_patience', type=int, default=5,
+    parser.add_argument('--early_stopping_patience', type=int, default=None,
                        help='早停耐心值：连续多少次图修改未被接受则停止迭代')
-    parser.add_argument('--num_runs', type=int, default=1,
+    parser.add_argument('--num_runs', type=int, default=None,
                        help='显著性测试的独立运行次数')
-    parser.add_argument('--num_epochs', type=int, default=50,
+    parser.add_argument('--num_epochs', type=int, default=None,
                        help='模型拟合的epoch数')
-    parser.add_argument('--device', type=str, default='cuda',
+    parser.add_argument('--device', type=str, default=None,
                        help='设备: cpu 或 cuda')
     parser.add_argument('--use_hill_climbing', action='store_true',
                        help='启用爬山策略(基于LL接受/拒绝图修改)')
-    parser.add_argument('--acceptance_tolerance', type=float, default=0.0,
+    parser.add_argument('--acceptance_tolerance', type=float, default=None,
                        help='爬山策略的接受范围: new_ll >= best_ll - tolerance')
     
     # MCTS参数
     parser.add_argument('--use_mcts', action='store_true',
                        help='使用MCTS搜索策略（与use_hill_climbing互斥）')
-    parser.add_argument('--mcts_simulations', type=int, default=50,
+    parser.add_argument('--mcts_simulations', type=int, default=None,
                        help='MCTS每次迭代的模拟次数')
-    parser.add_argument('--mcts_exploration_weight', type=float, default=1.414,
+    parser.add_argument('--mcts_exploration_weight', type=float, default=None,
                        help='MCTS的UCB1探索权重（sqrt(2)≈1.414）')
-    parser.add_argument('--mcts_max_depth', type=int, default=5,
+    parser.add_argument('--mcts_max_depth', type=int, default=None,
                        help='MCTS的最大搜索深度')
     parser.add_argument('--use_skeleton', action='store_true',
                        help='启用MMHC骨架构建，用统计方法缩小搜索空间')
-    parser.add_argument('--skeleton_alpha', type=float, default=0.05,
+    parser.add_argument('--skeleton_alpha', type=float, default=None,
                        help='骨架构建的独立性检验显著性水平')
-    parser.add_argument('--skeleton_max_cond_size', type=int, default=3,
+    parser.add_argument('--skeleton_max_cond_size', type=int, default=None,
                        help='骨架构建的最大条件集大小')
     parser.add_argument('--verbose', action='store_true',
                        help='')
-    parser.add_argument('--max_retries', type=int, default=10,
+    parser.add_argument('--max_retries', type=int, default=None,
                        help='最大重试次数')
     
     # NOTEARS参数
@@ -1023,27 +978,27 @@ if __name__ == "__main__":
     # 贪心优化参数（推荐）
     parser.add_argument('--use_greedy_refinement', action='store_true',
                        help='使用贪心图优化（推荐）')
-    parser.add_argument('--greedy_max_modifications', type=int, default=10,
+    parser.add_argument('--greedy_max_modifications', type=int, default=None,
                        help='贪心优化的最大修改次数')
-    parser.add_argument('--greedy_min_improvement', type=float, default=0.01,
+    parser.add_argument('--greedy_min_improvement', type=float, default=None,
                        help='贪心优化的最小LL改进阈值')
-    parser.add_argument('--greedy_eval_epochs', type=int, default=15,
+    parser.add_argument('--greedy_eval_epochs', type=int, default=None,
                        help='贪心评估时的训练轮数（降低以加速）')
-    parser.add_argument('--greedy_max_candidates', type=int, default=30,
+    parser.add_argument('--greedy_max_candidates', type=int, default=None,
                        help='每种操作最多测试的候选数（加速大图）')
-    parser.add_argument('--greedy_start_iter', type=int, default=0,
+    parser.add_argument('--greedy_start_iter', type=int, default=None,
                        help='从第几轮迭代开始使用贪心优化')
     
     # 基线参考参数
     parser.add_argument('--use_baseline_reference', action='store_true',
                        help='使用传统方法的预测结果作为LLM参考')
-    parser.add_argument('--baseline_predict_dir', type=str, default='predict',
+    parser.add_argument('--baseline_predict_dir', type=str, default=None,
                        help='predict目录路径（包含预先计算的预测结果）')
-    parser.add_argument('--baseline_methods', type=str, nargs='+', default=['corr', 'invcov'],
+    parser.add_argument('--baseline_methods', type=str, nargs='+', default=None,
                        help='要加载的基线方法列表，如: corr invcov notears')
-    parser.add_argument('--baseline_top_k', type=int, default=10,
+    parser.add_argument('--baseline_top_k', type=int, default=None,
                        help='每个方法显示top-k个最强关系')
-    parser.add_argument('--baseline_threshold', type=float, default=0.5,
+    parser.add_argument('--baseline_threshold', type=float, default=None,
                        help='筛选阈值的百分位数（0-100）')
     parser.add_argument('--use_local_amendment', action='store_true',
                        help='使用本地修正')
@@ -1051,134 +1006,195 @@ if __name__ == "__main__":
                        help='在初始阶段比较基线方法和全局LLM生成的结果，选择BIC更好的那个')
     parser.add_argument('--use_intervention_test', action='store_true',
                        help='启用干预实验验证逻辑')
-    parser.add_argument('--num_intervention_experiments', type=int, default=3,
+    parser.add_argument('--num_intervention_experiments', type=int, default=None,
                        help='每轮允许提出的最大干预实验数')
     
     args = parser.parse_args()
     
+    # 使用配置文件中的值，命令行参数优先
+    mode = args.mode or config.get('experiment.mode', 'batch')
+    llm_type = args.llm_type or config.get('llm.type', 'openai')
+    model_path = args.model_path or config.get('llm.local.model_path')
+    openai_url = args.openai_url or config.get('llm.openai.base_url')
+    openai_key = args.openai_key or config.get('llm.openai.api_key')
+    csv_path = args.csv_path or config.get('experiment.csv_path')
+    output_dir = args.output_dir or config.get('experiment.output_dir', './cma_experiments')
+    
+    # 训练配置
+    num_iterations = args.num_iterations if args.num_iterations is not None else config.get('training.num_iterations')
+    iterations_per_node = args.iterations_per_node if args.iterations_per_node is not None else config.get('training.iterations_per_node', 1.0)
+    early_stopping_patience = args.early_stopping_patience if args.early_stopping_patience is not None else config.get('training.early_stopping_patience', 5)
+    num_runs = args.num_runs if args.num_runs is not None else config.get('training.num_runs', 1)
+    num_epochs = args.num_epochs if args.num_epochs is not None else config.get('training.num_epochs', 50)
+    device = args.device or config.get('experiment.device', 'cuda')
+    verbose = args.verbose or config.get('training.verbose', False)
+    max_retries = args.max_retries if args.max_retries is not None else config.get('training.max_retries', 10)
+    
+    # 搜索策略配置
+    use_hill_climbing = args.use_hill_climbing or config.get('search.use_hill_climbing', False)
+    acceptance_tolerance = args.acceptance_tolerance if args.acceptance_tolerance is not None else config.get('search.acceptance_tolerance', 0.0)
+    use_mcts = args.use_mcts or config.get('search.use_mcts', False)
+    mcts_simulations = args.mcts_simulations if args.mcts_simulations is not None else config.get('search.mcts.simulations', 50)
+    mcts_exploration_weight = args.mcts_exploration_weight if args.mcts_exploration_weight is not None else config.get('search.mcts.exploration_weight', 1.414)
+    mcts_max_depth = args.mcts_max_depth if args.mcts_max_depth is not None else config.get('search.mcts.max_depth', 5)
+    
+    # 骨架构建配置
+    use_skeleton = args.use_skeleton or config.get('skeleton.use_skeleton', False)
+    skeleton_alpha = args.skeleton_alpha if args.skeleton_alpha is not None else config.get('skeleton.alpha', 0.05)
+    skeleton_max_cond_size = args.skeleton_max_cond_size if args.skeleton_max_cond_size is not None else config.get('skeleton.max_cond_size', 3)
+    
+    # NOTEARS配置
+    use_notears_refinement = args.use_notears_refinement or config.get('notears.use_refinement', False)
+    notears_use_mlp = args.notears_use_mlp or config.get('notears.use_mlp', False)
+    notears_alpha = config.get('notears.alpha', 0.001)
+    notears_threshold = config.get('notears.threshold', 0.15)
+    notears_poly_degree = config.get('notears.poly_degree', 2)
+    notears_start_iter = config.get('notears.start_iter', 0)
+    
+    # 贪心优化配置
+    use_greedy_refinement = args.use_greedy_refinement or config.get('greedy.use_refinement', False)
+    greedy_max_modifications = args.greedy_max_modifications if args.greedy_max_modifications is not None else config.get('greedy.max_modifications', 10)
+    greedy_min_improvement = args.greedy_min_improvement if args.greedy_min_improvement is not None else config.get('greedy.min_improvement', 0.01)
+    greedy_eval_epochs = args.greedy_eval_epochs if args.greedy_eval_epochs is not None else config.get('greedy.eval_epochs', 15)
+    greedy_max_candidates = args.greedy_max_candidates if args.greedy_max_candidates is not None else config.get('greedy.max_candidates', 30)
+    greedy_start_iter = args.greedy_start_iter if args.greedy_start_iter is not None else config.get('greedy.start_iter', 0)
+    
+    # 基线参考配置
+    use_baseline_reference = args.use_baseline_reference or config.get('baseline.use_reference', False)
+    baseline_predict_dir = args.baseline_predict_dir or config.get('baseline.predict_dir', 'predict')
+    baseline_methods = args.baseline_methods or config.get('baseline.methods', ['corr', 'invcov'])
+    baseline_top_k = args.baseline_top_k if args.baseline_top_k is not None else config.get('baseline.top_k', 10)
+    baseline_threshold = args.baseline_threshold if args.baseline_threshold is not None else config.get('baseline.threshold', 0.5)
+    use_local_amendment = args.use_local_amendment or config.get('baseline.use_local_amendment', False)
+    choose_best = args.choose_best or config.get('baseline.choose_best', False)
+    
+    # 干预测试配置
+    use_intervention_test = args.use_intervention_test or config.get('intervention.use_test', False)
+    num_intervention_experiments = args.num_intervention_experiments if args.num_intervention_experiments is not None else config.get('intervention.num_experiments', 3)
+    
     # 根据模型和基线方法构建输出路径
     model_tag = "openai"
-    if args.llm_type == 'local' and args.model_path:
-        model_tag = os.path.basename(args.model_path.rstrip('/'))
-    elif args.llm_type == 'openai':
+    if llm_type == 'local' and model_path:
+        model_tag = os.path.basename(model_path.rstrip('/'))
+    elif llm_type == 'openai':
         model_tag = "openai"
     
     baseline_tag = "no_baseline"
-    if args.use_baseline_reference:
+    if use_baseline_reference:
         # 如果 baseline_methods 是列表，将其排序并连接
-        if isinstance(args.baseline_methods, list):
-            baseline_tag = "_".join(sorted(args.baseline_methods))
+        if isinstance(baseline_methods, list):
+            baseline_tag = "_".join(sorted(baseline_methods))
         else:
-            baseline_tag = str(args.baseline_methods)
-    if args.mode == 'llm-only':
+            baseline_tag = str(baseline_methods)
+    if mode == 'llm-only':
         baseline_tag = "llm-only"
     
     # 更新 output_dir
-    args.output_dir = os.path.join(args.output_dir, f"{model_tag}_{baseline_tag}")
+    output_dir = os.path.join(output_dir, f"{model_tag}_{baseline_tag}")
 
     # ========== 批量实验模式 ==========
-    if args.mode in ['batch', 'llm-only']:
+    if mode in ['batch', 'llm-only']:
         print("\n" + "="*80)
-        print(f"CMA {'LLM-ONLY' if args.mode == 'llm-only' else 'BATCH'} EXPERIMENTS")
+        print(f"CMA {'LLM-ONLY' if mode == 'llm-only' else 'BATCH'} EXPERIMENTS")
         print("="*80)
         print(f"Configuration:")
-        print(f"  CSV Path: {args.csv_path}")
-        print(f"  Output Dir: {args.output_dir}")
-        print(f"  LLM Type: {args.llm_type}")
-        if args.llm_type == 'local':
-            print(f"  Model Path: {args.model_path}")
+        print(f"  CSV Path: {csv_path}")
+        print(f"  Output Dir: {output_dir}")
+        print(f"  LLM Type: {llm_type}")
+        if llm_type == 'local':
+            print(f"  Model Path: {model_path}")
         else:
-            print(f"  API URL: {args.openai_url}")
+            print(f"  API URL: {openai_url}")
         
-        if args.mode == 'llm-only':
+        if mode == 'llm-only':
             print(f"  Mode: LLM-only (Stop after first successful global graph)")
         else:
-            print(f"  Iterations: {args.num_iterations if args.num_iterations else 'Auto (per node)'}")
-            if args.num_iterations is None:
-                print(f"  Iterations per node: {args.iterations_per_node}")
-            print(f"  Early stopping patience: {args.early_stopping_patience}")
+            print(f"  Iterations: {num_iterations if num_iterations else 'Auto (per node)'}")
+            if num_iterations is None:
+                print(f"  Iterations per node: {iterations_per_node}")
+            print(f"  Early stopping patience: {early_stopping_patience}")
         
-        print(f"  Trials per dataset: {args.num_runs}")
-        print(f"  Epochs: {args.num_epochs}")
-        print(f"  Device: {args.device}")
-        print(f"  Hill Climbing: {args.use_hill_climbing}")
-        if args.use_hill_climbing:
-            print(f"  Acceptance Tolerance: {args.acceptance_tolerance}")
-        print(f"  Use Skeleton: {args.use_skeleton}")
-        if args.use_skeleton:
-            print(f"  Skeleton Alpha: {args.skeleton_alpha}")
-            print(f"  Skeleton Max Cond Size: {args.skeleton_max_cond_size}")
-        print(f"  Use Baseline Reference: {args.use_baseline_reference}")
-        if args.use_baseline_reference:
-            print(f"  Baseline Predict Dir: {args.baseline_predict_dir}")
-            print(f"  Baseline Methods: {args.baseline_methods}")
-            print(f"  Baseline Top-K: {args.baseline_top_k}")
-            print(f"  Baseline Threshold Percentile: {args.baseline_threshold}")
-        print(f"  Choose Best Initial: {args.choose_best}")
+        print(f"  Trials per dataset: {num_runs}")
+        print(f"  Epochs: {num_epochs}")
+        print(f"  Device: {device}")
+        print(f"  Hill Climbing: {use_hill_climbing}")
+        if use_hill_climbing:
+            print(f"  Acceptance Tolerance: {acceptance_tolerance}")
+        print(f"  Use Skeleton: {use_skeleton}")
+        if use_skeleton:
+            print(f"  Skeleton Alpha: {skeleton_alpha}")
+            print(f"  Skeleton Max Cond Size: {skeleton_max_cond_size}")
+        print(f"  Use Baseline Reference: {use_baseline_reference}")
+        if use_baseline_reference:
+            print(f"  Baseline Predict Dir: {baseline_predict_dir}")
+            print(f"  Baseline Methods: {baseline_methods}")
+            print(f"  Baseline Top-K: {baseline_top_k}")
+            print(f"  Baseline Threshold Percentile: {baseline_threshold}")
+        print(f"  Choose Best Initial: {choose_best}")
         print("="*80 + "\n")
         
         # 验证文件
-        if not os.path.exists(args.csv_path):
-            print(f"❌ Error: CSV file not found: {args.csv_path}")
+        if not os.path.exists(csv_path):
+            print(f"❌ Error: CSV file not found: {csv_path}")
             exit(1)
         
-        if args.llm_type == 'local' and not os.path.exists(args.model_path):
-            print(f"❌ Error: Model path not found: {args.model_path}")
+        if llm_type == 'local' and not os.path.exists(model_path):
+            print(f"❌ Error: Model path not found: {model_path}")
             exit(1)
         
         # 创建批量运行器
         runner = BatchExperimentRunner(
-            csv_config_path=args.csv_path,
-            base_output_dir=args.output_dir,
-            llm_type=args.llm_type,
-            llm_model_path=args.model_path if args.llm_type == 'local' else None,
-            openai_base_url=args.openai_url if args.llm_type == 'openai' else None,
-            openai_api_key=args.openai_key if args.llm_type == 'openai' else None
+            csv_config_path=csv_path,
+            base_output_dir=output_dir,
+            llm_type=llm_type,
+            llm_model_path=model_path if llm_type == 'local' else None,
+            openai_base_url=openai_url if llm_type == 'openai' else None,
+            openai_api_key=openai_key if llm_type == 'openai' else None
         )
         
         # 运行批量实验
         runner.run_all_experiments(
             split='test',
-            num_runs=args.num_runs,
-            num_iterations=args.num_iterations,
-            iterations_per_node=args.iterations_per_node,
-            early_stopping_patience=args.early_stopping_patience,
-            num_epochs=args.num_epochs,
-            device=args.device,
-            learning_rate=0.01,
-            temperature=0.6,
-            use_hill_climbing=args.use_hill_climbing,
-            acceptance_tolerance=args.acceptance_tolerance,
-            verbose=args.verbose,
-            max_retries=args.max_retries,
-            use_skeleton=args.use_skeleton,
-            skeleton_alpha=args.skeleton_alpha,
-            skeleton_max_cond_size=args.skeleton_max_cond_size,
-            use_notears_refinement=args.use_notears_refinement,
-            notears_use_mlp=args.notears_use_mlp,
-            use_greedy_refinement=args.use_greedy_refinement,
-            greedy_max_modifications=args.greedy_max_modifications,
-            greedy_min_improvement=args.greedy_min_improvement,
-            greedy_eval_epochs=args.greedy_eval_epochs,
-            greedy_max_candidates=args.greedy_max_candidates,
-            greedy_start_iter=args.greedy_start_iter,
-            use_mcts=args.use_mcts,
-            mcts_simulations=args.mcts_simulations,
-            mcts_exploration_weight=args.mcts_exploration_weight,
-            mcts_max_depth=args.mcts_max_depth,
-            llm_only=(args.mode == 'llm-only'),
-            choose_best=args.choose_best,
+            num_runs=num_runs,
+            num_iterations=num_iterations,
+            iterations_per_node=iterations_per_node,
+            early_stopping_patience=early_stopping_patience,
+            num_epochs=num_epochs,
+            device=device,
+            learning_rate=config.get('training.learning_rate', 0.01),
+            temperature=config.get('training.temperature', 0.6),
+            use_hill_climbing=use_hill_climbing,
+            acceptance_tolerance=acceptance_tolerance,
+            verbose=verbose,
+            max_retries=max_retries,
+            use_skeleton=use_skeleton,
+            skeleton_alpha=skeleton_alpha,
+            skeleton_max_cond_size=skeleton_max_cond_size,
+            use_notears_refinement=use_notears_refinement,
+            notears_use_mlp=notears_use_mlp,
+            use_greedy_refinement=use_greedy_refinement,
+            greedy_max_modifications=greedy_max_modifications,
+            greedy_min_improvement=greedy_min_improvement,
+            greedy_eval_epochs=greedy_eval_epochs,
+            greedy_max_candidates=greedy_max_candidates,
+            greedy_start_iter=greedy_start_iter,
+            use_mcts=use_mcts,
+            mcts_simulations=mcts_simulations,
+            mcts_exploration_weight=mcts_exploration_weight,
+            mcts_max_depth=mcts_max_depth,
+            llm_only=(mode == 'llm-only'),
+            choose_best=choose_best,
             # 基线参考参数
-            use_baseline_reference=args.use_baseline_reference,
-            baseline_predict_dir=args.baseline_predict_dir,
-            baseline_methods=args.baseline_methods,
-            baseline_top_k=args.baseline_top_k,
-            baseline_threshold=args.baseline_threshold,
-            use_local_amendment=args.use_local_amendment,
-            use_intervention_test=args.use_intervention_test,
-            num_intervention_experiments=args.num_intervention_experiments
+            use_baseline_reference=use_baseline_reference,
+            baseline_predict_dir=baseline_predict_dir,
+            baseline_methods=baseline_methods,
+            baseline_top_k=baseline_top_k,
+            baseline_threshold=baseline_threshold,
+            use_local_amendment=use_local_amendment,
+            use_intervention_test=use_intervention_test,
+            num_intervention_experiments=num_intervention_experiments
         )
         
         print(f"\n✅ All experiments completed!")
-        print(f"Results saved to: {args.output_dir}")
-        print(f"Summary: {args.output_dir}/experiments_summary.json\n")
+        print(f"Results saved to: {output_dir}")
+        print(f"Summary: {output_dir}/experiments_summary.json\n")

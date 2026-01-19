@@ -6,6 +6,8 @@ Post-processing Module
 
 import json
 from typing import Dict, Optional
+from utils.config_manager import ConfigManager
+from llm_loader import LLMLoader
 
 
 class PostProcessor:
@@ -13,64 +15,11 @@ class PostProcessor:
     
     def __init__(
         self, 
-        model_type: str = "openai",
-        base_url: str = None, 
-        api_key: str = None,
-        model_path: str = None,
-        tokenizer=None,  # 共享tokenizer
-        model=None       # 共享model
+        llmloader: LLMLoader = None,  # 共享LLMLoader实例
     ):
         """初始化后处理器"""
-        self.model_type = model_type
-        
-        if model_type == "openai":
-            from openai import OpenAI
-            self.client = OpenAI(
-                base_url=base_url or "http://35.220.164.252:3888/v1/",
-                api_key=api_key or "sk-x1DLgF9tW1t2IwCrUFyCfIIYFookGgO4qseCxb9vefNHQPcp"
-            )
-            self.tokenizer = None
-            self.model = None
-            
-        elif model_type == "local":
-            self.client = None
-            
-            # 使用共享的模型实例（推荐）
-            if model is not None:
-                print("[PostProcessor] Using shared model instance")
-                self.tokenizer = tokenizer
-                self.model = model
-            else:
-                # 独立加载
-                if model_path is None:
-                    raise ValueError("model_path must be provided when not using shared model")
-                print("[PostProcessor] Loading independent model instance")
-                self._init_local_model(model_path)
-        else:
-            raise ValueError(f"Unsupported model_type: {model_type}")
-    
-    def _init_local_model(self, model_path: str):
-        """初始化本地模型（独立实例）"""
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch
-        
-        print(f"Loading local model for PostProcessor from {model_path}...")
-        
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            model_path,
-            trust_remote_code=True,
-            use_fast=False
-        )
-        
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            torch_dtype=torch.bfloat16,
-            device_map="auto",
-            trust_remote_code=True
-        )
-        
-        self.model.eval()
-        print("✓ Local model loaded for PostProcessor")
+        self.llm_loader = llmloader
+        self.config = ConfigManager()
     
     def generate_memory(
         self,

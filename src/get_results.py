@@ -18,7 +18,7 @@ from sklearn.metrics import roc_auc_score, average_precision_score
 from collections import defaultdict
 import pandas as pd
 import networkx as nx
-from metrics import compute_precision_recall_f1, shd_metric as shd_metric_standard
+from src.utils.metrics import compute_precision_recall_f1, shd_metric as shd_metric_standard
 sys.path.insert(0, '/mnt/shared-storage-user/pengbo/created/projects/CausalDiscovery/test_method')
 from mwu import to_2d, from_key_to_info, from_path_to_info
 import matplotlib.pyplot as plt

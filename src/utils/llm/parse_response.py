@@ -4,7 +4,7 @@ import re
 import numpy as np
 import pandas as pd
 from typing import Optional, Tuple
-from metrics import has_cycle
+from src.utils.metrics import has_cycle
 
 def extract_json(text: str) -> Optional[Dict]:
     """从文本中提取JSON对象，具有增强的容错性"""
