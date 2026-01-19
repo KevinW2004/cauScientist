@@ -8,7 +8,7 @@ import re
 from llm_loader import LLMLoader
 from utils import ConfigManager
 from utils import visualize_causal_graph
-
+from schemas.causal_graph import *
 
 class LLMHypothesisGenerator:
     """
@@ -86,7 +86,7 @@ class LLMHypothesisGenerator:
         causal_graph = self._parse_and_normalize_response(response_text, variable_list)
         
         # 创建结构化图
-        structured_graph = self._create_structured_graph(
+        structured_graph: StructuredGraph = self._create_structured_graph(
             causal_graph, variable_list, domain_name, iteration
         )
         
@@ -422,8 +422,8 @@ class LLMHypothesisGenerator:
         variable_list: List[str],
         domain_name: str,
         iteration: int,
-        previous_graph: Optional[Dict] = None
-    ) -> Optional[Dict]:
+        previous_graph: Optional[StructuredGraph] = None
+    ) -> Optional[StructuredGraph]:
         """创建最终的结构化图表示"""
         
         nodes = causal_graph['nodes']
@@ -474,27 +474,39 @@ class LLMHypothesisGenerator:
             print("⚠️  Warning: Graph contains cycles! Return None")
             return None
         
+        # 创建返回对象
+
         # 计算变化
         changes = None
         if previous_graph is not None:
             changes = self._compute_changes(previous_graph, {'nodes': nodes})
-        
-        # 创建结构化图
-        structured_graph = {
-            "metadata": {
-                "domain": domain_name,
-                "iteration": iteration,
-                "num_variables": len(variable_list),
-                "num_edges": self._count_edges(nodes),
-                "reasoning": reasoning,
-                "changes": changes
-            },
-            "nodes": nodes
-        }
+        change_obj = None
+        if changes:
+            change_obj = GraphChanges(
+                added_edges=changes['added_edges'],
+                removed_edges=changes['removed_edges'],
+                num_added=changes['num_added'],
+                num_removed=changes['num_removed']
+            )
+        metadata_obj = GraphMetadata(
+            domain=domain_name,
+            iteration=iteration,
+            num_variables=len(variable_list),
+            num_edges=self._count_edges(nodes),
+            reasoning=reasoning,
+            changes=change_obj
+        )
+        nodes_objs = [CausalNode(name=node['name'], parents=node['parents']) for node in nodes]
         
         # 计算邻接矩阵
         adj_matrix, _ = self._create_adjacency_matrix(nodes, variable_list)
-        structured_graph["adjacency_matrix"] = adj_matrix.tolist()
+        
+        # 组装
+        structured_graph = StructuredGraph(
+            metadata=metadata_obj,
+            nodes=nodes_objs,
+            adjacency_matrix=adj_matrix
+        )
         
         return structured_graph
     
@@ -922,9 +934,9 @@ CRITICAL:
     
     def visualize_graph(
         self, 
-        structured_graph: Dict,
+        structured_graph: StructuredGraph,
         output_dir: str = "visualizations",
-        previous_graph: Optional[Dict] = None,
+        previous_graph: Optional[StructuredGraph] = None,
         auto_open: bool = True,
         text_only: bool = False
     ):
@@ -932,7 +944,7 @@ CRITICAL:
         可视化因果图（支持文本和交互式HTML两种方式）
         
         Args:
-            structured_graph: 结构化图数据
+            structured_graph: 结构化图数据（StructuredGraph schema）
             output_dir: HTML输出目录
             previous_graph: 上一轮的图（用于高亮变化）
             auto_open: 是否自动在浏览器打开HTML
@@ -940,15 +952,15 @@ CRITICAL:
         """
         # 文本可视化
         print("\n" + "="*60)
-        print(f"CAUSAL GRAPH - {structured_graph['metadata']['domain'].upper()}")
+        print(f"CAUSAL GRAPH - {structured_graph.metadata.domain.upper()}")
         print("="*60)
-        print(f"Iteration: {structured_graph['metadata']['iteration']}")
-        print(f"Variables: {structured_graph['metadata']['num_variables']}")
-        print(f"Edges: {structured_graph['metadata']['num_edges']}")
+        print(f"Iteration: {structured_graph.metadata.iteration}")
+        print(f"Variables: {structured_graph.metadata.num_variables}")
+        print(f"Edges: {structured_graph.metadata.num_edges}")
         
         # 显示变化
-        if structured_graph['metadata'].get('changes'):
-            changes = structured_graph['metadata']['changes']
+        if structured_graph.metadata.changes:
+            changes = structured_graph.metadata.changes
             print(f"\nChanges from previous iteration:")
             print(f"  Added: {changes['num_added']} edges")
             print(f"  Removed: {changes['num_removed']} edges")
@@ -972,13 +984,13 @@ CRITICAL:
         edges = []
         root_nodes = []
         
-        for node in structured_graph['nodes']:
-            parents = node.get('parents', [])
+        for node in structured_graph.nodes:
+            parents = node.parents
             if parents:
                 for parent in parents:
-                    edges.append(f"  {parent} → {node['name']}")
+                    edges.append(f"  {parent} → {node.name}")
             else:
-                root_nodes.append(node['name'])
+                root_nodes.append(node.name)
         
         if root_nodes:
             print("\nRoot Nodes (no parents):")

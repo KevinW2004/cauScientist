@@ -1,5 +1,6 @@
 from typing import Dict
 import numpy as np
+from schemas.causal_graph import StructuredGraph
 
 def shd_metric(pred, target):
     """
@@ -33,7 +34,7 @@ def shd_metric(pred, target):
     
     return int(fn + fp + rev)
 
-def compute_metrics(pipeline, predicted_graph: Dict) -> Dict:
+def compute_metrics(pipeline, predicted_graph: StructuredGraph) -> Dict:
     """计算评估指标 - 添加SHD"""
     
     if pipeline.dataset is None:
@@ -44,7 +45,7 @@ def compute_metrics(pipeline, predicted_graph: Dict) -> Dict:
     pred_adj_matrix = np.zeros((n_vars, n_vars), dtype=int)
     
     predicted_edges = set()
-    for node in predicted_graph['nodes']:
+    for node in predicted_graph.nodes:
         child = node['name']
         child_idx = pipeline.variable_list.index(child)
         for parent in node.get('parents', []):

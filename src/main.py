@@ -1,5 +1,6 @@
 """项目主入口"""
 import numpy as np
+from argparse import ArgumentParser
 
 from utils import ConfigManager
 from data_loader import DataLoader
@@ -42,8 +43,8 @@ def run_single_experiment():
     result = pipeline.run(verbose=True)
     best_graph = pipeline.get_best_graph()
     print(f"\n✅ Experiment completed!")
-    print(f"Best graph at iteration {best_graph['metadata']['iteration']}")
-    print(f"Log-likelihood: {best_graph['metadata']['log_likelihood']:.4f}\n")
+    print(f"Best graph at iteration {best_graph.metadata.iteration}")
+    print(f"Log-likelihood: {best_graph.metadata.log_likelihood:.4f}\n")
     return result
 
 
@@ -67,7 +68,12 @@ def run_batch_experiment():
 
 # ========== 使用示例 ==========
 if __name__ == "__main__":
-    config = ConfigManager()
+    parser = ArgumentParser(description="Causal Scientist Main Entry Point")
+    parser.add_argument("--config", type=str,
+                        help="Configuration file name in /config", default=None)
+    config_file = parser.parse_args().config
+                        
+    config = ConfigManager(config_file)
     
     # ========== 批量实验模式 ==========
     if config.get("experiment.mode") == "batch":

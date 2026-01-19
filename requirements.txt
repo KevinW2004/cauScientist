@@ -15,6 +15,7 @@ openai>=1.0.0
 vllm>=0.3.0
 
 # Visualization
+# remember to `install graphviz` in your own system
 pyvis>=0.3.2
 networkx>=3.0
 

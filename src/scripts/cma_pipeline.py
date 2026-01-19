@@ -20,6 +20,7 @@ from transformers import AutoTokenizer
 from utils import ConfigManager
 from utils.metrics import compute_metrics
 from llm_loader import LLMLoader, LLMLoaderFactory
+from schemas.causal_graph import StructuredGraph
 
 os.environ['VLLM_ATTENTION_BACKEND'] = 'FLASH_ATTN'
 
@@ -187,10 +188,10 @@ class CMAPipeline:
             if verbose:
                 self.hypothesis_generator.visualize_graph(structured_graph)
             
-            # 保存假设
+            # 保存假设（使用 Pydantic 的 model_dump 转为字典再序列化）
             graph_path = os.path.join(self.output_dir, f"graph_t{t}.json")
             with open(graph_path, 'w') as f:
-                json.dump(structured_graph, f, indent=2)
+                json.dump(structured_graph.model_dump(mode='python'), f, indent=2)
             
             # ===== 步骤2: 使用标准 BIC 评分 =====
             fitting_results = score_graph_with_bic(
@@ -200,10 +201,10 @@ class CMAPipeline:
             )
             
             # 将评分结果添加到图的元数据
-            structured_graph['metadata']['log_likelihood'] = fitting_results['cv_log_likelihood']
-            structured_graph['metadata']['bic'] = fitting_results['bic']
-            structured_graph['metadata']['num_parameters'] = fitting_results['num_parameters']
-            structured_graph['metadata']['method'] = fitting_results['method']
+            structured_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
+            structured_graph.metadata.bic = fitting_results['bic']
+            structured_graph.metadata.num_parameters = fitting_results['num_parameters']
+            structured_graph.metadata.method = fitting_results['method']
             
             # ===== 步骤3: 后处理 - 生成记忆 =====
             # memory = self.post_processor.generate_memory(
@@ -269,14 +270,14 @@ class CMAPipeline:
         
         return self.iteration_history[-1] if len(self.iteration_history[-1])!= 0 else None
     
-    def _evaluate_against_ground_truth(self, predicted_graph: Dict):
+    def _evaluate_against_ground_truth(self, predicted_graph: StructuredGraph):
         """评估预测图与真实图的差距"""
         
         # 提取预测的边
         predicted_edges = set()
-        for node in predicted_graph['nodes']:
-            child = node['name']
-            for parent in node.get('parents', []):
+        for node in predicted_graph.nodes:
+            child = node.name
+            for parent in node.parents:
                 parent_idx = self.variable_list.index(parent)
                 child_idx = self.variable_list.index(child)
                 predicted_edges.add((parent_idx, child_idx))
@@ -351,7 +352,8 @@ class CMAPipeline:
         for record in self.iteration_history:
             t = record['iteration']
             ll = record['results']['cv_log_likelihood']
-            edges = record['graph']['metadata']['num_edges']
+            graph: StructuredGraph = record['graph']
+            edges = graph.metadata.num_edges
             lines.append(f"  t={t}: LL={ll:.4f}, Edges={edges}")
         
         # 最佳迭代
@@ -367,14 +369,14 @@ class CMAPipeline:
                 "\nFinal Causal Structure:"
             ])
             
-            final_graph = self.iteration_history[-1]['graph']
-            for node in final_graph['nodes']:
-                parents = node.get('parents', [])
+            final_graph: StructuredGraph = self.iteration_history[-1]['graph']
+            for node in final_graph.nodes:
+                parents = node.parents
                 if parents:
                     for parent in parents:
-                        lines.append(f"  {parent} → {node['name']}")
+                        lines.append(f"  {parent} → {node.name}")
                 else:
-                    lines.append(f"  {node['name']} (root)")
+                    lines.append(f"  {node.name} (root)")
         
         # 如果有真实图,添加对比
         if self.dataset:
@@ -387,7 +389,7 @@ class CMAPipeline:
         
         return "\n".join(lines)
     
-    def get_best_graph(self) -> Dict:
+    def get_best_graph(self) -> StructuredGraph:
         """返回拟合度最好的图"""
         best_idx = max(range(len(self.iteration_history)),
                        key=lambda i: self.iteration_history[i]['results']['cv_log_likelihood'])

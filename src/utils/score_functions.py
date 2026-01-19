@@ -6,10 +6,11 @@ Score Functions for Causal Discovery
 import numpy as np
 from typing import Dict, List
 from causallearn.score.LocalScoreFunctionClass import local_score_BIC
+from schemas.causal_graph import StructuredGraph
 
 
 def score_graph_with_bic(
-    structured_graph: Dict,
+    structured_graph: StructuredGraph,
     data: np.ndarray,
     variable_names: List[str]
 ) -> Dict:
@@ -21,7 +22,7 @@ def score_graph_with_bic(
     - BIC 惩罚：自动平衡拟合度和复杂度
     
     Args:
-        structured_graph: 图结构
+        structured_graph: 图结构（StructuredGraph schema）
         data: 数据 [n_samples, n_variables]
         variable_names: 变量名列表
         
@@ -38,9 +39,9 @@ def score_graph_with_bic(
     total_score = 0.0
     num_params = 0
     
-    for node in structured_graph['nodes']:
-        child = node['name']
-        parents = node.get('parents', [])
+    for node in structured_graph.nodes:
+        child = node.name
+        parents = node.parents
         
         child_idx = variable_names.index(child)
         parent_indices = [variable_names.index(p) for p in parents]
@@ -75,7 +76,7 @@ def score_graph_with_bic(
 
 
 def score_graph_simple(
-    structured_graph: Dict,
+    structured_graph: StructuredGraph,
     data: np.ndarray,
     variable_names: List[str]
 ) -> float:

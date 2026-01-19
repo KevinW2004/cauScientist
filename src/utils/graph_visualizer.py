@@ -7,6 +7,7 @@ import os
 from typing import Dict, Optional, List, Tuple
 from pyvis.network import Network
 import webbrowser
+from schemas.causal_graph import StructuredGraph
 
 
 class CausalGraphVisualizer:
@@ -38,16 +39,16 @@ class CausalGraphVisualizer:
     
     def visualize(
         self,
-        structured_graph: Dict,
+        structured_graph: StructuredGraph,
         filename: Optional[str] = None,
-        previous_graph: Optional[Dict] = None,
+        previous_graph: Optional[StructuredGraph] = None,
         layout: str = "hierarchical"
     ) -> str:
         """
         生成交互式因果图
         
         Args:
-            structured_graph: 结构化图数据
+            structured_graph: 结构化图数据（StructuredGraph schema）
             filename: 输出文件名（不含路径），默认自动生成
             previous_graph: 上一轮的图（用于高亮变化）
             layout: 布局方式 ("hierarchical" 或 "spring")
@@ -56,8 +57,8 @@ class CausalGraphVisualizer:
             生成的 HTML 文件路径
         """
         
-        metadata = structured_graph['metadata']
-        nodes = structured_graph['nodes']
+        metadata = structured_graph.metadata
+        nodes = structured_graph.nodes
         
         # 生成文件名
         if filename is None:
@@ -196,8 +197,8 @@ class CausalGraphVisualizer:
     
     def _get_edge_changes(
         self,
-        current_graph: Dict,
-        previous_graph: Optional[Dict]
+        current_graph: StructuredGraph,
+        previous_graph: Optional[StructuredGraph]
     ) -> Tuple[set, set]:
         """
         获取边的变化
@@ -208,12 +209,12 @@ class CausalGraphVisualizer:
         if previous_graph is None:
             return set(), set()
         
-        changes = current_graph['metadata'].get('changes')
+        changes = current_graph.metadata.changes
         if changes is None:
             return set(), set()
         
-        added_edges = set(changes.get('added_edges', []))
-        removed_edges = set(changes.get('removed_edges', []))
+        added_edges = set(changes.added_edges)
+        removed_edges = set(changes.removed_edges)
         
         return added_edges, removed_edges
     
@@ -323,10 +324,10 @@ class CausalGraphVisualizer:
 
 
 def visualize_causal_graph(
-    structured_graph: Dict,
+    structured_graph: StructuredGraph,
     output_dir: str = "visualizations",
     filename: Optional[str] = None,
-    previous_graph: Optional[Dict] = None,
+    previous_graph: Optional[StructuredGraph] = None,
     auto_open: bool = True,
     layout: str = "hierarchical"
 ) -> str:
@@ -334,7 +335,7 @@ def visualize_causal_graph(
     快捷函数：生成交互式因果图
     
     Args:
-        structured_graph: 结构化图数据
+        structured_graph: 结构化图数据（StructuredGraph schema）
         output_dir: 输出目录
         filename: 输出文件名
         previous_graph: 上一轮的图

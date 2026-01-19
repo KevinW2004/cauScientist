@@ -32,15 +32,10 @@ class ConfigManager:
         if ConfigManager._initialized:
             return
         
-        if config_path is None:
-            # 使用默认路径
-            config_path = os.path.join(
-                ConfigManager._path_prefix,
-                "default.toml"
-            )
-        
-        self.config_path = config_path
-        
+        if config_path is None: config_path = "default.toml"
+        config_path = os.path.join(
+            ConfigManager._path_prefix, config_path
+        )
         # 检查文件是否存在
         if not os.path.exists(config_path):
             raise FileNotFoundError(f"Config file not found: {config_path}")
