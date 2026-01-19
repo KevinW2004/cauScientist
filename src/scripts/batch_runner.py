@@ -1,3 +1,6 @@
+"""
+还是原始版本，没有修改适配
+"""
 import os
 import json
 from typing import List, Dict

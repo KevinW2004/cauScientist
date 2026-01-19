@@ -11,11 +11,10 @@ import numpy as np
 import os
 from typing import Dict, List
 
-from llm_hypothesis import LLMHypothesisGenerator
+from core.llm_hypothesis import LLMHypothesisGenerator
 from post_processing import PostProcessor
 from data_loader import CausalDataset, DOMAIN_CONTEXTS
 from utils.score_functions import score_graph_with_bic
-from transformers import AutoTokenizer
 
 from utils import ConfigManager
 from utils.metrics import compute_metrics
@@ -35,7 +34,6 @@ class CMAPipeline:
         data: np.ndarray = None,
         dataset: CausalDataset = None,  # 新增: 直接传入数据集
         domain_context: str = "",
-        use_observational_only: bool = True,  # 新增: 是否只用观测数据
     ):
         """
         初始化CMA流程
@@ -69,13 +67,8 @@ class CMAPipeline:
             self.domain_name = dataset.domain_name
             self.variable_list = dataset.variable_names
             
-            # 选择使用全部数据还是只用观测数据
-            if use_observational_only and dataset.interventions is not None:
-                self.data = dataset.get_observational_data()
-                print(f"[Info] Using observational data only: {self.data.shape}")
-            else:
-                self.data = dataset.data
-                print(f"[Info] Using all data: {self.data.shape}")
+            # 加载数据
+            self.data = dataset.data
             
             # 使用预定义的领域背景
             if not domain_context:

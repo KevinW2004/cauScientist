@@ -1,8 +1,8 @@
 # 基本配置
 .vscode/
 __pycache__/
-lib/
 *.pyc
+*.pyo
 
 # 环境/用户配置文件
 config/secret.toml
@@ -10,4 +10,7 @@ config/secret.toml
 # 实验运行文件
 /cma_experiments/
 visualizations/
+
+# 草稿图文件
 *.puml
+*.mmd

@@ -18,7 +18,8 @@ class CausalDataset:
         ground_truth_graph: np.ndarray,
         interventions: Optional[np.ndarray] = None,
         variable_names: Optional[List[str]] = None,
-        domain_name: str = "unknown"
+        domain_name: str = "unknown",
+        variable_type: str = "continuous"
     ):
         """
         Args:
@@ -27,11 +28,13 @@ class CausalDataset:
             interventions: 干预矩阵 [n_samples, n_variables], 1表示该变量被干预
             variable_names: 变量名列表
             domain_name: 领域名称
+            variable_type: 变量类型 ("continuous" 或 "discrete")
         """
         self.data = data
         self.ground_truth_graph = ground_truth_graph
         self.interventions = interventions
         self.domain_name = domain_name
+        self.variable_type = variable_type
         
         self.n_samples, self.n_variables = data.shape
         
@@ -120,7 +123,8 @@ class DataLoader:
         "earthquake": ['Burglary', 'Earthquake', 'Alarm', 'JohnCalls', 'MaryCalls'],
         "cancer": ['Pollution', 'Smoker', 'Cancer', 'Xray', 'Dyspnoea'],
         "asia": ['asia', 'tub', 'smoke', 'lung', 'bronc', 'either', 'xray', 'dysp'],
-        "sachs": ['Plcg', 'PKC', 'PKA', 'Jnk', 'P38', 'Raf', 'Mek', 'Erk', 'Akt', 'PIP3', 'PIP2'],
+        "sachs": ['Plcg', 'PKC', 'PKA', 'Jnk', 'P38', 'Raf', 'Mek', 'Erk', 'Akt', 'PIP3', 'PIP2'], # 可能是alarm的
+        # "sachs": ['Raf', 'Mek', 'Plcg', 'PIP2', 'PIP3', 'Erk', 'Akt', 'PKA', 'PKC', 'P38', 'Jnk'],
         "child": ['BirthAsphyxia', 'Disease', 'LVH', 'LVHreport', 'DuctFlow', 
                   'CardiacMixing', 'HypDistrib', 'LungParench', 'HypoxiaInO2', 'CO2', 
                   'LowerBodyO2', 'RUQO2', 'CO2Report', 'LungFlow', 'ChestXray', 
@@ -131,7 +135,9 @@ class DataLoader:
                   'INTUBATION', 'SHUNT', 'DISCONNECT', 'MINVOLSET', 'VENTMACH', 
                   'VENTTUBE', 'PRESS', 'VENTLUNG', 'MINVOL', 'VENTALV', 'PVSAT', 
                   'SAO2', 'ARTCO2', 'EXPCO2', 'CATECHOL', 'HR', 'HRBP', 'HREKG', 
-                  'HRSAT', 'CO', 'BP']
+                  'HRSAT', 'CO', 'BP'],
+        "insurance": ['GoodStudent', 'Age', 'SocioEcon', 'RiskAversion', 'VehicleYear', 'ThisCarDam', 'RuggedAuto', 'Accident', 'MakeModel', 'DrivQuality', 'Mileage', 'Antilock', 'DrivingSkill', 'SeniorTrain', 'ThisCarCost', 'Theft', 'CarValue', 'HomeBase', 'AntiTheft', 'PropCost', 'OtherCarCost', 'OtherCar', 'MedCost', 'Cushioning', 'Airbag', 'ILiCost', 'DrivHist'],
+        "water": ['C_NI_12_00', 'CKNI_12_00', 'CBODD_12_00', 'CKND_12_00', 'CNOD_12_00', 'CBODN_12_00', 'CKNN_12_00', 'CNON_12_00', 'C_NI_12_15', 'CKNI_12_15', 'CBODD_12_15', 'CKND_12_15', 'CNOD_12_15', 'CBODN_12_15', 'CKNN_12_15', 'CNON_12_15', 'C_NI_12_30', 'CKNI_12_30', 'CBODD_12_30', 'CKND_12_30', 'CNOD_12_30', 'CBODN_12_30', 'CKNN_12_30', 'CNON_12_30', 'C_NI_12_45', 'CKNI_12_45', 'CBODD_12_45', 'CKND_12_45', 'CNOD_12_45', 'CBODN_12_45', 'CKNN_12_45', 'CNON_12_45']
     }
     
     @staticmethod
@@ -164,15 +170,17 @@ class DataLoader:
         if fp_regime != "None" and os.path.exists(fp_regime):
             interventions = DataLoader._load_interventions(fp_regime, data, label)
         
-        # 获取变量名
+        # 获取变量名和类型
         variable_names = DataLoader.VARIABLE_NAMES.get(domain_name)
+        variable_type = DOMAIN_VARIABLE_TYPES.get(domain_name, "continuous")
         
         dataset = CausalDataset(
             data=data,
             ground_truth_graph=label,
             interventions=interventions,
             variable_names=variable_names,
-            domain_name=domain_name
+            domain_name=domain_name,
+            variable_type=variable_type
         )
         
         return dataset
@@ -270,6 +278,16 @@ DOMAIN_CONTEXTS = {
     "child": """Congenital heart disease diagnosis.""",
     
     "alarm": """Logical Alarm Reduction."""
+}
+
+# 数据集变量类型配置
+DOMAIN_VARIABLE_TYPES = {
+    "sachs": "continuous",      # 蛋白质浓度是连续值
+    "cancer": "discrete",        # 贝叶斯网络，离散变量
+    "asia": "discrete",          # 贝叶斯网络，离散变量
+    "earthquake": "discrete",    # 贝叶斯网络，离散变量
+    "child": "discrete",         # 贝叶斯网络，离散变量
+    "alarm": "discrete",         # 贝叶斯网络，离散变量
 }
 
 

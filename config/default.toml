@@ -24,7 +24,6 @@ temperature = 0.7
 mode = "single"  # "single" 或 "batch"
 csv_path = "/home/wukaiwen/projects/CDLLM/real_test.csv"  # 批量实验的CSV配置文件
 output.dir = "./cma_experiments"  # 输出目录
-use_observational_only = true  # 是否只使用观测数据（排除干预样本）
 split = "test"  # test, train, 或 val
 
 [experiment.single]
