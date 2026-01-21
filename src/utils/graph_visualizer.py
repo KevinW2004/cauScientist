@@ -4,10 +4,10 @@
 """
 
 import os
-from typing import Dict, Optional, List, Tuple
+from typing import Optional, List, Tuple
 from pyvis.network import Network
 import webbrowser
-from schemas.causal_graph import StructuredGraph
+from schemas.causal_graph import StructuredGraph, CausalNode, GraphMetadata
 
 
 class CausalGraphVisualizer:
@@ -62,8 +62,8 @@ class CausalGraphVisualizer:
         
         # 生成文件名
         if filename is None:
-            domain = metadata.get('domain', 'graph')
-            iteration = metadata.get('iteration', 0)
+            domain = getattr(metadata, 'domain', 'graph')
+            iteration = getattr(metadata, 'iteration', 0)
             filename = f"{domain}_iter_{iteration}.html"
         
         output_path = os.path.join(self.output_dir, filename)
@@ -74,8 +74,7 @@ class CausalGraphVisualizer:
             height=self.height,
             width=self.width,
             notebook=False,
-            bgcolor="#ffffff",
-            font_color="#000000"
+            bgcolor="#ffffff"
         )
         
         # 获取边的变化信息
@@ -111,11 +110,11 @@ class CausalGraphVisualizer:
         
         return output_path
     
-    def _add_nodes(self, net: Network, nodes: List[Dict]):
+    def _add_nodes(self, net: Network, nodes: List[CausalNode]):
         """添加节点"""
         for node in nodes:
-            node_name = node['name']
-            parents = node.get('parents', [])
+            node_name = node.name
+            parents = node.parents
             
             # 节点标签
             label = node_name
@@ -148,13 +147,13 @@ class CausalGraphVisualizer:
     def _add_edges(
         self,
         net: Network,
-        nodes: List[Dict],
+        nodes: List[CausalNode],
         added_edges: set
     ):
         """添加当前图的边"""
         for node in nodes:
-            child = node['name']
-            parents = node.get('parents', [])
+            child = node.name
+            parents = node.parents
             
             for parent in parents:
                 edge_tuple = (parent, child)
@@ -283,16 +282,16 @@ class CausalGraphVisualizer:
     
     def _generate_title(
         self,
-        metadata: Dict,
+        metadata: GraphMetadata,
         added_edges: set,
         removed_edges: set
     ) -> str:
         """生成图的标题"""
         
-        domain = metadata.get('domain', 'Unknown')
-        iteration = metadata.get('iteration', 0)
-        num_vars = metadata.get('num_variables', 0)
-        num_edges = metadata.get('num_edges', 0)
+        domain = metadata.domain
+        iteration = metadata.iteration
+        num_vars = metadata.num_variables
+        num_edges = metadata.num_edges
         
         title = f"因果图 - {domain.upper()} (Iteration {iteration})"
         title += f"<br>变量数: {num_vars} | 边数: {num_edges}"
@@ -308,7 +307,7 @@ class CausalGraphVisualizer:
     
     def visualize_comparison(
         self,
-        graphs: List[Dict],
+        graphs: List[StructuredGraph],
         filename: str = "comparison.html"
     ):
         """

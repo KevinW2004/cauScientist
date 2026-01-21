@@ -25,11 +25,11 @@ class LLMHypothesisGenerator:
         variable_list: List[str],
         domain_name: str,
         domain_context: str = "",
-        previous_graph: Optional[Dict] = None,
+        previous_graph: Optional[StructuredGraph] = None,
         memory: Optional[str] = None,
         iteration: int = 0,
         num_edge_operations: int = 3
-    ) -> Optional[Dict]:
+    ) -> StructuredGraph | None:
         """
         生成因果图假设
         
@@ -43,7 +43,7 @@ class LLMHypothesisGenerator:
             num_edge_operations: 局部修正时操作的边数
             
         Returns:
-            结构化的因果图字典
+            结构化的因果图字典 | None
         """
         
         is_initial = (iteration == 0) or (previous_graph is None)
@@ -69,7 +69,7 @@ class LLMHypothesisGenerator:
         domain_name: str,
         domain_context: str,
         iteration: int,
-    ) -> Optional[Dict]:
+    ) -> StructuredGraph | None:
         """生成初始假设(t=0)"""
         
         system_prompt = self._construct_system_prompt(domain_name)
@@ -86,7 +86,7 @@ class LLMHypothesisGenerator:
         causal_graph = self._parse_and_normalize_response(response_text, variable_list)
         
         # 创建结构化图
-        structured_graph: StructuredGraph = self._create_structured_graph(
+        structured_graph: StructuredGraph | None = self._create_structured_graph(
             causal_graph, variable_list, domain_name, iteration
         )
         
@@ -98,11 +98,11 @@ class LLMHypothesisGenerator:
         variable_list: List[str],
         domain_name: str,
         domain_context: str,
-        previous_graph: Dict,
+        previous_graph: StructuredGraph,
         memory: Optional[str],
         iteration: int,
         num_edge_operations: int = 3
-    ) -> Optional[Dict]:
+    ) -> StructuredGraph | None:
         """
         局部修正：让模型选择对边进行操作（添加、删除、反转）
         
@@ -423,7 +423,7 @@ class LLMHypothesisGenerator:
         domain_name: str,
         iteration: int,
         previous_graph: Optional[StructuredGraph] = None
-    ) -> Optional[StructuredGraph]:
+    ) -> StructuredGraph | None:
         """创建最终的结构化图表示"""
         
         nodes = causal_graph['nodes']
@@ -479,7 +479,7 @@ class LLMHypothesisGenerator:
         # 计算变化
         changes = None
         if previous_graph is not None:
-            changes = self._compute_changes(previous_graph, {'nodes': nodes})
+            changes = self._compute_changes(previous_graph, nodes)
         change_obj = None
         if changes:
             change_obj = GraphChanges(
@@ -581,19 +581,27 @@ class LLMHypothesisGenerator:
         
         return nodes
     
-    def _compute_changes(self, prev_graph: Dict, curr_graph: Dict) -> Dict:
+    def _compute_changes(self, prev_graph: StructuredGraph, curr_nodes: List[Dict]) -> Dict:
         """计算图之间的变化"""
         
-        def get_edges(graph):
+        def get_edges_from_nodes(nodes):
             edges = set()
-            for node in graph.get('nodes', []):
+            for node in nodes:
                 child = node['name']
                 for parent in node.get('parents', []):
                     edges.add((parent, child))
             return edges
         
-        prev_edges = get_edges(prev_graph)
-        curr_edges = get_edges(curr_graph)
+        def get_edges_from_graph(graph: StructuredGraph):
+            edges = set()
+            for node in graph.nodes:
+                child = node.name
+                for parent in node.parents:
+                    edges.add((parent, child))
+            return edges
+        
+        prev_edges = get_edges_from_graph(prev_graph)
+        curr_edges = get_edges_from_nodes(curr_nodes)
         
         added = curr_edges - prev_edges
         removed = prev_edges - curr_edges
@@ -696,7 +704,7 @@ CRITICAL:
         variable_list: List[str],
         domain_name: str,
         domain_context: str,
-        previous_graph: Dict,
+        previous_graph: StructuredGraph,
         memory: Optional[str],
         num_edge_operations: int
     ) -> str:
@@ -706,9 +714,9 @@ CRITICAL:
         
         # 格式化当前图的边
         current_edges = []
-        for node in previous_graph['nodes']:
-            for parent in node.get('parents', []):
-                current_edges.append(f"  {parent} → {node['name']}")
+        for node in previous_graph.nodes:
+            for parent in node.parents:
+                current_edges.append(f"  {parent} → {node.name}")
         
         current_graph_str = "\n".join(current_edges) if current_edges else "  (no edges)"
         
@@ -733,10 +741,10 @@ Variables:
 {variables_formatted}
 {context_section}
 
-Current Graph (Iteration {previous_graph['metadata']['iteration']}):
+Current Graph (Iteration {previous_graph.metadata.iteration}):
 {current_graph_str}
 
-Current BIC Score: {previous_graph['metadata'].get('log_likelihood', 'N/A')}
+Current BIC Score: {previous_graph.metadata.log_likelihood if previous_graph.metadata.log_likelihood is not None else 'N/A'}
 {memory_section}
 
 Instructions:
@@ -847,7 +855,7 @@ CRITICAL:
     
     def _apply_edge_operations(
         self,
-        previous_graph: Dict,
+        previous_graph: StructuredGraph,
         operations: List[Dict],
         variable_list: List[str]
     ) -> Dict:
@@ -864,10 +872,10 @@ CRITICAL:
         """
         # 复制节点数据
         nodes = []
-        for node in previous_graph['nodes']:
+        for node in previous_graph.nodes:
             nodes.append({
-                'name': node['name'],
-                'parents': node.get('parents', []).copy()
+                'name': node.name,
+                'parents': node.parents.copy()
             })
         
         # 创建名称到节点的映射
@@ -962,14 +970,14 @@ CRITICAL:
         if structured_graph.metadata.changes:
             changes = structured_graph.metadata.changes
             print(f"\nChanges from previous iteration:")
-            print(f"  Added: {changes['num_added']} edges")
-            print(f"  Removed: {changes['num_removed']} edges")
+            print(f"  Added: {changes.num_added} edges")
+            print(f"  Removed: {changes.num_removed} edges")
             
-            if changes['added_edges']:
-                for parent, child in changes['added_edges']:
+            if changes.added_edges:
+                for parent, child in changes.added_edges:
                     print(f"  + {parent} → {child}")
-            if changes['removed_edges']:
-                for parent, child in changes['removed_edges']:
+            if changes.removed_edges:
+                for parent, child in changes.removed_edges:
                     print(f"  - {parent} → {child}")
         
         # print("\nReasoning:")

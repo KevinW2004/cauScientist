@@ -20,7 +20,7 @@ class OpenAILLMLoader(LLMLoader):
 
     def generate(self, system_prompt, user_prompt, temperature = 0.7):
         """调用OpenAI API"""
-        
+        assert self.client is not None, "OpenAI client is not loaded. Call load_model() first."
         response = self.client.chat.completions.create(
             model=self.model_name,
             temperature=temperature,
@@ -30,4 +30,5 @@ class OpenAILLMLoader(LLMLoader):
             ]
         )
         
-        return response.choices[0].message.content
+        return response.choices[0].message.content \
+            if response.choices[0].message.content is not None else ""

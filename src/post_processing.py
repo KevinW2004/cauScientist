@@ -4,6 +4,7 @@ Post-processing Module
 支持共享模型实例
 """
 from typing import Dict, Optional
+from schemas.causal_graph import StructuredGraph
 
 
 class PostProcessor:
@@ -94,7 +95,7 @@ class PostProcessor:
     
     def _generate_initial_memory(
         self,
-        current_graph: Dict,
+        current_graph: StructuredGraph,
         current_results: Dict,
         domain_name: str
     ) -> str:
@@ -102,9 +103,9 @@ class PostProcessor:
         
         memory = f"""Initial Hypothesis (Iteration 0):
 - Domain: {domain_name}
-- Number of edges: {current_graph['metadata']['num_edges']}
+- Number of edges: {current_graph.metadata.num_edges}
 - Log-likelihood: {current_results['log_likelihood']:.4f}
-- Reasoning: {current_graph['metadata']['reasoning'][:200]}...
+- Reasoning: {current_graph.metadata.reasoning[:200]}...
 
 This is the baseline hypothesis. Future iterations will build upon this structure.
 """
@@ -112,9 +113,9 @@ This is the baseline hypothesis. Future iterations will build upon this structur
     
     def _generate_comparative_memory(
         self,
-        current_graph: Dict,
+        current_graph: StructuredGraph,
         current_results: Dict,
-        previous_graph: Dict,
+        previous_graph: StructuredGraph,
         previous_results: Dict,
         domain_name: str,
         model: str,
@@ -123,7 +124,7 @@ This is the baseline hypothesis. Future iterations will build upon this structur
     ) -> str:
         """生成对比记忆(t≥1)"""
         
-        changes = current_graph['metadata'].get('changes', {})
+        changes = current_graph.metadata.changes
         
         # 使用 CV score（如果有）或普通 LL
         curr_ll = current_results.get('cv_log_likelihood', current_results.get('log_likelihood', 0))
@@ -146,12 +147,12 @@ This is the baseline hypothesis. Future iterations will build upon this structur
         
         prompt = f"""Analyze the changes between two iterations of causal graph discovery for the {domain_name} domain.
 
-PREVIOUS ITERATION (t={previous_graph['metadata']['iteration']}):
-- Number of edges: {previous_graph['metadata']['num_edges']}
+PREVIOUS ITERATION (t={previous_graph.metadata.iteration}):
+- Number of edges: {previous_graph.metadata.num_edges}
 - {prev_ll_str}
 
-CURRENT ITERATION (t={current_graph['metadata']['iteration']}):
-- Number of edges: {current_graph['metadata']['num_edges']}
+CURRENT ITERATION (t={current_graph.metadata.iteration}):
+- Number of edges: {current_graph.metadata.num_edges}
 - {curr_ll_str}
 
 CHANGES:
@@ -160,7 +161,7 @@ CHANGES:
 VALIDATION SCORE CHANGE: {ll_change:+.4f} ({'improvement' if ll_change > 0 else 'decline'})
 
 CURRENT REASONING:
-{current_graph['metadata']['reasoning']}
+{current_graph.metadata.reasoning}
 
 Please provide a concise analysis (3-5 sentences) covering:
 1. What changes were made and why they might be significant
@@ -177,10 +178,10 @@ Focus on domain-specific insights and potential improvements."""
             memory = self._call_local_model(system_prompt, prompt, temperature, max_tokens)
         
         summary = f"""
-Iteration {current_graph['metadata']['iteration']} Summary:
-- Edges: {previous_graph['metadata']['num_edges']} → {current_graph['metadata']['num_edges']}
+Iteration {current_graph.metadata.iteration} Summary:
+- Edges: {previous_graph.metadata.num_edges} → {current_graph.metadata.num_edges}
 - CV Score: {prev_ll:.4f} → {curr_ll:.4f} (Δ={ll_change:+.4f})
-- Changes: {changes['num_added']} added, {changes['num_removed']} removed
+- Changes: {changes.num_added if changes else 0} added, {changes.num_removed if changes else 0} removed
 
 Analysis:
 {memory}

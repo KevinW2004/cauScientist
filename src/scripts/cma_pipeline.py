@@ -9,7 +9,7 @@ CMA Pipeline - 完整版
 import json
 import numpy as np
 import os
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from core.llm_hypothesis import LLMHypothesisGenerator
 from post_processing import PostProcessor
@@ -115,6 +115,7 @@ class CMAPipeline:
     
     def _save_dataset_info(self):
         """保存数据集信息(仅当有dataset时)"""
+        assert self.dataset is not None, "Dataset must be provided to save dataset info."
         info = {
             "domain": self.dataset.domain_name,
             "n_variables": self.dataset.n_variables,
@@ -134,7 +135,7 @@ class CMAPipeline:
     def run(
         self,
         verbose: bool = True
-    ) -> Dict:
+    ) -> Optional[Dict]:
         """运行完整的CMA流程"""
         num_iterations = self.config.get("experiment.training.num_iterations", 3)
         
@@ -197,7 +198,6 @@ class CMAPipeline:
             structured_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
             structured_graph.metadata.bic = fitting_results['bic']
             structured_graph.metadata.num_parameters = fitting_results['num_parameters']
-            structured_graph.metadata.method = fitting_results['method']
             
             # ===== 步骤3: 后处理 - 生成记忆 =====
             # memory = self.post_processor.generate_memory(
@@ -261,10 +261,12 @@ class CMAPipeline:
         print(final_report)
         print("="*70 + "\n")
         
-        return self.iteration_history[-1] if len(self.iteration_history[-1])!= 0 else None
+        return self.iteration_history[-1] if len(self.iteration_history) > 0 else None
     
     def _evaluate_against_ground_truth(self, predicted_graph: StructuredGraph):
         """评估预测图与真实图的差距"""
+        
+        assert self.dataset is not None, "Dataset must be provided to evaluate against ground truth"
         
         # 提取预测的边
         predicted_edges = set()

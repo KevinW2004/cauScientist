@@ -96,7 +96,7 @@ class BatchExperimentRunner:
                     "domain": dataset.domain_name,
                     "status": "success",
                     "final_ll": final_result['results']['cv_log_likelihood'],
-                    "num_edges_predicted": final_graph['metadata']['num_edges'],
+                    "num_edges_predicted": final_graph.metadata.num_edges,
                     "num_edges_true": int(dataset.ground_truth_graph.sum()),
                     "metrics": metrics,
                     "output_dir": output_dir,

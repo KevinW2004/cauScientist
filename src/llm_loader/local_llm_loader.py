@@ -7,8 +7,8 @@ class LocalLLMLoader(LLMLoader):
     def __init__(self):
         config = ConfigManager()
         self.model_path = config.get("llm.local.model_path")
-        self.model = None
-        self.tokenizer = None
+        self.model
+        self.tokenizer
         self.device = config.get("llm.local.device", "cpu")
         self.max_tokens = config.get("llm.local.max_tokens", 8192)
 

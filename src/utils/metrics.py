@@ -1,6 +1,9 @@
 import numpy as np
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, TYPE_CHECKING
 from collections import defaultdict
+
+if TYPE_CHECKING:
+    from schemas.causal_graph import StructuredGraph
 
 def shd_metric(pred, target):
     """
@@ -94,7 +97,7 @@ def compute_precision_recall_f1(pred_adj_matrix: np.ndarray, true_adj_matrix: np
         "accuracy": round(accuracy, 4)
     }
 
-def compute_metrics(pipeline, predicted_graph: Dict) -> Dict:
+def compute_metrics(pipeline, predicted_graph: "StructuredGraph") -> Dict:
     """计算评估指标 - 添加SHD"""
     
     if pipeline.dataset is None:
@@ -105,10 +108,10 @@ def compute_metrics(pipeline, predicted_graph: Dict) -> Dict:
     pred_adj_matrix = np.zeros((n_vars, n_vars), dtype=int)
     
     predicted_edges = set()
-    for node in predicted_graph['nodes']:
-        child = node['name']
+    for node in predicted_graph.nodes:
+        child = node.name
         child_idx = pipeline.variable_list.index(child)
-        for parent in node.get('parents', []):
+        for parent in node.parents:
             parent_idx = pipeline.variable_list.index(parent)
             predicted_edges.add((parent_idx, child_idx))
             pred_adj_matrix[parent_idx, child_idx] = 1

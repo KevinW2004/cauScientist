@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict, model_validator, field_serializer
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Dict, Any
 import numpy as np
 import json
 
@@ -37,10 +37,15 @@ class GraphMetadata(BaseModel):
     changes: GraphChanges | None = None
 
     # --- 评分指标 (Score Functions 写入) ---
-    log_likelihood: float | None = Field(None, description="BIC Score (CV Log Likelihood)")
-    bic: float | None = Field(None, description="Traditional BIC value")
+    log_likelihood: float | None = Field(default=None, description="BIC Score (CV Log Likelihood)")
+    bic: float | None = Field(default=None, description="Traditional BIC value")
     num_parameters: int | None = None
-    method: str | None = Field(None, description="评分方法，如 'Linear_Gaussian_BIC'")
+    
+    # --- 额外字段 (用于搜索策略等) ---
+    proposed_operations: List[Dict[str, Any]] | None = Field(default=None, description="提议的操作列表")
+    evaluation_metrics: Dict[str, Any] | None = Field(default=None, description="评估指标")
+    confirmed_edges: List[Tuple[str, str]] | None = Field(default=None, description="确认的边")
+    edge_notes: Dict[str, str] | None = Field(default=None, description="边的注释")
 
 class StructuredGraph(BaseModel):
     """
