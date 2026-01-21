@@ -84,7 +84,7 @@ def score_graph_simple(
     简化版本，直接返回 score
     
     Returns:
-        float: BIC score（越大越好）
+        float: -BIC score（越大越好）
     """
     return score_graph_with_bic(structured_graph, data, variable_names)['cv_log_likelihood']
 

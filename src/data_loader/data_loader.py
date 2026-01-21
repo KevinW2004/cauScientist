@@ -1,12 +1,13 @@
 """
 Data Loader Module
-加载因果发现数据集,支持intervention信息
+加载因果发现数据集 弃用 interventions 相关功能
 """
 
 import numpy as np
 import pandas as pd
 import os
 from typing import Dict, List, Tuple, Optional
+from ..utils.config_manager import ConfigManager
 
 
 class CausalDataset:
@@ -263,6 +264,49 @@ class DataLoader:
                 print(f"✗ Failed to load {row['fp_data']}: {e}")
         
         return datasets
+
+
+# ========== 新增：从配置文件加载数据 ==========
+    @staticmethod
+    def load_from_config(config_manager: ConfigManager = None) -> CausalDataset:
+        """
+        从 ConfigManager 加载单个数据集
+        
+        Args:
+            config_manager: ConfigManager 实例，如果为None则创建新实例
+        
+        Returns:
+            加载的数据集
+        """
+        if config_manager is None:
+            config_manager = ConfigManager()
+        
+        # 现在直接用 get() 即可，路径已经在加载时转换为绝对路径
+        fp_data = config_manager.get("experiment.single.data.fp_data")
+        fp_graph = config_manager.get("experiment.single.data.fp_graph")
+        
+        # 检查路径是否有效
+        if not fp_data or not fp_graph:
+            raise ValueError(
+                "数据路径未配置。请在 config/default.toml 或 config/secret.toml 中设置 "
+                "experiment.single.data.fp_data 和 experiment.single.data.fp_graph"
+            )
+        
+        # 检查文件是否存在
+        if not os.path.exists(fp_data):
+            raise FileNotFoundError(f"数据文件不存在: {fp_data}")
+        if not os.path.exists(fp_graph):
+            raise FileNotFoundError(f"图文件不存在: {fp_graph}")
+        
+        # 获取领域名称
+        domain_name = config_manager.get("experiment.single.domain_name", "unknown")
+        
+        return DataLoader.load_from_paths(
+            fp_data=fp_data,
+            fp_graph=fp_graph,
+            fp_regime="None",  # 配置文件暂不支持干预数据
+            domain_name=domain_name
+        )
 
 
 # ========== 领域背景知识 ==========

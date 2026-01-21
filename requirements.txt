@@ -21,3 +21,4 @@ networkx>=3.0
 
 # Other
 toml >= 0.10.2
+pgmpy>=1.0.0 # 生成数据集用到

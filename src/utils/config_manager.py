@@ -14,6 +14,8 @@ class ConfigManager:
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         "config"
     )
+    # 项目根目录
+    _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
     def __new__(cls, config_path: str = None):
         if cls._instance is None:
@@ -57,7 +59,23 @@ class ConfigManager:
                   "(such as real API keys), create config/secret.toml to override "
                   "placeholders in default.toml.")
         
+        # 自动将配置中的相对路径转换为绝对路径
+        self._convert_relative_paths(self.config)
+        
         ConfigManager._initialized = True
+    
+    def _convert_relative_paths(self, config_dict: dict) -> None:
+        configs_to_convert = [
+            "experiment.single.data.fp_data",
+            "experiment.single.data.fp_graph",
+        ]
+        for key_path in configs_to_convert:
+            raw_value = self.get(key_path)
+            if os.path.isabs(raw_value):
+                continue
+            else:
+                new_value = os.path.join(self._project_root, raw_value)
+                self.set(key_path, new_value)
     
     def _merge_config(self, base: dict, override: dict) -> None:
         """
@@ -96,11 +114,27 @@ class ConfigManager:
                 return default
         
         return value
+    
+    def set(self, key_path: str, value: Any) -> None:
+        """
+        设置配置值，支持嵌套访问（不支持新增键）
+        不会修改原始配置文件，只修改内存中的配置
+        
+        Args:
+            key_path: 配置键路径，用"."分隔（例如 "llm.type"）
+            value: 要设置的值
+        """
+        keys = key_path.split(".")
+        cfg = self.config
 
-# test 
-if __name__ == "__main__":
-    config_manager = ConfigManager()
-    llm_type = config_manager.get("llm.type", "default_type")
-    print(f"LLM Type: {llm_type}")
-    llm_openai_api_key = config_manager.get("llm.openai.api_key", "no_key_found")
-    print(f"OpenAI API Key: {llm_openai_api_key}")
+        for key in keys[:-1]:
+            if isinstance(cfg, dict) and key in cfg:
+                cfg = cfg[key]
+            else:
+                raise KeyError(f"Parent path not found: {key_path}")
+        
+        last_key = keys[-1]
+        if isinstance(cfg, dict) and last_key in cfg:
+            cfg[last_key] = value
+        else:
+            raise KeyError(f"Key not found: {key_path}")

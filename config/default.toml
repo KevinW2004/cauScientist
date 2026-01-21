@@ -22,18 +22,20 @@ temperature = 0.7
 
 [experiment]
 mode = "single"  # "single" 或 "batch"
-csv_path = "/home/wukaiwen/projects/CDLLM/real_test.csv"  # 批量实验的CSV配置文件
 output.dir = "./cma_experiments"  # 输出目录
 split = "test"  # test, train, 或 val
+
+[experiment.batch]
+csv_path = "/home/wukaiwen/projects/CDLLM/real_test.csv"  # 批量实验的CSV配置文件
 
 [experiment.single]
 domain_name = "earthquake"
 variable_list = ["Burglary", "Earthquake", "Alarm", "JohnCalls", "MaryCalls"]
 num_samples = 500
-use_synthetic_data = true  # 如果为false，需要指定数据路径
+use_synthetic_data = true  # 是否使用手动假数据，如果为false，需要指定数据路径
 
 [experiment.single.data]
 # 仅在 use_synthetic_data = false 时需要指定
-fp_data = ""
-fp_graph = ""
-fp_regime = ""
+# 必须使用相对路径（相对于项目根目录），会自动转换为绝对路径
+fp_data = "datasets/example.npy"
+fp_graph = "datasets/example.npy"

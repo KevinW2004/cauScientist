@@ -47,7 +47,6 @@ class CMAPipeline:
             
             # 方式2: 传入CausalDataset对象
             dataset: CausalDataset对象(包含数据、真实图、变量名等)
-            use_observational_only: 是否只使用观测数据(排除干预样本)
             
             # 输出配置
             output_dir: 输出目录
@@ -82,7 +81,6 @@ class CMAPipeline:
                 raise ValueError(
                     "Either provide 'dataset' OR all of ('domain_name', 'variable_list', 'data')"
                 )
-            
             self.dataset = None
             self.domain_name = domain_name
             self.variable_list = variable_list
@@ -207,7 +205,7 @@ class CMAPipeline:
             #     previous_results=previous_results,
             #     domain_name=self.domain_name,
             #     model=llm_model_name,
-            #     temperature=temperature,
+            #     temperature=temperature, self.domain_context = DOMAIN_CONTEXTS.get(dat
             #     max_tokens=max_tokens
             # )
             

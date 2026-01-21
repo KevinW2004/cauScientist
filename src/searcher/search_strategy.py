@@ -10,9 +10,8 @@ from typing import Dict
 class SearchStrategy(ABC):
     """搜索策略基类"""
     
-    def __init__(self, pipeline):
-        self.pipeline = pipeline
-        self.iteration_history = []
+    def __init__(self):
+        pass
     
     @abstractmethod
     def search(self, **kwargs) -> Dict:
