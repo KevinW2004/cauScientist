@@ -1,4 +1,6 @@
-# CMA Pipeline 配置文件
+strategy = "linear" # "linear" 或 "mcts"
+
+
 [llm]
 type = "openai"  # "openai" 或 "local"
 
@@ -16,6 +18,7 @@ model_name = "deepseek-v3-1-terminus"
 [training]
 num_iterations = 3
 num_epochs = 50
+num_edge_operations = 3 # 每次迭代中允许 LLM 生成的操作数
 learning_rate = 0.01
 temperature = 0.7
 
@@ -25,17 +28,9 @@ mode = "single"  # "single" 或 "batch"
 output.dir = "./cma_experiments"  # 输出目录
 split = "test"  # test, train, 或 val
 
-[experiment.batch]
-csv_path = "/home/wukaiwen/projects/CDLLM/real_test.csv"  # 批量实验的CSV配置文件
-
 [experiment.single]
-domain_name = "earthquake"
-variable_list = ["Burglary", "Earthquake", "Alarm", "JohnCalls", "MaryCalls"]
-num_samples = 500
-use_synthetic_data = true  # 是否使用手动假数据，如果为false，需要指定数据路径
+fp_data = "./datasets/asia_data_n1000.npy"
+fp_graph = "./datasets/asia_graph.npy"
 
-[experiment.single.data]
-# 仅在 use_synthetic_data = false 时需要指定
-# 必须使用相对路径（相对于项目根目录），会自动转换为绝对路径
-fp_data = "datasets/example.npy"
-fp_graph = "datasets/example.npy"
+[experiment.batch]
+csv_path = ""  # 批量实验的CSV配置文件

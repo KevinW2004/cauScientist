@@ -14,8 +14,6 @@ class ConfigManager:
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         "config"
     )
-    # 项目根目录
-    _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
     def __new__(cls, config_path: str = None):
         if cls._instance is None:
@@ -25,7 +23,7 @@ class ConfigManager:
     def __init__(self, config_path: str = None):
         """
         初始化配置管理器
-        支持配置分层：先加载 default.toml，再加载 secret.toml（如果存在）进行覆盖
+        支持配置分层：先加载 配置.toml，再加载 secret.toml（如果存在）进行覆盖
         
         Args:
             config_path: TOML 配置文件路径（如果为None，使用默认路径）
@@ -58,24 +56,7 @@ class ConfigManager:
             print("⚠ No secret.toml found. For production and any sensitive credentials "
                   "(such as real API keys), create config/secret.toml to override "
                   "placeholders in default.toml.")
-        
-        # 自动将配置中的相对路径转换为绝对路径
-        self._convert_relative_paths(self.config)
-        
         ConfigManager._initialized = True
-    
-    def _convert_relative_paths(self, config_dict: dict) -> None:
-        configs_to_convert = [
-            "experiment.single.data.fp_data",
-            "experiment.single.data.fp_graph",
-        ]
-        for key_path in configs_to_convert:
-            raw_value = self.get(key_path)
-            if os.path.isabs(raw_value):
-                continue
-            else:
-                new_value = os.path.join(self._project_root, raw_value)
-                self.set(key_path, new_value)
     
     def _merge_config(self, base: dict, override: dict) -> None:
         """

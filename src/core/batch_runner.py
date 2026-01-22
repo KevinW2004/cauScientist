@@ -68,18 +68,9 @@ class BatchExperimentRunner:
             try:
                 pipeline = CMAPipeline(
                     dataset=dataset,
-                    output_dir=output_dir,
-                    use_observational_only=True,
-                    device=device,  # 传入 device
-                    llm_type=self.llm_type,
-                    llm_model_path=self.llm_model_path,
-                    openai_base_url=self.openai_base_url,
-                    openai_api_key=self.openai_api_key
                 )
                 
                 final_result = pipeline.run(
-                    num_iterations=num_iterations,
-                    num_epochs=num_epochs,
                     **kwargs
                 )
                 
@@ -95,7 +86,7 @@ class BatchExperimentRunner:
                     "experiment_id": idx,
                     "domain": dataset.domain_name,
                     "status": "success",
-                    "final_ll": final_result['results']['cv_log_likelihood'],
+                    "final_ll": final_result['results']['cv_log_likelihood'] if final_result else None,
                     "num_edges_predicted": final_graph.metadata.num_edges,
                     "num_edges_true": int(dataset.ground_truth_graph.sum()),
                     "metrics": metrics,

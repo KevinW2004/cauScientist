@@ -4,41 +4,25 @@ from argparse import ArgumentParser
 
 from utils import ConfigManager
 from data_loader import DataLoader
-from scripts.cma_pipeline import CMAPipeline
-from scripts.batch_runner import BatchExperimentRunner
+from core.cma_pipeline import CMAPipeline
+from core.batch_runner import BatchExperimentRunner
 
 
 def run_single_experiment():
     config = ConfigManager()
-    use_synthetic = config.get("experiment.single.use_synthetic_data")
-    domain_name = config.get("experiment.single.domain_name")
-    variable_list = config.get("experiment.single.variable_list")
-
     dataset = None
-    if not use_synthetic:
-        data_paths = {
-            "fp_data": config.get("experiment.single.data.fp_data"),
-            "fp_graph": config.get("experiment.single.data.fp_graph"),
-            "fp_regime": config.get("experiment.single.data.fp_regime"),
-        }
-        if not all(data_paths.values()):
-            raise ValueError("Missing data paths in config: experiment.single.data.fp_data/fp_graph/fp_regime")
-        dataset = DataLoader.load_from_paths(**data_paths)
 
-    if use_synthetic:
-        num_samples = config.get("experiment.single.num_samples")
-        np.random.seed(42)
-        synthetic_data = np.random.randn(num_samples, len(variable_list)).astype(np.float32)
-        pipeline = CMAPipeline(
-            domain_name=domain_name,
-            variable_list=variable_list,
-            data=synthetic_data,
-            domain_context=config.get("experiment.single.domain_context", "Synthetic data experiment")
-        )
-    else:
-        pipeline = CMAPipeline(
-            dataset=dataset
-        )
+    data_paths = {
+        "fp_data": config.get("experiment.single.fp_data"),
+        "fp_graph": config.get("experiment.single.fp_graph"),
+    }
+    if not all(data_paths.values()):
+        raise ValueError("Missing data paths in config: experiment.single.fp_data/fp_graph")
+    dataset = DataLoader.load_from_paths(**data_paths)
+
+    pipeline = CMAPipeline(
+        dataset=dataset
+    )
 
     result = pipeline.run(verbose=True)
     best_graph = pipeline.get_best_graph()

@@ -9,6 +9,7 @@ from llm_loader import LLMLoader
 from utils import ConfigManager
 from utils import visualize_causal_graph
 from schemas.causal_graph import *
+from utils.llm import construct_initial_prompt, construct_system_prompt, construct_local_amendment_prompt
 
 class LLMHypothesisGenerator:
     """
@@ -20,7 +21,7 @@ class LLMHypothesisGenerator:
         self.config = ConfigManager()
         
     
-    def generate_hypothesis(
+    def generate_next_hypothesis(
         self, 
         variable_list: List[str],
         domain_name: str,
@@ -31,7 +32,7 @@ class LLMHypothesisGenerator:
         num_edge_operations: int = 3
     ) -> StructuredGraph | None:
         """
-        生成因果图假设
+        生成下一步因果图修改假设
         
         Args:
             variable_list: 变量列表
@@ -39,41 +40,30 @@ class LLMHypothesisGenerator:
             domain_context: 领域背景知识
             previous_graph: 上一轮的因果图
             memory: 记忆(上一轮的反馈)
-            iteration: 当前迭代次数
-            num_edge_operations: 局部修正时操作的边数
+            iteration: 当前迭代轮次
+            num_edge_operations: 允许提出的最大操作数
             
         Returns:
             结构化的因果图字典 | None
         """
-        
-        is_initial = (iteration == 0) or (previous_graph is None)
-        
-        if is_initial:
-            print(f"\n[Iteration {iteration}] Generating INITIAL hypothesis...")
-            return self._generate_initial_hypothesis(
-                variable_list, domain_name, domain_context, 
-                iteration
-            )
-        else:
-            if previous_graph is None:
-                raise ValueError("previous_graph must not be None in local amendment")
-            print(f"\n[Iteration {iteration}] Performing LOCAL amendment (n={num_edge_operations})...")
-            return self._local_amendment(
-                variable_list, domain_name, domain_context,
-                previous_graph, memory, iteration, num_edge_operations
-            )
+
+        if previous_graph is None:
+            raise ValueError("previous_graph must not be None in local amendment")
+        print(f"\n[Iteration {iteration}] Performing LOCAL amendment (n={num_edge_operations})...")
+        return self._local_amendment(
+            variable_list, domain_name, domain_context,
+            previous_graph, memory, iteration, num_edge_operations
+        )
     
-    def _generate_initial_hypothesis(
+    def generate_initial_hypothesis(
         self,
         variable_list: List[str],
         domain_name: str,
         domain_context: str,
-        iteration: int,
     ) -> StructuredGraph | None:
-        """生成初始假设(t=0)"""
-        
-        system_prompt = self._construct_system_prompt(domain_name)
-        user_prompt = self._construct_initial_prompt(
+        """生成初始因果图假设"""
+        system_prompt = construct_system_prompt(domain_name)
+        user_prompt = construct_initial_prompt(
             variable_list, domain_name, domain_context
         )
         
@@ -87,7 +77,7 @@ class LLMHypothesisGenerator:
         
         # 创建结构化图
         structured_graph: StructuredGraph | None = self._create_structured_graph(
-            causal_graph, variable_list, domain_name, iteration
+            causal_graph, variable_list, domain_name, iteration=0
         )
         
         return structured_graph
@@ -110,8 +100,8 @@ class LLMHypothesisGenerator:
             num_edge_operations: 最大操作边数（LLM可以选择少于这个数量的操作），默认为3
         """
         
-        system_prompt = self._construct_system_prompt(domain_name)
-        user_prompt = self._construct_local_amendment_prompt(
+        system_prompt = construct_system_prompt(domain_name)
+        user_prompt = construct_local_amendment_prompt(
             variable_list, domain_name, domain_context,
             previous_graph, memory, num_edge_operations
         )
@@ -424,7 +414,7 @@ class LLMHypothesisGenerator:
         iteration: int,
         previous_graph: Optional[StructuredGraph] = None
     ) -> StructuredGraph | None:
-        """创建最终的结构化图表示"""
+        """创建最终的结构化图表示, None 表示无效图"""
         
         nodes = causal_graph['nodes']
         reasoning = causal_graph['reasoning']
@@ -641,162 +631,6 @@ class LLMHypothesisGenerator:
         
         df = pd.DataFrame(adjacency_matrix, index=variable_list, columns=variable_list)
         return adjacency_matrix, df
-    
-    def _construct_system_prompt(self, domain_name: str) -> str:
-        """构建系统提示词"""
-        return f"""You are an expert in causal inference and {domain_name} domain knowledge.
-Your task is to generate or refine causal graph hypotheses representing causal relationships.
-Always ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.
-"""
-    
-    def _construct_initial_prompt(
-        self,
-        variable_list: List[str],
-        domain_name: str,
-        domain_context: str
-    ) -> str:
-        """构建初始假设生成的提示词"""
-        
-        variables_formatted = "\n".join([f"- {var}" for var in variable_list])
-        
-        context_section = ""
-        if domain_context:
-            context_section = f"\n\nDomain Context:\n{domain_context}\n"
-        
-        prompt = f"""Generate an initial causal graph hypothesis for the {domain_name} domain.
-
-Variables to analyze:
-{variables_formatted}
-{context_section}
-
-Instructions:
-1. For each variable, determine its DIRECT CAUSES (parent variables)
-2. Consider only direct causal relationships
-3. Ensure the graph is a DAG (no cycles)
-4. Base reasoning on domain knowledge and temporal ordering
-
-Output Format (IMPORTANT - use this exact structure):
-{{
-  "reasoning": "Explanation of the causal structure and your reasoning process",
-  "nodes": [
-    {{
-      "name": "VariableName1",
-      "parents": ["ParentVar1", "ParentVar2"]
-    }},
-    {{
-      "name": "VariableName2",
-      "parents": []
-    }}
-  ]
-}}
-
-CRITICAL: 
-- Put "reasoning" FIRST to explain your thought process
-- Use "nodes" as a LIST (not a dictionary)
-- Each node must have "name" and "parents" fields
-- "parents" must be a list (use [] for root nodes)
-- Output ONLY valid JSON"""
-
-        return prompt
-    
-    def _construct_local_amendment_prompt(
-        self,
-        variable_list: List[str],
-        domain_name: str,
-        domain_context: str,
-        previous_graph: StructuredGraph,
-        memory: Optional[str],
-        num_edge_operations: int
-    ) -> str:
-        """构建局部修正的提示词"""
-        
-        variables_formatted = "\n".join([f"- {var}" for var in variable_list])
-        
-        # 格式化当前图的边
-        current_edges = []
-        for node in previous_graph.nodes:
-            for parent in node.parents:
-                current_edges.append(f"  {parent} → {node.name}")
-        
-        current_graph_str = "\n".join(current_edges) if current_edges else "  (no edges)"
-        
-        # 格式化记忆
-        memory_section = ""
-        if memory:
-            memory_section = f"""
-
-Previous Feedback:
-{memory}
-
-Use this feedback to guide your edge operations.
-"""
-        
-        context_section = ""
-        if domain_context:
-            context_section = f"\n\nDomain Context:\n{domain_context}\n"
-        
-        prompt = f"""Perform LOCAL amendments to the causal graph for the {domain_name} domain.
-
-Variables:
-{variables_formatted}
-{context_section}
-
-Current Graph (Iteration {previous_graph.metadata.iteration}):
-{current_graph_str}
-
-Current BIC Score: {previous_graph.metadata.log_likelihood if previous_graph.metadata.log_likelihood is not None else 'N/A'}
-{memory_section}
-
-Instructions:
-You need to propose UP TO {num_edge_operations} edge operations to improve the graph.
-You can propose fewer operations if appropriate, but not more than {num_edge_operations}.
-
-Available operations:
-1. ADD: Add a new edge (Parent → Child)
-2. DELETE: Remove an existing edge (Parent → Child)
-3. REVERSE: Reverse an edge direction (Parent → Child becomes Child → Parent)
-
-Constraints:
-- Propose at most {num_edge_operations} operations (can be fewer)
-- Ensure operations don't create cycles (resulting graph must be a DAG)
-- Base decisions on domain knowledge and model fit feedback
-- For DELETE operations, the edge must exist in the current graph
-- For REVERSE operations, the edge must exist and reversing must not create a cycle
-
-Output Format (IMPORTANT - use this exact JSON structure):
-{{
-  "overall_reasoning": "Overall explanation of the amendment strategy",
-  "operations": [
-    {{
-      "reasoning": "Why this edge should be added",
-      "type": "ADD",
-      "parent": "VariableName1",
-      "child": "VariableName2"
-    }},
-    {{
-      "reasoning": "Why this edge should be removed",
-      "type": "DELETE",
-      "parent": "VariableName3",
-      "child": "VariableName4"
-    }},
-    {{
-      "reasoning": "Why this edge should be reversed",
-      "type": "REVERSE",
-      "parent": "VariableName5",
-      "child": "VariableName6"
-    }}
-  ]
-}}
-
-CRITICAL: 
-- Put "overall_reasoning" FIRST to explain your strategy
-- In each operation, put "reasoning" FIRST before type/parent/child
-- Output ONLY valid JSON
-- Include UP TO {num_edge_operations} operations (can be 0 to {num_edge_operations})
-- Valid operation types: "ADD", "DELETE", "REVERSE"
-- Each operation must have: reasoning, type, parent, child"""
-
-        return prompt
     
     def _parse_edge_operations(self, response_text: str) -> List[Dict]:
         """
