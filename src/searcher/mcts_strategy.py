@@ -72,3 +72,7 @@ class MCTSStrategy(SearchStrategy):
         if best_node:
             return best_node.graph
         return self.root.graph
+    
+    def save_to_file(self, file_path: str):
+        """将搜索器状态保存到文件"""
+        pass

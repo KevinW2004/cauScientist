@@ -14,13 +14,13 @@ def construct_initial_prompt(
     domain_context: str
 ) -> str:
     """构建初始假设生成的提示词"""
-    
+
     variables_formatted = "\n".join([f"- {var}" for var in variable_list])
-    
+
     context_section = ""
     if domain_context:
         context_section = f"\n\nDomain Context:\n{domain_context}\n"
-    
+
     prompt = f"""Generate an initial causal graph hypothesis for the {domain_name} domain.
 
 Variables to analyze:
@@ -28,10 +28,11 @@ Variables to analyze:
 {context_section}
 
 Instructions:
-1. For each variable, determine its DIRECT CAUSES (parent variables)
-2. Consider only direct causal relationships
-3. Ensure the graph is a DAG (no cycles)
-4. Base reasoning on domain knowledge and temporal ordering
+1. **THINK FIRST**: Analyze the domain and relationships before proposing a structure
+2. For each variable, determine its DIRECT CAUSES (parent variables)
+3. Consider only direct causal relationships
+4. Ensure the graph is a DAG (no cycles)
+5. Base reasoning on domain knowledge and temporal ordering
 
 Output Format (IMPORTANT - use this exact structure):
 {{
@@ -66,17 +67,17 @@ def construct_local_amendment_prompt(
     num_edge_operations: int
 ) -> str:
     """构建局部修正的提示词"""
-    
+
     variables_formatted = "\n".join([f"- {var}" for var in variable_list])
-    
+
     # 格式化当前图的边
     current_edges = []
     for node in previous_graph.nodes:
         for parent in node.parents:
             current_edges.append(f"  {parent} → {node.name}")
-    
+
     current_graph_str = "\n".join(current_edges) if current_edges else "  (no edges)"
-    
+
     # 格式化记忆
     memory_section = ""
     if memory:
@@ -87,11 +88,11 @@ Previous Feedback:
 
 Use this feedback to guide your edge operations.
 """
-    
+
     context_section = ""
     if domain_context:
         context_section = f"\n\nDomain Context:\n{domain_context}\n"
-    
+
     prompt = f"""Perform LOCAL amendments to the causal graph for the {domain_name} domain.
 
 Variables:
@@ -107,6 +108,7 @@ Current BIC Score: {previous_graph.metadata.log_likelihood if previous_graph.met
 Instructions:
 You need to propose UP TO {num_edge_operations} edge operations to improve the graph.
 You can propose fewer operations if appropriate, but not more than {num_edge_operations}.
+If you believe the graph is already optimal and there is no need for any further changes, you may propose ZERO operations and indicate it is final in "is_final_graph" field(boolean).
 
 Available operations:
 1. ADD: Add a new edge (Parent → Child)
@@ -119,38 +121,40 @@ Constraints:
 - Base decisions on domain knowledge and model fit feedback
 - For DELETE operations, the edge must exist in the current graph
 - For REVERSE operations, the edge must exist and reversing must not create a cycle
+- The "is_final_graph" can be true only if you propose ZERO operations
 
 Output Format (IMPORTANT - use this exact JSON structure):
 {{
 "overall_reasoning": "Overall explanation of the amendment strategy",
 "operations": [
 {{
-    "reasoning": "Why this edge should be added",
     "type": "ADD",
     "parent": "VariableName1",
-    "child": "VariableName2"
+    "child": "VariableName2",
+    "reasoning": "Why this specific edge should be added"
 }},
 {{
-    "reasoning": "Why this edge should be removed",
     "type": "DELETE",
     "parent": "VariableName3",
-    "child": "VariableName4"
+    "child": "VariableName4",
+    "reasoning": "Why this specific edge should be removed"
 }},
 {{
-    "reasoning": "Why this edge should be reversed",
     "type": "REVERSE",
     "parent": "VariableName5",
-    "child": "VariableName6"
+    "child": "VariableName6",
+    "reasoning": "Why edge VariableName5→VariableName6 should be reversed to VariableName6→VariableName5"
 }}
-]
+],
+"is_final_graph": false  // Set to true if you believe the graph is final and needs no further changes
 }}
 
 CRITICAL: 
 - Put "overall_reasoning" FIRST to explain your strategy
-- In each operation, put "reasoning" FIRST before type/parent/child
 - Output ONLY valid JSON
 - Include UP TO {num_edge_operations} operations (can be 0 to {num_edge_operations})
 - Valid operation types: "ADD", "DELETE", "REVERSE"
-- Each operation must have: reasoning, type, parent, child"""
+- Each operation must have: reasoning, type, parent, child
+- For REVERSE: always use the EXISTING edge direction (parent→child) in your JSON"""
 
     return prompt

@@ -37,3 +37,13 @@ class SearchStrategy(ABC):
             最佳图结构
         """
         pass
+
+    @abstractmethod
+    def save_to_file(self, file_path: str):
+        """
+        将搜索器状态保存到文件
+        Args:
+            file_path: 保存路径
+        Returns:
+        """
+        pass

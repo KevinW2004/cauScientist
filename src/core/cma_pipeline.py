@@ -93,7 +93,7 @@ class CMAPipeline:
     def run(
         self,
         verbose: bool = True
-    ) -> Optional[Dict]:
+    ) -> None:
         """运行完整的CMA流程"""
         num_iterations = self.config.get("training.num_iterations")
 
@@ -115,8 +115,9 @@ class CMAPipeline:
         best = None
 
         # 1. 生成初始图，并创建搜索策略
-        print("🔄 "*35)
+        print("🔄 " * 35)
         print("GENERATING INITIAL HYPOTHESIS GRAPH & SEARCH STRATEGY")
+        print("🔄 " * 35)
         strategy_name = self.config.get("strategy", "linear")
 
         initial_graph = self.hypothesis_generator.generate_initial_hypothesis(
@@ -126,7 +127,7 @@ class CMAPipeline:
         )
         if initial_graph is None:
             print("Error: Failed to generate initial hypothesis graph.")
-            return None
+            return
         visualize_causal_graph(initial_graph)
 
         self.searcher: SearchStrategy = SearcherFactory.create_searcher(
@@ -135,13 +136,68 @@ class CMAPipeline:
         )
 
         print(f"Initial hypothesis graph generated. {strategy_name} search strategy initialized.")
-        print("🔄 "*35)
 
         # 2. 循环：
         #   获取需要修改图（由searcher提供）；
+        #   如果 metadata 中 is_final_graph 为 True，则 continue;
         #   使用 hypothesis_generator 生成新假设图（列表）；
-        #   将评分上升的图加入 searcher；
+        #   使用 score_functions 评分新假设图；
+        #   将评分上升的图加入 searcher;
+        for t in range(1, num_iterations+1):
+            print("\n" + "🔄 "*35)
+            print(f"ITERATION {t}")
+            print("🔄 "*35)
 
+            # 获取需要修改的图
+            current_graph = self.searcher.search()
+            if current_graph.metadata.is_final_graph:
+                print(f"Iteration {t}: Graph marked as final by LLM. Skipping modification.")
+                continue
+
+            # 生成新假设图
+            new_graph = self.hypothesis_generator.generate_next_hypothesis(
+                variable_list=self.variable_list,
+                domain_name=self.domain_name,
+                domain_context=self.domain_context,
+                previous_graph=current_graph,
+                memory=memory,
+                iteration=t,
+                num_edge_operations=self.config.get("training.num_edge_operations")
+            )
+
+            if new_graph is None:
+                print(f"Iteration {t}: No new hypothesis generated.")
+                continue
+
+            visualize_causal_graph(new_graph)
+
+            # 评分新图
+            fitting_results = score_graph_with_bic(
+                structured_graph=new_graph,
+                data=self.data,
+                variable_names=self.variable_list
+            )
+
+            # 将评分结果添加到图的元数据
+            new_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
+            new_graph.metadata.bic = fitting_results['bic']
+            new_graph.metadata.num_parameters = fitting_results['num_parameters']
+
+            # 将新图和评分结果加入搜索器
+            self.searcher.update([new_graph])
+
+        # ===== 3. 生成最终报告 =====
+        final_report = self._generate_final_report()
+
+        report_path = os.path.join(self.output_dir, "final_report.txt")
+        with open(report_path, 'w') as f:
+            f.write(final_report)
+
+        print("\n" + "="*70)
+        print("CMA PIPELINE COMPLETED")
+        print("="*70)
+        print(final_report)
+        print("="*70 + "\n")
 
         # for i in range(num_iterations):
         #     print("\n" + "🔄 "*35)
@@ -343,9 +399,3 @@ class CMAPipeline:
                 lines.append(f"  {edge[0]} → {edge[1]}")
 
         return "\n".join(lines)
-
-    def get_best_graph(self) -> StructuredGraph:
-        """返回拟合度最好的图"""
-        best_idx = max(range(len(self.iteration_history)),
-                       key=lambda i: self.iteration_history[i]['results']['cv_log_likelihood'])
-        return self.iteration_history[best_idx]['graph']

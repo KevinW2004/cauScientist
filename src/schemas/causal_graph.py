@@ -13,8 +13,7 @@ class CausalNode(BaseModel):
 
 class GraphChanges(BaseModel):
     """
-    记录相对于上一轮迭代的图结构变化
-    来源: llm_hypothesis.py -> _compute_changes
+    记录图结构变化
     """
     # 注意：源码中是用 tuple (parent, child) 存边的，JSON化时通常会变成 list
     added_edges: List[Tuple[str, str]] = Field(default_factory=list, description="新增的边")
@@ -32,6 +31,7 @@ class GraphMetadata(BaseModel):
     num_variables: int
     num_edges: int
     reasoning: str = Field(..., description="LLM 生成该结构的推理文本")
+    is_final_graph: bool = Field(default=False, description="LLM 是否认为这是一张不再需要修改的最终图") # !新增字段
     
     # --- 变化记录 (生成时写入，第一轮可能为 None) ---
     changes: GraphChanges | None = None
@@ -42,8 +42,6 @@ class GraphMetadata(BaseModel):
     num_parameters: int | None = None
     
     # --- 额外字段 (用于搜索策略等) ---
-    proposed_operations: List[Dict[str, Any]] | None = Field(default=None, description="提议的操作列表")
-    evaluation_metrics: Dict[str, Any] | None = Field(default=None, description="评估指标")
     confirmed_edges: List[Tuple[str, str]] | None = Field(default=None, description="确认的边")
     edge_notes: Dict[str, str] | None = Field(default=None, description="边的注释")
 

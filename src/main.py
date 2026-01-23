@@ -1,5 +1,4 @@
 """项目主入口"""
-import numpy as np
 from argparse import ArgumentParser
 
 from utils import ConfigManager
@@ -25,10 +24,12 @@ def run_single_experiment():
     )
 
     result = pipeline.run(verbose=True)
-    best_graph = pipeline.get_best_graph()
+    best_graph = pipeline.searcher.best_graph()
     print(f"\n✅ Experiment completed!")
     print(f"Best graph at iteration {best_graph.metadata.iteration}")
     print(f"Log-likelihood: {best_graph.metadata.log_likelihood:.4f}\n")
+    # 将搜索器历史保存到文件
+    
     return result
 
 

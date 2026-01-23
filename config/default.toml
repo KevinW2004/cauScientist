@@ -10,18 +10,17 @@ device = "cuda"  # "cpu" 或 "cuda"
 max_tokens = 8192  # LLM 最大输出token数
 
 [llm.openai]
-base_url = "https://ark.cn-beijing.volces.com/api/v3"
+base_url = "https://ark.cn-beijing.volces.com/api/v3" # 火山方舟
+# base_url = "https://10.140.158.153:1020/qwen3-235B/all/v1/" # 公司内网
 api_key = ""  # 请在 secret.toml 中设置实际的API密钥
 model_name = "deepseek-v3-1-terminus"
 
 
 [training]
 num_iterations = 3
-num_epochs = 50
 num_edge_operations = 3 # 每次迭代中允许 LLM 生成的操作数
 learning_rate = 0.01
 temperature = 0.7
-
 
 [experiment]
 mode = "single"  # "single" 或 "batch"
@@ -34,3 +33,4 @@ fp_graph = "./datasets/asia_graph.npy"
 
 [experiment.batch]
 csv_path = ""  # 批量实验的CSV配置文件
+num_epochs = 50
