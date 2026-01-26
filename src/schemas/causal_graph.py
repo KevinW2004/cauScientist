@@ -1,8 +1,6 @@
-from pydantic import BaseModel, Field, ConfigDict, model_validator, field_serializer
-from typing import List, Tuple, Union, Dict, Any
+from pydantic import BaseModel, Field, ConfigDict, field_serializer
+from typing import List, Tuple, Union, Dict, Literal
 import numpy as np
-import json
-
 
 class CausalNode(BaseModel):
     """
@@ -11,15 +9,14 @@ class CausalNode(BaseModel):
     name: str
     parents: List[str] = Field(default_factory=list)
 
-class GraphChanges(BaseModel):
+class GraphChange(BaseModel):
     """
-    记录图结构变化
+    记录单次图结构变化（单条边的操作）
     """
-    # 注意：源码中是用 tuple (parent, child) 存边的，JSON化时通常会变成 list
-    added_edges: List[Tuple[str, str]] = Field(default_factory=list, description="新增的边")
-    removed_edges: List[Tuple[str, str]] = Field(default_factory=list, description="移除的边")
-    num_added: int = 0
-    num_removed: int = 0
+    type: Literal["ADD", "DELETE", "REVERSE"] = Field(..., description="操作类型")
+    parent: str = Field(..., description="父节点")
+    child: str = Field(..., description="子节点")
+    reasoning: str = Field(default="", description="该操作的推理依据")
 
 class GraphMetadata(BaseModel):
     """
@@ -30,20 +27,17 @@ class GraphMetadata(BaseModel):
     iteration: int = Field(..., description="当前迭代轮次 (t)")
     num_variables: int
     num_edges: int
-    reasoning: str = Field(..., description="LLM 生成该结构的推理文本")
-    is_final_graph: bool = Field(default=False, description="LLM 是否认为这是一张不再需要修改的最终图") # !新增字段
-    
-    # --- 变化记录 (生成时写入，第一轮可能为 None) ---
-    changes: GraphChanges | None = None
+    is_final_graph: bool = Field(default=False, description="LLM 是否认为这是一张不再需要修改的最终图")
+
+    # --- 变化记录 ---
+    change_history: List[GraphChange] = Field(
+        default=[], description="从初始图到当前图的所有历史变化"
+    )
 
     # --- 评分指标 (Score Functions 写入) ---
-    log_likelihood: float | None = Field(default=None, description="BIC Score (CV Log Likelihood)")
-    bic: float | None = Field(default=None, description="Traditional BIC value")
+    log_likelihood: float | None = Field(default=None, description="BIC Score (CV Log Likelihood), 越大越好")
+    bic: float | None = Field(default=None, description="Traditional BIC value, 越小越好")
     num_parameters: int | None = None
-    
-    # --- 额外字段 (用于搜索策略等) ---
-    confirmed_edges: List[Tuple[str, str]] | None = Field(default=None, description="确认的边")
-    edge_notes: Dict[str, str] | None = Field(default=None, description="边的注释")
 
 class StructuredGraph(BaseModel):
     """

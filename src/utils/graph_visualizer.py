@@ -208,12 +208,25 @@ class CausalGraphVisualizer:
         if previous_graph is None:
             return set(), set()
         
-        changes = current_graph.metadata.changes
-        if changes is None:
+        # 从 change_history 中获取最后一次变化
+        change_history = current_graph.metadata.change_history
+        if not change_history:
             return set(), set()
         
-        added_edges = set(changes.added_edges)
-        removed_edges = set(changes.removed_edges)
+        # 只显示最后一次变化
+        last_change = change_history[-1]
+        added_edges = set()
+        removed_edges = set()
+        
+        edge = (last_change.parent, last_change.child)
+        if last_change.type == "ADD":
+            added_edges.add(edge)
+        elif last_change.type == "DELETE":
+            removed_edges.add(edge)
+        elif last_change.type == "REVERSE":
+            # 反转操作：删除 parent→child，添加 child→parent
+            removed_edges.add(edge)
+            added_edges.add((last_change.child, last_change.parent))
         
         return added_edges, removed_edges
     
@@ -324,7 +337,7 @@ class CausalGraphVisualizer:
 
 def visualize_causal_graph(
     structured_graph: StructuredGraph,
-    output_dir: str = "visualizations",
+    output_dir: str = "experiment_results/visualizations",
     filename: Optional[str] = None,
     previous_graph: Optional[StructuredGraph] = None,
     auto_open: bool = True,
@@ -352,14 +365,103 @@ def visualize_causal_graph(
         ...     filename="graph_t0.html"
         ... )
     """
+    
     visualizer = CausalGraphVisualizer(
         output_dir=output_dir,
         auto_open=auto_open
     )
-    
+
     return visualizer.visualize(
         structured_graph=structured_graph,
         filename=filename,
         previous_graph=previous_graph,
         layout=layout
     )
+
+
+def visualize_graph(
+    self,
+    structured_graph: StructuredGraph,
+    output_dir: str = "experiment_results/visualizations",
+    previous_graph: Optional[StructuredGraph] = None,
+    auto_open: bool = False,
+    text_only: bool = True
+):
+    """
+    可视化因果图（支持文本和交互式HTML两种方式）
+
+    Args:
+        structured_graph: 结构化图数据（StructuredGraph schema）
+        output_dir: HTML输出目录
+        previous_graph: 上一轮的图（用于高亮变化）
+        auto_open: 是否自动在浏览器打开HTML
+        text_only: 是否仅输出文本（不生成HTML）
+    """
+    # 文本可视化
+    print("\n" + "=" * 60)
+    print(f"CAUSAL GRAPH - {structured_graph.metadata.domain.upper()}")
+    print("=" * 60)
+    print(f"Iteration: {structured_graph.metadata.iteration}")
+    print(f"Variables: {structured_graph.metadata.num_variables}")
+    print(f"Edges: {structured_graph.metadata.num_edges}")
+
+    # 显示变化
+    change_history = structured_graph.metadata.change_history
+    if change_history:
+        last_change = change_history[-1]
+        print(f"\nLast change:")
+        print(f"  Type: {last_change.type}")
+        if last_change.type == "REVERSE":
+            print(f"  Reversed: {last_change.parent} → {last_change.child}")
+            print(f"  Now: {last_change.child} → {last_change.parent}")
+        else:
+            print(f"  Edge: {last_change.parent} → {last_change.child}")
+        if last_change.reasoning:
+            reasoning = last_change.reasoning[:100]
+            print(f"  Reasoning: {reasoning}..." if len(last_change.reasoning) > 100 else f"  Reasoning: {reasoning}")
+
+    # print("\nReasoning:")
+    # reasoning = structured_graph['metadata']['reasoning']
+    # print(reasoning[:300] + "..." if len(reasoning) > 300 else reasoning)
+
+    print("\n" + "-" * 60)
+    print("CAUSAL RELATIONSHIPS:")
+    print("-" * 60)
+
+    # 显示边
+    edges = []
+    root_nodes = []
+
+    for node in structured_graph.nodes:
+        parents = node.parents
+        if parents:
+            for parent in parents:
+                edges.append(f"  {parent} → {node.name}")
+        else:
+            root_nodes.append(node.name)
+
+    if root_nodes:
+        print("\nRoot Nodes (no parents):")
+        for node in root_nodes:
+            print(f"  • {node}")
+
+    if edges:
+        print("\nCausal Edges:")
+        for edge in sorted(edges):
+            print(edge)
+
+    print("=" * 60 + "\n")
+
+    # 交互式HTML可视化
+    if not text_only:
+        try:
+            visualize_causal_graph(
+                structured_graph=structured_graph,
+                output_dir=output_dir,
+                previous_graph=previous_graph,
+                auto_open=auto_open,
+                layout="hierarchical",
+            )
+        except Exception as e:
+            print(f"⚠️  警告: 无法生成交互式可视化: {e}")
+            print(f"   (你可能需要安装 pyvis: pip install pyvis networkx)")

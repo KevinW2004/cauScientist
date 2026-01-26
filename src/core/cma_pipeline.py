@@ -13,7 +13,7 @@ from reflection.post_processing import PostProcessor
 from data_loader import DOMAIN_CONTEXTS
 from utils.score_functions import score_graph_with_bic
 
-from utils import ConfigManager, visualize_causal_graph
+from utils import ConfigManager, visualize_causal_graph, visualize_graph
 from utils.metrics import compute_metrics
 from llm_loader import LLMLoader, LLMLoaderFactory
 from schemas import StructuredGraph, CausalDataset
@@ -67,9 +67,6 @@ class CMAPipeline:
         self.hypothesis_generator = LLMHypothesisGenerator(llm_loader=self.llm_loader)
         # self.post_processor = PostProcessor(llm_loader=self.llm_loader)
 
-        # 存储历史
-        self.iteration_history = []
-
         print("✓ Pipeline initialized successfully!")
         print("="*70 + "\n")
 
@@ -92,7 +89,6 @@ class CMAPipeline:
 
     def run(
         self,
-        verbose: bool = True
     ) -> None:
         """运行完整的CMA流程"""
         num_iterations = self.config.get("training.num_iterations")
@@ -110,9 +106,7 @@ class CMAPipeline:
         print("="*70 + "\n")
 
         previous_graph = None
-        previous_results = None
         memory = None
-        best = None
 
         # 1. 生成初始图，并创建搜索策略
         print("🔄 " * 35)
@@ -129,6 +123,15 @@ class CMAPipeline:
             print("Error: Failed to generate initial hypothesis graph.")
             return
         visualize_causal_graph(initial_graph)
+        # 初始图评分
+        fitting_results = score_graph_with_bic(
+            structured_graph=initial_graph,
+            data=self.data,
+            variable_names=self.variable_list
+        )
+        initial_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
+        initial_graph.metadata.bic = fitting_results['bic']
+        initial_graph.metadata.num_parameters = fitting_results['num_parameters']
 
         self.searcher: SearchStrategy = SearcherFactory.create_searcher(
             strategy_name=strategy_name,
@@ -136,6 +139,7 @@ class CMAPipeline:
         )
 
         print(f"Initial hypothesis graph generated. {strategy_name} search strategy initialized.")
+        print(f"Initial Graph Score - LL: {fitting_results['cv_log_likelihood']:.4f}, BIC: {fitting_results['bic']:.4f}")
 
         # 2. 循环：
         #   获取需要修改图（由searcher提供）；
@@ -150,12 +154,9 @@ class CMAPipeline:
 
             # 获取需要修改的图
             current_graph = self.searcher.search()
-            if current_graph.metadata.is_final_graph:
-                print(f"Iteration {t}: Graph marked as final by LLM. Skipping modification.")
-                continue
-
-            # 生成新假设图
-            new_graph = self.hypothesis_generator.generate_next_hypothesis(
+            
+            # 生成新假设图列表
+            new_graphs, is_final_graph = self.hypothesis_generator.generate_next_hypothesis(
                 variable_list=self.variable_list,
                 domain_name=self.domain_name,
                 domain_context=self.domain_context,
@@ -165,26 +166,42 @@ class CMAPipeline:
                 num_edge_operations=self.config.get("training.num_edge_operations")
             )
 
-            if new_graph is None:
+            # 如果 LLM 认为当前图已经足够好，标记并跳过
+            if is_final_graph:
+                print(f"Iteration {t}: LLM indicates current graph is final. Marking and skipping modification.")
+                self.searcher.mark_as_final()
+                continue
+
+            if not new_graphs:
                 print(f"Iteration {t}: No new hypothesis generated.")
                 continue
 
-            visualize_causal_graph(new_graph)
+            # 对每个候选图进行可视化和评分
+            for idx, new_graph in enumerate(new_graphs, 1):
+                print(f"\n  Candidate {idx}/{len(new_graphs)}:")
+                visualize_causal_graph(new_graph, filename=f"iteration_{t}-{idx}.html")
 
-            # 评分新图
-            fitting_results = score_graph_with_bic(
-                structured_graph=new_graph,
-                data=self.data,
-                variable_names=self.variable_list
-            )
+                # 评分新图
+                fitting_results = score_graph_with_bic(
+                    structured_graph=new_graph,
+                    data=self.data,
+                    variable_names=self.variable_list
+                )
 
-            # 将评分结果添加到图的元数据
-            new_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
-            new_graph.metadata.bic = fitting_results['bic']
-            new_graph.metadata.num_parameters = fitting_results['num_parameters']
+                # 将评分结果添加到图的元数据
+                new_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
+                new_graph.metadata.bic = fitting_results['bic']
+                new_graph.metadata.num_parameters = fitting_results['num_parameters']
 
-            # 将新图和评分结果加入搜索器
-            self.searcher.update([new_graph])
+                print(f"    Score - LL: {fitting_results['cv_log_likelihood']:.4f}, BIC: {fitting_results['bic']:.4f}")
+                # 只有评分提升的图才加入搜索器
+                if previous_graph is not None and previous_graph.metadata.log_likelihood is not None:
+                    if new_graph.metadata.log_likelihood < previous_graph.metadata.log_likelihood:
+                        print("    (Rejected: LL did not improve over previous graph)")
+                        new_graphs.remove(new_graph)
+
+            # 将新图列表加入搜索器
+            self.searcher.update(new_graphs)
 
         # ===== 3. 生成最终报告 =====
         final_report = self._generate_final_report()
@@ -198,86 +215,6 @@ class CMAPipeline:
         print("="*70)
         print(final_report)
         print("="*70 + "\n")
-
-        # for i in range(num_iterations):
-        #     print("\n" + "🔄 "*35)
-        #     print(f"ITERATION {t}")
-        #     print("🔄 "*35)
-
-        #     # ===== 步骤1: 假设生成  =====
-        #     structured_graph = self.hypothesis_generator.generate_hypothesis(
-        #         variable_list=self.variable_list,
-        #         domain_name=self.domain_name,
-        #         domain_context=self.domain_context,
-        #         previous_graph=previous_graph,
-        #         memory=memory,
-        #         iteration=t,
-        #         num_edge_operations=3
-        #     )
-        #     if structured_graph is None:
-        #         continue
-
-        #     if verbose:
-        #         self.hypothesis_generator.visualize_graph(structured_graph)
-
-        #     # 保存假设（使用 Pydantic 的 model_dump 转为字典再序列化）
-        #     graph_path = os.path.join(self.output_dir, f"graph_t{t}.json")
-        #     with open(graph_path, 'w') as f:
-        #         json.dump(structured_graph.model_dump(mode='python'), f, indent=2)
-
-        #     # ===== 步骤2: 使用标准 BIC 评分 =====
-        #     fitting_results = score_graph_with_bic(
-        #         structured_graph=structured_graph,
-        #         data=self.data,
-        #         variable_names=self.variable_list
-        #     )
-
-        #     # 将评分结果添加到图的元数据
-        #     structured_graph.metadata.log_likelihood = fitting_results['cv_log_likelihood']
-        #     structured_graph.metadata.bic = fitting_results['bic']
-        #     structured_graph.metadata.num_parameters = fitting_results['num_parameters']
-
-        #     # ===== 记录历史 =====
-        #     self.iteration_history.append({
-        #         'iteration': t,
-        #         'graph': structured_graph,
-        #         'results': fitting_results,
-        #         # 'memory': memory,
-        #         'metrics':compute_metrics(self, structured_graph)
-        #     })
-
-        #     # ===== 更新前一轮的信息 =====
-        #     previous_graph = structured_graph
-        #     previous_results = fitting_results
-
-        #     # ===== 评估与真实图的差距(如果有) =====
-        #     if self.dataset and verbose:
-        #         self._evaluate_against_ground_truth(structured_graph)
-
-        #     # ===== 提前终止检查 =====
-        #     if t > 0:
-        #         ll_change = (fitting_results['cv_log_likelihood'] -
-        #                    self.iteration_history[t-1]['results']['cv_log_likelihood'])
-
-        #         if abs(ll_change) < 0.01:
-        #             print(f"\n⚠️  Convergence detected (ΔLL={ll_change:.4f}). Stopping early.")
-        #             break
-        #     t += 1
-
-        # # ===== 生成最终报告 =====
-        # final_report = self._generate_final_report()
-
-        # report_path = os.path.join(self.output_dir, "final_report.txt")
-        # with open(report_path, 'w') as f:
-        #     f.write(final_report)
-
-        # print("\n" + "="*70)
-        # print("CMA PIPELINE COMPLETED")
-        # print("="*70)
-        # print(final_report)
-        # print("="*70 + "\n")
-
-        # return self.iteration_history[-1] if len(self.iteration_history) > 0 else None
 
     def _evaluate_against_ground_truth(self, predicted_graph: StructuredGraph):
         """评估预测图与真实图的差距"""
@@ -309,27 +246,28 @@ class CMAPipeline:
         recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) > 0 else 0
         f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
 
-        print("\n" + "-"*70)
-        print("EVALUATION AGAINST GROUND TRUTH:")
-        print("-"*70)
-        print(f"True Positive (correct edges): {true_positive}")
-        print(f"False Positive (incorrect edges): {false_positive}")
-        print(f"False Negative (missing edges): {false_negative}")
-        print(f"Precision: {precision:.3f}")
-        print(f"Recall: {recall:.3f}")
-        print(f"F1 Score: {f1:.3f}")
+        res_lins = ""
+        res_lins += "\n" + "-"*70
+        res_lins += "EVALUATION AGAINST GROUND TRUTH:\n"
+        res_lins += "-"*70 + "\n"
+        res_lins += f"True Positive (correct edges): {true_positive}\n"
+        res_lins += f"False Positive (incorrect edges): {false_positive}\n"
+        res_lins += f"False Negative (missing edges): {false_negative}\n"
+        res_lins += f"Precision: {precision:.3f}\n"
+        res_lins += f"Recall: {recall:.3f}\n"
+        res_lins += f"F1 Score: {f1:.3f}\n"
 
         if false_positive > 0:
-            print(f"\nIncorrect edges added:")
+            res_lins += f"\nIncorrect edges added:\n"
             for parent_idx, child_idx in (predicted_edges - true_edges):
-                print(f"  {self.variable_list[parent_idx]} → {self.variable_list[child_idx]}")
+                res_lins += f"  {self.variable_list[parent_idx]} → {self.variable_list[child_idx]}\n"
 
         if false_negative > 0:
-            print(f"\nMissing edges:")
+            res_lins += f"\nMissing edges:\n"
             for parent_idx, child_idx in (true_edges - predicted_edges):
-                print(f"  {self.variable_list[parent_idx]} → {self.variable_list[child_idx]}")
+                res_lins += f"  {self.variable_list[parent_idx]} → {self.variable_list[child_idx]}\n"
 
-        print("-"*70)
+        return res_lins
 
     def _generate_final_report(self) -> str:
         """生成最终报告"""
@@ -340,62 +278,41 @@ class CMAPipeline:
         ]
 
         # 数据集信息
-        if self.dataset:
-            lines.extend([
-                f"\nDataset Information:",
-                f"  Variables: {self.dataset.n_variables}",
-                f"  Samples used: {len(self.data)}",
-                f"  Ground truth edges: {self.dataset.ground_truth_graph.sum()}",
-            ])
-        else:
-            lines.extend([
-                f"\nVariables: {len(self.variable_list)}",
-                f"Data samples: {self.data.shape[0]}",
-            ])
-
         lines.extend([
-            f"\nTotal iterations: {len(self.iteration_history)}",
-            "\n" + "-"*70,
-            "Iteration Summary:",
-            "-"*70
+            f"\nDataset Information:",
+            f"  Variables: {self.dataset.n_variables}",
+            f"  Samples used: {len(self.data)}",
+            f"  Ground truth edges: {self.dataset.ground_truth_graph.sum()}",
         ])
 
-        for record in self.iteration_history:
-            t = record['iteration']
-            ll = record['results']['cv_log_likelihood']
-            graph: StructuredGraph = record['graph']
-            edges = graph.metadata.num_edges
-            lines.append(f"  t={t}: LL={ll:.4f}, Edges={edges}")
+        lines.extend([
+            "-"*70,
+            "Iteration Summary:",
+        ])
 
         # 最佳迭代
-        if len(self.iteration_history) > 0:
-            best_idx = max(range(len(self.iteration_history)), 
-                        key=lambda i: self.iteration_history[i]['results']['cv_log_likelihood'])
-            best_ll = self.iteration_history[best_idx]['results']['cv_log_likelihood']
-
-            lines.extend([
-                "\n" + "-"*70,
-                f"Best iteration: t={best_idx} (LL={best_ll:.4f})",
-                "-"*70,
-                "\nFinal Causal Structure:"
-            ])
-
-            final_graph: StructuredGraph = self.iteration_history[-1]['graph']
-            for node in final_graph.nodes:
-                parents = node.parents
-                if parents:
-                    for parent in parents:
-                        lines.append(f"  {parent} → {node.name}")
-                else:
-                    lines.append(f"  {node.name} (root)")
+        best_graph = self.searcher.best_graph()
+        lines.extend([
+            "\n" + "-"*70,
+            "Best Found Structure:"
+        ])
+        for node in best_graph.nodes:
+            parents = node.parents
+            if parents:
+                for parent in parents:
+                    lines.append(f"  {parent} → {node.name}")
+            else:
+                lines.append(f"  {node.name} (root)")
 
         # 如果有真实图,添加对比
-        if self.dataset:
-            lines.extend([
-                "\n" + "-"*70,
-                "Ground Truth Structure:"
-            ])
-            for edge in self.dataset.get_ground_truth_edges():
-                lines.append(f"  {edge[0]} → {edge[1]}")
+        lines.extend([
+            "\n" + "-"*70,
+            "Ground Truth Structure:"
+        ])
+        for edge in self.dataset.get_ground_truth_edges():
+            lines.append(f"  {edge[0]} → {edge[1]}")
+        if self.dataset.ground_truth_graph is not None:
+            lines.append(self._evaluate_against_ground_truth(best_graph))
+        
 
         return "\n".join(lines)

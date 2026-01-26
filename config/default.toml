@@ -10,10 +10,11 @@ device = "cuda"  # "cpu" 或 "cuda"
 max_tokens = 8192  # LLM 最大输出token数
 
 [llm.openai]
-base_url = "https://ark.cn-beijing.volces.com/api/v3" # 火山方舟
-# base_url = "https://10.140.158.153:1020/qwen3-235B/all/v1/" # 公司内网
+# base_url = "https://ark.cn-beijing.volces.com/api/v3" # 火山方舟
+base_url = "https://10.140.158.153:1020/qwen3-235B/all/v1/" # 公司内网
 api_key = ""  # 请在 secret.toml 中设置实际的API密钥
-model_name = "deepseek-v3-1-terminus"
+# model_name = "deepseek-v3-1-terminus"
+model_name = "qwen3-235b"
 
 
 [training]
@@ -24,7 +25,7 @@ temperature = 0.7
 
 [experiment]
 mode = "single"  # "single" 或 "batch"
-output.dir = "./cma_experiments"  # 输出目录
+output.dir = "./experiment_results"  # 输出目录
 split = "test"  # test, train, 或 val
 
 [experiment.single]

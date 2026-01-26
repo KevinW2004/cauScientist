@@ -1,11 +1,12 @@
 from typing import List, Optional
-from schemas import StructuredGraph
+from schemas import StructuredGraph, CausalNode, GraphChange, GraphMetadata
 
 def construct_system_prompt(domain_name: str) -> str:
     """构建系统提示词"""
     return f"""You are an expert in causal inference and {domain_name} domain knowledge.
 Your task is to generate or refine causal graph hypotheses representing causal relationships.
 Always ensure the graph is a Directed Acyclic Graph (DAG) with no cycles.
+Do not output the thinking process or <think></think> tags. ./no_think
 """
 
 def construct_initial_prompt(
@@ -78,6 +79,13 @@ def construct_local_amendment_prompt(
 
     current_graph_str = "\n".join(current_edges) if current_edges else "  (no edges)"
 
+    # 格式化修改历史, 使用 previous_graph.metadata.change_history
+    change_history_section = ""
+    for change in previous_graph.metadata.change_history:
+        change_history_section += f"- {change.type} edge {change.parent} → {change.child}: {change.reasoning}\n"
+    if change_history_section == "":
+        change_history_section = "Null(no changes yet)."
+
     # 格式化记忆
     memory_section = ""
     if memory:
@@ -102,11 +110,15 @@ Variables:
 Current Graph (Iteration {previous_graph.metadata.iteration}):
 {current_graph_str}
 
+Change History (Already applied in the current graph above):
+{change_history_section}
+
 Current BIC Score: {previous_graph.metadata.log_likelihood if previous_graph.metadata.log_likelihood is not None else 'N/A'}
 {memory_section}
 
 Instructions:
-You need to propose UP TO {num_edge_operations} edge operations to improve the graph.
+You need to propose UP TO {num_edge_operations} individual edge operations to improve the graph.
+The edge operations won't be combine. Instead they will be applied one by one to generate multiple new candidate graphs for evaluation. 
 You can propose fewer operations if appropriate, but not more than {num_edge_operations}.
 If you believe the graph is already optimal and there is no need for any further changes, you may propose ZERO operations and indicate it is final in "is_final_graph" field(boolean).
 
@@ -122,10 +134,11 @@ Constraints:
 - For DELETE operations, the edge must exist in the current graph
 - For REVERSE operations, the edge must exist and reversing must not create a cycle
 - The "is_final_graph" can be true only if you propose ZERO operations
+- Review the 'Change History' carefully. Do NOT propose operations that undo previous changes (e.g., do not re-add a deleted edge, do not reverse an edge back to its original direction) unless there is compelling new evidence.
 
 Output Format (IMPORTANT - use this exact JSON structure):
 {{
-"overall_reasoning": "Overall explanation of the amendment strategy",
+"overall_reasoning": "A breif overall explanation of the fault of the current graph and the amendment strategy",
 "operations": [
 {{
     "type": "ADD",

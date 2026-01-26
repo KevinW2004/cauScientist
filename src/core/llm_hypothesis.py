@@ -5,10 +5,10 @@ from collections import defaultdict
 
 from llm_loader import LLMLoader
 from utils import ConfigManager
-from utils import visualize_causal_graph
 from schemas.causal_graph import *
+from schemas.causal_graph import GraphChange
 from utils.llm import construct_initial_prompt, extract_json, \
-  construct_system_prompt, construct_local_amendment_prompt, parse_and_normalize_response
+    construct_system_prompt, construct_local_amendment_prompt, parse_and_normalize_response
 
 class LLMHypothesisGenerator:
     """
@@ -28,9 +28,9 @@ class LLMHypothesisGenerator:
         memory: Optional[str] = None,
         iteration: int = 0,
         num_edge_operations: int = 3
-    ) -> StructuredGraph | None:
+    ) -> Tuple[List[StructuredGraph], bool]:
         """
-        生成下一步因果图修改假设
+        生成下一步因果图修改假设（返回多个候选图）
         
         Args:
             variable_list: 变量列表
@@ -42,7 +42,8 @@ class LLMHypothesisGenerator:
             num_edge_operations: 允许提出的最大操作数
             
         Returns:
-            结构化的因果图字典 | None
+            (结构化的因果图列表, is_final_graph标志)
+            is_final_graph=True 表示 LLM 认为 previous_graph 已经足够好，不需要再修改
         """
 
         if previous_graph is None:
@@ -87,12 +88,17 @@ class LLMHypothesisGenerator:
         memory: Optional[str],
         iteration: int,
         num_edge_operations: int = 3
-    ) -> StructuredGraph | None:
+    ) -> Tuple[List[StructuredGraph], bool]:
         """
         局部修正：让模型选择对边进行操作（添加、删除、反转）
+        每个操作单独应用到 previous_graph 上，生成多个候选图
         
         Args:
             num_edge_operations: 最大操作边数（LLM可以选择少于这个数量的操作），默认为3
+            
+        Returns:
+            (StructuredGraph 列表, is_final_graph标志)
+            is_final_graph=True 表示 LLM 认为 previous_graph 已经足够好
         """
 
         system_prompt = construct_system_prompt(domain_name)
@@ -108,18 +114,47 @@ class LLMHypothesisGenerator:
         parse_result = self._parse_edge_operations(response_text)
         operations = parse_result['operations']
         is_final_graph = parse_result['is_final_graph']
+        overall_reasoning = parse_result['overall_reasoning']
+        
+        # 输出总体推理
+        if overall_reasoning:
+            print(f"\n[Overall Reasoning]: {overall_reasoning}\n")
 
-        # 应用操作到上一轮的图上
-        updated_graph = self._apply_edge_operations(
-            previous_graph, operations, variable_list
-        )
-
-        # 创建结构化图
-        structured_graph = self.create_structured_graph(
-            updated_graph, variable_list, domain_name, iteration, previous_graph, is_final_graph
-        )
-
-        return structured_graph
+        # 将每个操作单独应用到 previous_graph 上，生成多个候选图
+        candidate_graphs = []
+        
+        for op in operations:
+            # 应用单个操作
+            updated_graph = self._apply_single_edge_operation(
+                previous_graph, op, variable_list
+            )
+            
+            if updated_graph is None:
+                continue
+            
+            # 创建 Change 对象
+            change = GraphChange(
+                type=op['type'],
+                parent=op['parent'],
+                child=op['child'],
+                reasoning=op['reasoning']
+            )
+            
+            # 创建结构化图
+            structured_graph = self.create_structured_graph(
+                updated_graph, 
+                variable_list, 
+                domain_name, 
+                iteration, 
+                previous_graph, 
+                change
+            )
+            
+            if structured_graph is not None:
+                candidate_graphs.append(structured_graph)
+        
+        print(f"✓ Generated {len(candidate_graphs)} candidate graphs from {len(operations)} operations")
+        return candidate_graphs, is_final_graph
 
 # ==== 以下为辅助函数 ====
     def create_structured_graph(
@@ -129,12 +164,11 @@ class LLMHypothesisGenerator:
         domain_name: str,
         iteration: int,
         previous_graph: StructuredGraph | None = None,
-        is_final_graph: bool = False,
+        change: GraphChange | None = None,
     ) -> StructuredGraph | None:
         """创建最终的结构化图表示, None 表示无效图"""
 
         nodes: list = causal_graph["nodes"]
-        reasoning: str = causal_graph["reasoning"]
 
         # 验证变量完整性
         graph_vars = {node["name"] for node in nodes}
@@ -190,37 +224,25 @@ class LLMHypothesisGenerator:
         nodes = unique_nodes
 
         # 检查环
-        # print("begin checking cycles")
         cycles, cycle_path = self._has_cycle(nodes)
-        # print("end checking cycles")
         if cycles:
-            # print("⚠️  Warning: Graph contains cycles! Attempting to break cycles...")
             print("⚠️  Warning: Graph contains cycles! Return None")
             print(f"    Cycle path: {' -> '.join(cycle_path)}")
             return None
 
         # 创建返回对象
-
-        # 计算变化
-        changes = None
-        if previous_graph is not None:
-            changes = self._compute_changes(previous_graph, nodes)
-        change_obj = None
-        if changes:
-            change_obj = GraphChanges(
-                added_edges=changes["added_edges"],
-                removed_edges=changes["removed_edges"],
-                num_added=changes["num_added"],
-                num_removed=changes["num_removed"],
-            )
+        # 构建历史变化列表
+        history = previous_graph.metadata.change_history.copy() if previous_graph else []
+        if change:
+            history.append(change)
+        # 组装 GraphMetadata 对象
         metadata_obj = GraphMetadata(
             domain=domain_name,
             iteration=iteration,
             num_variables=len(variable_list),
             num_edges=self._count_edges(nodes),
-            reasoning=reasoning,
-            changes=change_obj,
-            is_final_graph=is_final_graph
+            change_history=history,
+            is_final_graph=False  # 默认为 False，由搜索器标记
         )
         nodes_objs = [
             CausalNode(name=node["name"], parents=node["parents"]) for node in nodes
@@ -229,9 +251,12 @@ class LLMHypothesisGenerator:
         # 计算邻接矩阵
         adj_matrix, _ = self._create_adjacency_matrix(nodes, variable_list)
 
+
         # 组装
         structured_graph = StructuredGraph(
-            metadata=metadata_obj, nodes=nodes_objs, adjacency_matrix=adj_matrix
+            metadata=metadata_obj, 
+            nodes=nodes_objs, 
+            adjacency_matrix=adj_matrix,
         )
         return structured_graph
     
@@ -287,38 +312,6 @@ class LLMHypothesisGenerator:
 
         return False, cycle_path
 
-    def _compute_changes(self, prev_graph: StructuredGraph, curr_nodes: List[Dict]) -> Dict:
-        """计算图之间的变化"""
-
-        def get_edges_from_nodes(nodes):
-            edges = set()
-            for node in nodes:
-                child = node['name']
-                for parent in node.get('parents', []):
-                    edges.add((parent, child))
-            return edges
-
-        def get_edges_from_graph(graph: StructuredGraph):
-            edges = set()
-            for node in graph.nodes:
-                child = node.name
-                for parent in node.parents:
-                    edges.add((parent, child))
-            return edges
-
-        prev_edges = get_edges_from_graph(prev_graph)
-        curr_edges = get_edges_from_nodes(curr_nodes)
-
-        added = curr_edges - prev_edges
-        removed = prev_edges - curr_edges
-
-        return {
-            "added_edges": list(added),
-            "removed_edges": list(removed),
-            "num_added": len(added),
-            "num_removed": len(removed)
-        }
-
     def _count_edges(self, nodes: List[Dict]) -> int:
         """计算边数"""
         return sum(len(node.get('parents', [])) for node in nodes)
@@ -350,10 +343,10 @@ class LLMHypothesisGenerator:
 
     def _parse_edge_operations(self, response_text: str) -> Dict:
         """
-        解析LLM返回的边操作指令和is_final_graph标志
+        解析LLM返回的边操作指令、overall_reasoning和is_final_graph标志
         
         Returns:
-            包含 'operations' 和 'is_final_graph' 的字典
+            包含 'operations', 'overall_reasoning' 和 'is_final_graph' 的字典
         """
         # print(f"Raw operations response (first 500 chars):\n{response_text[:500]}\n")
 
@@ -362,10 +355,12 @@ class LLMHypothesisGenerator:
 
         if json_obj is None:
             print("⚠️  Failed to extract operations JSON. Using empty operations.")
-            return {'operations': [], 'is_final_graph': False}
+            return {'operations': [], 'overall_reasoning': '', 'is_final_graph': False}
 
         operations = json_obj.get('operations', [])
         is_final_graph = json_obj.get('is_final_graph', False)
+        # 提取 overall_reasoning (兼容两个字段名)
+        overall_reasoning = json_obj.get('overall_reasoning', json_obj.get('reasoning', ''))
 
         if not isinstance(operations, list):
             print(f"⚠️  'operations' must be a list, got {type(operations)}")
@@ -395,7 +390,7 @@ class LLMHypothesisGenerator:
                 'type': op_type,
                 'parent': parent,
                 'child': child,
-                'reasoning': reasoning
+                'reasoning': reasoning if reasoning else f"{op_type} edge: {parent} → {child}"
             })
 
         print(f"✓ Parsed {len(valid_operations)} valid operations")
@@ -403,9 +398,103 @@ class LLMHypothesisGenerator:
             print(f"  {i}. {op['type']}: {op['parent']} → {op['child']}")
         
         if is_final_graph:
-            print(f"🏁 LLM indicates this is a FINAL graph (no further changes needed)")
+            print(f"[LLMHypothesisGenerator] 🏁 LLM indicates this is a FINAL graph (no further changes needed)")
 
-        return {'operations': valid_operations, 'is_final_graph': is_final_graph}
+        return {
+            'operations': valid_operations, 
+            'overall_reasoning': overall_reasoning,
+            'is_final_graph': is_final_graph
+        }
+
+    def _apply_single_edge_operation(
+        self,
+        previous_graph: StructuredGraph,
+        operation: Dict,
+        variable_list: List[str]
+    ) -> Dict | None:
+        """
+        将单个边操作应用到上一轮的图上
+        
+        Args:
+            previous_graph: 上一轮的图结构
+            operation: 单个操作
+            variable_list: 变量列表
+            
+        Returns:
+            更新后的图（nodes格式），如果操作无效则返回 None
+        """
+        # 复制节点数据
+        nodes = []
+        for node in previous_graph.nodes:
+            nodes.append({
+                'name': node.name,
+                'parents': node.parents.copy()
+            })
+
+        # 创建名称到节点的映射
+        node_map = {node['name']: node for node in nodes}
+
+        # 确保所有变量都在图中
+        for var in variable_list:
+            if var not in node_map:
+                new_node = {'name': var, 'parents': []}
+                nodes.append(new_node)
+                node_map[var] = new_node
+
+        op_type = operation['type']
+        parent = operation['parent']
+        child = operation['child']
+        reasoning = operation.get('reasoning', '')
+
+        # 验证变量存在
+        if parent not in variable_list or child not in variable_list:
+            print(f"⚠️  Skipping operation with invalid variables: {parent} → {child}")
+            return None
+
+        if parent == child:
+            print(f"⚠️  Skipping self-loop: {parent} → {child}")
+            return None
+
+        child_node = node_map[child]
+
+        if op_type == 'ADD':
+            # 添加边
+            if parent not in child_node['parents']:
+                child_node['parents'].append(parent)
+                print(f"  ✓ Added edge: {parent} → {child}")
+            else:
+                print(f"  ⚠️  Edge already exists: {parent} → {child}")
+                return None  # 边已存在，返回 None
+
+        elif op_type == 'DELETE':
+            # 删除边
+            if parent in child_node['parents']:
+                child_node['parents'].remove(parent)
+                print(f"  ✓ Deleted edge: {parent} → {child}")
+            else:
+                print(f"  ⚠️  Edge doesn't exist: {parent} → {child}")
+                return None  # 边不存在，返回 None
+
+        elif op_type == 'REVERSE':
+            # 反转边: 删除 parent → child，添加 child → parent
+            if parent in child_node['parents']:
+                child_node['parents'].remove(parent)
+                parent_node = node_map[parent]
+                if child not in parent_node['parents']:
+                    parent_node['parents'].append(child)
+                    print(f"  ✓ Reversed edge: {parent} → {child} to {child} → {parent}")
+                else:
+                    print(f"  ⚠️  Cannot reverse: would create duplicate edge")
+                    return None
+            else:
+                print(f"  ⚠️  Cannot reverse non-existent edge: {parent} → {child}")
+                return None
+
+        # 返回标准化的图格式
+        return {
+            'nodes': nodes,
+            'reasoning': reasoning if reasoning else f"Applied {op_type} operation: {parent} → {child}"
+        }
 
     def _apply_edge_operations(
         self,
@@ -493,89 +582,3 @@ class LLMHypothesisGenerator:
             'nodes': nodes,
             'reasoning': f"Applied {len(operations)} local operations"
         }
-
-    def visualize_graph(
-        self, 
-        structured_graph: StructuredGraph,
-        output_dir: str = "visualizations",
-        previous_graph: Optional[StructuredGraph] = None,
-        auto_open: bool = True,
-        text_only: bool = False
-    ):
-        """
-        可视化因果图（支持文本和交互式HTML两种方式）
-        
-        Args:
-            structured_graph: 结构化图数据（StructuredGraph schema）
-            output_dir: HTML输出目录
-            previous_graph: 上一轮的图（用于高亮变化）
-            auto_open: 是否自动在浏览器打开HTML
-            text_only: 是否仅输出文本（不生成HTML）
-        """
-        # 文本可视化
-        print("\n" + "="*60)
-        print(f"CAUSAL GRAPH - {structured_graph.metadata.domain.upper()}")
-        print("="*60)
-        print(f"Iteration: {structured_graph.metadata.iteration}")
-        print(f"Variables: {structured_graph.metadata.num_variables}")
-        print(f"Edges: {structured_graph.metadata.num_edges}")
-
-        # 显示变化
-        if structured_graph.metadata.changes:
-            changes = structured_graph.metadata.changes
-            print(f"\nChanges from previous iteration:")
-            print(f"  Added: {changes.num_added} edges")
-            print(f"  Removed: {changes.num_removed} edges")
-
-            if changes.added_edges:
-                for parent, child in changes.added_edges:
-                    print(f"  + {parent} → {child}")
-            if changes.removed_edges:
-                for parent, child in changes.removed_edges:
-                    print(f"  - {parent} → {child}")
-
-        # print("\nReasoning:")
-        # reasoning = structured_graph['metadata']['reasoning']
-        # print(reasoning[:300] + "..." if len(reasoning) > 300 else reasoning)
-
-        print("\n" + "-"*60)
-        print("CAUSAL RELATIONSHIPS:")
-        print("-"*60)
-
-        # 显示边
-        edges = []
-        root_nodes = []
-
-        for node in structured_graph.nodes:
-            parents = node.parents
-            if parents:
-                for parent in parents:
-                    edges.append(f"  {parent} → {node.name}")
-            else:
-                root_nodes.append(node.name)
-
-        if root_nodes:
-            print("\nRoot Nodes (no parents):")
-            for node in root_nodes:
-                print(f"  • {node}")
-
-        if edges:
-            print("\nCausal Edges:")
-            for edge in sorted(edges):
-                print(edge)
-
-        print("="*60 + "\n")
-
-        # 交互式HTML可视化
-        if not text_only:
-            try:
-                visualize_causal_graph(
-                    structured_graph=structured_graph,
-                    output_dir=output_dir,
-                    previous_graph=previous_graph,
-                    auto_open=auto_open,
-                    layout="hierarchical"
-                )
-            except Exception as e:
-                print(f"⚠️  警告: 无法生成交互式可视化: {e}")
-                print(f"   (你可能需要安装 pyvis: pip install pyvis networkx)")

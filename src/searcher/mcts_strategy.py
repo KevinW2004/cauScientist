@@ -76,3 +76,6 @@ class MCTSStrategy(SearchStrategy):
     def save_to_file(self, file_path: str):
         """将搜索器状态保存到文件"""
         pass
+
+    def mark_as_final(self):
+        pass

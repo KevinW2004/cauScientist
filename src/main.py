@@ -23,13 +23,13 @@ def run_single_experiment():
         dataset=dataset
     )
 
-    result = pipeline.run(verbose=True)
+    result = pipeline.run()
     best_graph = pipeline.searcher.best_graph()
     print(f"\n✅ Experiment completed!")
     print(f"Best graph at iteration {best_graph.metadata.iteration}")
     print(f"Log-likelihood: {best_graph.metadata.log_likelihood:.4f}\n")
     # 将搜索器历史保存到文件
-    
+    pipeline.searcher.save_to_file(f"{pipeline.output_dir}/searcher_history.json")
     return result
 
 
@@ -39,9 +39,9 @@ def run_batch_experiment():
         csv_config_path=config.get("experiment.csv_path"),
         base_output_dir=config.get("experiment.output.dir"),
         llm_type=config.get("llm.type"),
-        llm_model_path=config.get("llm.local.model_path") if config.get("llm.type") == "local" else None,
-        openai_base_url=config.get("llm.openai.base_url") if config.get("llm.type") == "openai" else None,
-        openai_api_key=config.get("llm.openai.api_key") if config.get("llm.type") == "openai" else None,
+        llm_model_path=config.get("llm.local.model_path") if config.get("llm.type") == "local" else "",
+        openai_base_url=config.get("llm.openai.base_url") if config.get("llm.type") == "openai" else "",
+        openai_api_key=config.get("llm.openai.api_key") if config.get("llm.type") == "openai" else "",
     )
     return runner.run_all_experiments(
         split=config.get("experiment.split", "test"),

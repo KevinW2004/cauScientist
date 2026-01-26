@@ -39,6 +39,14 @@ class SearchStrategy(ABC):
         pass
 
     @abstractmethod
+    def mark_as_final(self):
+        """
+        标记上一次 search() 返回的图为不需要再修改的图
+        Returns:
+        """
+        pass
+
+    @abstractmethod
     def save_to_file(self, file_path: str):
         """
         将搜索器状态保存到文件
