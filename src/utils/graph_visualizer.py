@@ -380,8 +380,8 @@ def visualize_causal_graph(
 
 
 def visualize_graph(
-    self,
     structured_graph: StructuredGraph,
+    filename: str | None = None,
     output_dir: str = "experiment_results/visualizations",
     previous_graph: Optional[StructuredGraph] = None,
     auto_open: bool = False,
@@ -458,6 +458,7 @@ def visualize_graph(
             visualize_causal_graph(
                 structured_graph=structured_graph,
                 output_dir=output_dir,
+                filename=filename,
                 previous_graph=previous_graph,
                 auto_open=auto_open,
                 layout="hierarchical",

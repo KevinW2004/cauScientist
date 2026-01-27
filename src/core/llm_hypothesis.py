@@ -9,6 +9,7 @@ from schemas.causal_graph import *
 from schemas.causal_graph import GraphChange
 from utils.llm import construct_initial_prompt, extract_json, \
     construct_system_prompt, construct_local_amendment_prompt, parse_and_normalize_response
+from reflection import ReflectionManager
 
 class LLMHypothesisGenerator:
     """
@@ -49,9 +50,10 @@ class LLMHypothesisGenerator:
         if previous_graph is None:
             raise ValueError("previous_graph must not be None in local amendment")
         print(f"\n[Iteration {iteration}] Performing LOCAL amendment (n={num_edge_operations})...")
+        reflection = ReflectionManager().current_reflection
         return self._local_amendment(
             variable_list, domain_name, domain_context,
-            previous_graph, memory, iteration, num_edge_operations
+            previous_graph, memory, reflection, iteration, num_edge_operations
         )
 
     def generate_initial_hypothesis(
@@ -86,6 +88,7 @@ class LLMHypothesisGenerator:
         domain_context: str,
         previous_graph: StructuredGraph,
         memory: Optional[str],
+        reflection: Optional[str],
         iteration: int,
         num_edge_operations: int = 3
     ) -> Tuple[List[StructuredGraph], bool]:
@@ -104,7 +107,7 @@ class LLMHypothesisGenerator:
         system_prompt = construct_system_prompt(domain_name)
         user_prompt = construct_local_amendment_prompt(
             variable_list, domain_name, domain_context,
-            previous_graph, memory, num_edge_operations
+            previous_graph, memory, reflection, num_edge_operations
         )
 
         # 调用LLM

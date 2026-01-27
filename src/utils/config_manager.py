@@ -6,21 +6,15 @@ import toml
 import os
 from typing import Any
 
-class ConfigManager:
-    # 单例实例
-    _instance = None
-    _initialized = False
+from .singleton import SingletonMeta
+
+class ConfigManager(metaclass=SingletonMeta):
     _path_prefix = os.path.join(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         "config"
     )
     
-    def __new__(cls, config_path: str = None):
-        if cls._instance is None:
-            cls._instance = super(ConfigManager, cls).__new__(cls)
-        return cls._instance
-    
-    def __init__(self, config_path: str = None):
+    def __init__(self, config_path: str | None = None):
         """
         初始化配置管理器
         支持配置分层：先加载 配置.toml，再加载 secret.toml（如果存在）进行覆盖
@@ -28,10 +22,6 @@ class ConfigManager:
         Args:
             config_path: TOML 配置文件路径（如果为None，使用默认路径）
         """
-        # 防止重复初始化
-        if ConfigManager._initialized:
-            return
-        
         if config_path is None: config_path = "default.toml"
         config_path = os.path.join(
             ConfigManager._path_prefix, config_path
@@ -56,7 +46,6 @@ class ConfigManager:
             print("⚠ No secret.toml found. For production and any sensitive credentials "
                   "(such as real API keys), create config/secret.toml to override "
                   "placeholders in default.toml.")
-        ConfigManager._initialized = True
     
     def _merge_config(self, base: dict, override: dict) -> None:
         """

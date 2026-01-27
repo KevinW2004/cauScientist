@@ -10,6 +10,7 @@ config/secret.toml
 
 # 实验运行文件
 cma_experiments/
+experiment_results/
 visualizations/
 
 # 草稿图文件
