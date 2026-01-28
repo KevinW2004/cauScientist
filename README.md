@@ -27,5 +27,14 @@
 5. `/src/main.py` 为程序 **主入口**
 6. 单次运行最主要的 **主流程** 在 `/src/scripts/cma_pipline.py`
 7. schemas: 记录各类关键数据类型，目前有因果图相关的数据结构
-8. reflection：里面用单例模式实现了一个反思管理器，可以在每次评分后生成反思并合并记录（作为短期记忆，在同一任务内每次都全部输入到 prompt)
-9. memory: 使用向量数据库（RAG技术）作为长期记忆，使用的技术栈为 qdrant + fastembed，qdrant 底层使用rust构建，性能非常好而且接口简洁现代化，fastembed是qdrant官方配套的 embedding 库，比 sentece transformer 快很多且占用低。
+8. reflection：里面用单例模式实现了一个反思管理器，可以在每次评分后生成反思并合并记录（作为短期记忆，在同一任务内每次都全部输入到 prompt）
+9. memory: 使用向量数据库（RAG技术）作为**长期记忆**，使用的技术栈为 qdrant + fastembed，qdrant 底层使用rust构建，性能较高而且接口简洁现代化，fastembed是qdrant官方配套的 embedding 库，比 sentece transformer 快很多且占用低。
+
+## 功能点
+
+### 记忆机制
+
+采用“长短期记忆”相结合的方式。
+- 短期记忆：单次任务内的 reflection, 以及此次任务的领域/领域上下文/变量名列表，这些都会在每次都全部输入到 Agent 上下文当中作为参考。
+- 长期记忆：使用向量数据库存储每次任务的最终 reflecion、最终最优图的总结，以及一些其他的相关科学领域文献。
+    每次任务开始时，检索相关记忆（RAG）；任务结束时，存储 reflection 和 总结。
