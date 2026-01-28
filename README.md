@@ -28,3 +28,4 @@
 6. 单次运行最主要的 **主流程** 在 `/src/scripts/cma_pipline.py`
 7. schemas: 记录各类关键数据类型，目前有因果图相关的数据结构
 8. reflection：里面用单例模式实现了一个反思管理器，可以在每次评分后生成反思并合并记录（作为短期记忆，在同一任务内每次都全部输入到 prompt)
+9. memory: 使用向量数据库（RAG技术）作为长期记忆，使用的技术栈为 qdrant + fastembed，qdrant 底层使用rust构建，性能非常好而且接口简洁现代化，fastembed是qdrant官方配套的 embedding 库，比 sentece transformer 快很多且占用低。

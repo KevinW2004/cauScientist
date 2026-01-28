@@ -23,6 +23,9 @@ networkx>=3.0
 qdrant-client
 fastembed
 
+# For Testing
+pytest
+
 # Other
 toml
 pgmpy # 生成数据集用到

@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 *.pyo
 lib/
+.pytest_cache/
 
 # 环境/用户配置文件
 config/secret.toml

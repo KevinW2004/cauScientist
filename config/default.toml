@@ -29,14 +29,18 @@ output.dir = "./experiment_results"  # 输出目录
 split = "test"  # test, train, 或 val
 
 [experiment.single]
-fp_data = "./datasets/asia_data_n1000.npy"
-fp_graph = "./datasets/asia_graph.npy"
+fp_data = "./data/datasets/asia_data_n1000.npy"
+fp_graph = "./data/datasets/asia_graph.npy"
 
 [experiment.batch]
 csv_path = ""  # 批量实验的CSV配置文件
 num_epochs = 50
 
 
-[embedding]
+[rag]
+[rag.qdrant]
+path = "./data/qdrant_data"
+collection_name = "causcientist_collection"
+[rag.embedding]
 model_name = "BAAI/bge-small-en-v1.5" # 或 bge-base-en-v1.5 或 bge-m3
 
