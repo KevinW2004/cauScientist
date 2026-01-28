@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List
 
 from schemas import StructuredGraph
 
@@ -20,7 +19,7 @@ class SearchStrategy(ABC):
         pass
 
     @abstractmethod
-    def update(self, graphs: List[StructuredGraph]):
+    def update(self, graphs: list[StructuredGraph]):
         """
         根据新传入的图结构更新搜索器状态
         Args:

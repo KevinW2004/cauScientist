@@ -1,5 +1,4 @@
 # 未来的 MCTS 策略
-from typing import List, Optional
 import math
 
 from utils.metrics import compute_metrics
@@ -11,7 +10,7 @@ from .search_strategy import SearchStrategy
 class MCTSNode: # TODO:
     """MCTS 树节点"""
     
-    def __init__(self, graph: StructuredGraph, parent: Optional['MCTSNode'] = None, 
+    def __init__(self, graph: StructuredGraph, parent: 'MCTSNode | None' = None, 
                  ll: float = float('-inf'), iteration: int = 0):
         self.graph = graph  # 当前图结构
         self.parent = parent  # 父节点
@@ -64,7 +63,7 @@ class MCTSStrategy(SearchStrategy):
     def search(self) -> StructuredGraph: # TODO
         return self.root.graph
     
-    def update(self, graphs: List[StructuredGraph]): # TODO
+    def update(self, graphs: list[StructuredGraph]): # TODO
         pass
 
     def best_graph(self) -> StructuredGraph:

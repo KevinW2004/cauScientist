@@ -1,5 +1,4 @@
 import numpy as np
-from typing import List, Tuple, Optional
 
 class CausalDataset:
     """因果发现数据集 (纯观测版本)"""
@@ -8,7 +7,7 @@ class CausalDataset:
         self,
         data: np.ndarray,
         ground_truth_graph: np.ndarray,
-        variable_names: Optional[List[str]] = None,
+        variable_names: list[str] | None = None,
         domain_name: str = "unknown",
         variable_type: str = "continuous"
     ):
@@ -43,7 +42,7 @@ class CausalDataset:
         """获取所有数据 (默认为观测数据)"""
         return self.data
     
-    def get_ground_truth_edges(self) -> List[Tuple[str, str]]:
+    def get_ground_truth_edges(self) -> list[tuple[str, str]]:
         """获取真实的因果边 (用于评估)"""
         edges = []
         for i in range(self.n_variables):

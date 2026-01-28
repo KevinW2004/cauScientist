@@ -51,7 +51,7 @@ class DataLoader:
     def load_from_paths(
         fp_data: str,
         fp_graph: str,
-        domain_name: str = None
+        domain_name: str | None = None
     ) -> CausalDataset:
         """
         从文件路径加载

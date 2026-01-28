@@ -17,11 +17,10 @@ extract_json                  _normalize_graph_structure
 
 import json
 import re
-from typing import List, Dict
 
 def parse_and_normalize_response(
-    response_text: str, variable_list: List[str]
-) -> Dict:
+    response_text: str, variable_list: list[str]
+) -> dict:
     """
     解析LLM响应并标准化为统一格式
 
@@ -54,7 +53,7 @@ def parse_and_normalize_response(
 
     return normalized_graph
 
-def extract_json(text: str) -> Dict | None:
+def extract_json(text: str) -> dict | None:
     """从文本中提取JSON对象"""
 
     def remove_json_comments(json_str: str) -> str:
@@ -239,8 +238,8 @@ def extract_json(text: str) -> Dict | None:
     return None
 
 def _normalize_graph_structure(
-    json_obj: Dict, variable_list: List[str]
-) -> Dict:
+    json_obj: dict, variable_list: list[str]
+) -> dict:
     """
     将各种格式的图转换为标准格式
 
@@ -266,7 +265,7 @@ def _normalize_graph_structure(
 
     return {"nodes": normalized_nodes, "reasoning": reasoning, "is_final_graph": is_final_graph}
 
-def _normalize_node_list(nodes: List) -> List[Dict]:
+def _normalize_node_list(nodes: list) -> list[dict]:
     """标准化节点列表格式"""
 
     normalized = []
@@ -292,8 +291,8 @@ def _normalize_node_list(nodes: List) -> List[Dict]:
     return normalized
 
 def _normalize_node_dict(
-    nodes_dict: Dict, variable_list: List[str]
-) -> List[Dict]:
+    nodes_dict: dict, variable_list: list[str]
+) -> list[dict]:
     """
     标准化节点字典格式
 
@@ -330,8 +329,8 @@ def _normalize_node_dict(
         raise ValueError(f"Unsupported dict value type: {type(first_value)}")
 
 def _convert_parent_to_child_dict(
-    parent_to_children: Dict[str, List[str]], variable_list: List[str]
-) -> List[Dict]:
+    parent_to_children: dict[str, list[str]], variable_list: list[str]
+) -> list[dict]:
     """
     将"父->子"字典转换为标准节点列表
 

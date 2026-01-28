@@ -1,4 +1,3 @@
-from typing import Dict, Type
 from llm_loader import LLMLoader
 from .local_llm_loader import LocalLLMLoader
 from .openai_llm_loader import OpenAILLMLoader
@@ -7,7 +6,7 @@ class LLMLoaderFactory:
     """LLM加载器工厂类"""
     
     # 静态字典映射LLM类型到对应的加载器类
-    llm_loader_classes: Dict[str, Type[LLMLoader]] = {
+    llm_loader_classes: dict[str, type[LLMLoader]] = {
             "openai": OpenAILLMLoader,
             "local": LocalLLMLoader,
         }

@@ -4,9 +4,7 @@ CMA Pipeline -CMA完整流程管理器
 """
 
 import json
-import numpy as np
 import os
-from typing import Dict, List, Optional
 
 from core.llm_hypothesis import LLMHypothesisGenerator
 from reflection import ReflectionManager
@@ -180,7 +178,7 @@ class CMAPipeline:
                 continue
 
             # 对每个候选图进行可视化和评分
-            update_graphs: List[StructuredGraph] = new_graphs.copy()
+            update_graphs: list[StructuredGraph] = new_graphs.copy()
             for idx, new_graph in enumerate(new_graphs, 1):
                 print(f"\n  Candidate {idx}/{len(new_graphs)}:")
                 visualize_graph(new_graph, filename=f"iteration_{t}-{idx}.html")

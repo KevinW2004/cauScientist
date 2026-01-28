@@ -1,5 +1,4 @@
-from typing import List, Optional, Tuple
-from schemas import StructuredGraph, CausalNode, GraphChange, GraphMetadata
+from schemas import StructuredGraph
 
 def construct_system_prompt(domain_name: str) -> str:
     """构建系统提示词"""
@@ -10,7 +9,7 @@ Do not output the thinking process or <think></think> tags. ./no_think
 """
 
 def construct_initial_prompt(
-    variable_list: List[str],
+    variable_list: list[str],
     domain_name: str,
     domain_context: str
 ) -> str:
@@ -60,12 +59,12 @@ CRITICAL:
     return prompt
 
 def construct_local_amendment_prompt(
-    variable_list: List[str],
+    variable_list: list[str],
     domain_name: str,
     domain_context: str,
     previous_graph: StructuredGraph,
-    memory: Optional[str],
-    reflection: Optional[str],
+    memory: str | None,
+    reflection: str | None,
     num_edge_operations: int
 ) -> str:
     """构建局部修正的提示词"""
@@ -173,7 +172,7 @@ def construct_reflection_prompt(
     score_diff: float,
     is_better: bool,
     current_reflection: str
-) -> Tuple[str, str]:
+) -> tuple[str, str]:
     """根据当前图的变化构建反思分析的提示词，反思会和之前的反思合并
     Args:
         domain_name (str): 领域名称

@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Tuple, Optional
 from collections import defaultdict
 
 from llm_loader import LLMLoader
@@ -22,14 +21,14 @@ class LLMHypothesisGenerator:
 
     def generate_next_hypothesis(
         self, 
-        variable_list: List[str],
+        variable_list: list[str],
         domain_name: str,
         domain_context: str = "",
-        previous_graph: Optional[StructuredGraph] = None,
-        memory: Optional[str] = None,
+        previous_graph: StructuredGraph | None = None,
+        memory: str | None = None,
         iteration: int = 0,
         num_edge_operations: int = 3
-    ) -> Tuple[List[StructuredGraph], bool]:
+    ) -> tuple[list[StructuredGraph], bool]:
         """
         生成下一步因果图修改假设（返回多个候选图）
         
@@ -58,7 +57,7 @@ class LLMHypothesisGenerator:
 
     def generate_initial_hypothesis(
         self,
-        variable_list: List[str],
+        variable_list: list[str],
         domain_name: str,
         domain_context: str,
     ) -> StructuredGraph | None:
@@ -83,15 +82,15 @@ class LLMHypothesisGenerator:
 
     def _local_amendment(
         self,
-        variable_list: List[str],
+        variable_list: list[str],
         domain_name: str,
         domain_context: str,
         previous_graph: StructuredGraph,
-        memory: Optional[str],
-        reflection: Optional[str],
+        memory: str | None,
+        reflection: str | None,
         iteration: int,
         num_edge_operations: int = 3
-    ) -> Tuple[List[StructuredGraph], bool]:
+    ) -> tuple[list[StructuredGraph], bool]:
         """
         局部修正：让模型选择对边进行操作（添加、删除、反转）
         每个操作单独应用到 previous_graph 上，生成多个候选图
@@ -162,8 +161,8 @@ class LLMHypothesisGenerator:
 # ==== 以下为辅助函数 ====
     def create_structured_graph(
         self,
-        causal_graph: Dict,
-        variable_list: List[str],
+        causal_graph: dict,
+        variable_list: list[str],
         domain_name: str,
         iteration: int,
         previous_graph: StructuredGraph | None = None,
@@ -263,7 +262,7 @@ class LLMHypothesisGenerator:
         )
         return structured_graph
     
-    def _has_cycle(self, nodes: List[Dict]) -> Tuple[bool, List[str]]:
+    def _has_cycle(self, nodes: list[dict]) -> tuple[bool, list[str]]:
         """检查是否有环（DFS算法），并记录环路信息"""
 
         # 构建邻接表
@@ -315,15 +314,15 @@ class LLMHypothesisGenerator:
 
         return False, cycle_path
 
-    def _count_edges(self, nodes: List[Dict]) -> int:
+    def _count_edges(self, nodes: list[dict]) -> int:
         """计算边数"""
         return sum(len(node.get('parents', [])) for node in nodes)
 
     def _create_adjacency_matrix(
         self,
-        nodes: List[Dict],
-        variable_list: List[str]
-    ) -> Tuple[np.ndarray, pd.DataFrame]:
+        nodes: list[dict],
+        variable_list: list[str]
+    ) -> tuple[np.ndarray, pd.DataFrame]:
         """创建邻接矩阵"""
 
         n = len(variable_list)
@@ -344,7 +343,7 @@ class LLMHypothesisGenerator:
         df = pd.DataFrame(adjacency_matrix, index=variable_list, columns=variable_list)
         return adjacency_matrix, df
 
-    def _parse_edge_operations(self, response_text: str) -> Dict:
+    def _parse_edge_operations(self, response_text: str) -> dict:
         """
         解析LLM返回的边操作指令、overall_reasoning和is_final_graph标志
         
@@ -412,9 +411,9 @@ class LLMHypothesisGenerator:
     def _apply_single_edge_operation(
         self,
         previous_graph: StructuredGraph,
-        operation: Dict,
-        variable_list: List[str]
-    ) -> Dict | None:
+        operation: dict,
+        variable_list: list[str]
+    ) -> dict | None:
         """
         将单个边操作应用到上一轮的图上
         
@@ -502,9 +501,9 @@ class LLMHypothesisGenerator:
     def _apply_edge_operations(
         self,
         previous_graph: StructuredGraph,
-        operations: List[Dict],
-        variable_list: List[str]
-    ) -> Dict:
+        operations: list[dict],
+        variable_list: list[str]
+    ) -> dict:
         """
         将边操作应用到上一轮的图上
         

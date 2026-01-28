@@ -1,5 +1,5 @@
 strategy = "linear" # "linear" 或 "mcts"
-
+cache_dir = "/home/wukaiwen/Public/model_cache"  # model cache for local loading (llm & embedding)
 
 [llm]
 type = "openai"  # "openai" 或 "local"
@@ -35,3 +35,8 @@ fp_graph = "./datasets/asia_graph.npy"
 [experiment.batch]
 csv_path = ""  # 批量实验的CSV配置文件
 num_epochs = 50
+
+
+[embedding]
+model_name = "BAAI/bge-small-en-v1.5" # 或 bge-base-en-v1.5 或 bge-m3
+

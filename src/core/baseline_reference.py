@@ -6,7 +6,6 @@ Baseline Reference Module
 import numpy as np
 import pandas as pd
 import os
-from typing import List, Dict, Tuple, Optional
 from utils.metrics import has_cycle, break_cycles
 import warnings
 warnings.filterwarnings('ignore')
@@ -28,7 +27,7 @@ class BaselineReferenceGenerator:
         'drbo': 'DrBO (Bayesian Optimization)'
     }
     
-    def __init__(self, methods: List[str] = None, predict_dir: str = None):
+    def __init__(self, methods: list[str] | None = None, predict_dir: str | None = None):
         """
         Args:
             methods: 要使用的方法列表，如 ['corr', 'invcov', 'notears']
@@ -52,8 +51,8 @@ class BaselineReferenceGenerator:
         self,
         dataset_name: str,
         method_name: str,
-        variable_list: List[str]
-    ) -> Optional[np.ndarray]:
+        variable_list: list[str]
+    ) -> np.ndarray | None:
         """
         从 predict 目录加载预测结果
         
@@ -82,8 +81,8 @@ class BaselineReferenceGenerator:
     def load_all_predictions(
         self,
         dataset_name: str,
-        variable_list: List[str]
-    ) -> Dict[str, np.ndarray]:
+        variable_list: list[str]
+    ) -> dict[str, np.ndarray]:
         """
         加载所有方法的预测结果
         
@@ -107,12 +106,12 @@ class BaselineReferenceGenerator:
 
 def load_baseline_reference_from_predict(
     dataset_name: str,
-    variable_list: List[str],
+    variable_list: list[str],
     predict_dir: str = "predict",
-    methods: List[str] = None,
+    methods: list[str] | None = None,
     top_k: int = 10,
     threshold: float = 0.5
-) -> Optional[str]:
+) -> str | None:
     """
     从 predict 目录加载预先计算的基线参考信息
     
@@ -143,10 +142,10 @@ def load_baseline_reference_from_predict(
     return structured_graphs
 
 def create_structured_graphs_from_baseline_reference(
-    baseline_results: Dict[str, np.ndarray],
-    variable_list: List[str],
+    baseline_results: dict[str, np.ndarray],
+    variable_list: list[str],
     threshold: float = 0.5
-) -> Dict:
+) -> dict:
     """
     从基线参考结果创建结构化图
     """

@@ -1,5 +1,3 @@
-from typing import List
-
 from .search_strategy import SearchStrategy
 from schemas import StructuredGraph
 
@@ -9,13 +7,13 @@ class LinearStrategy(SearchStrategy):
     
     def __init__(self, initial_graph: StructuredGraph):
         super().__init__(initial_graph)
-        self.previous_graph: StructuredGraph = initial_graph
-        self.history: List[StructuredGraph] = [initial_graph]
+        self.history: list[StructuredGraph] = [initial_graph]
+        self.history: list[StructuredGraph] = [initial_graph]
 
     def search(self) -> StructuredGraph:
         return self.previous_graph
     
-    def update(self, graphs: List[StructuredGraph]):
+    def update(self, graphs: list[StructuredGraph]):
         new_graph = None
         if len(graphs) == 0:
             pass

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict, field_serializer
-from typing import List, Tuple, Union, Dict, Literal
+from typing import Literal
 import numpy as np
 
 class CausalNode(BaseModel):
@@ -7,7 +7,7 @@ class CausalNode(BaseModel):
     因果图的原始节点表示
     """
     name: str
-    parents: List[str] = Field(default_factory=list)
+    parents: list[str] = Field(default_factory=list)
 
 class GraphChange(BaseModel):
     """
@@ -30,7 +30,7 @@ class GraphMetadata(BaseModel):
     is_final_graph: bool = Field(default=False, description="LLM 是否认为这是一张不再需要修改的最终图")
 
     # --- 变化记录 ---
-    change_history: List[GraphChange] = Field(
+    change_history: list[GraphChange] = Field(
         default=[], description="从初始图到当前图的所有历史变化"
     )
 
@@ -46,11 +46,11 @@ class StructuredGraph(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True) # 允许 numpy 类型
 
     metadata: GraphMetadata
-    nodes: List[CausalNode]
-    adjacency_matrix: Union[np.ndarray, List[List[int]]] = Field(..., description="邻接矩阵表示")
+    nodes: list[CausalNode]
+    adjacency_matrix: np.ndarray | list[list[int]] = Field(..., description="邻接矩阵表示")
 
     @field_serializer('adjacency_matrix')
-    def serialize_adjacency_matrix(self, adjacency_matrix: Union[np.ndarray, List[List[int]]], _info):
+    def serialize_adjacency_matrix(self, adjacency_matrix: np.ndarray | list[list[int]], _info):
         """将 numpy 数组序列化为列表"""
         if isinstance(adjacency_matrix, np.ndarray):
             return adjacency_matrix.tolist()

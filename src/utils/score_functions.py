@@ -4,7 +4,6 @@ Score Functions for Causal Discovery
 """
 
 import numpy as np
-from typing import Dict, List
 from causallearn.score.LocalScoreFunctionClass import local_score_BIC
 from schemas.causal_graph import StructuredGraph
 
@@ -12,8 +11,8 @@ from schemas.causal_graph import StructuredGraph
 def score_graph_with_bic(
     structured_graph: StructuredGraph,
     data: np.ndarray,
-    variable_names: List[str]
-) -> Dict:
+    variable_names: list[str]
+) -> dict:
     """
     使用标准 Linear Gaussian BIC 评分
     
@@ -78,7 +77,7 @@ def score_graph_with_bic(
 def score_graph_simple(
     structured_graph: StructuredGraph,
     data: np.ndarray,
-    variable_names: List[str]
+    variable_names: list[str]
 ) -> float:
     """
     简化版本，直接返回 score

@@ -3,7 +3,6 @@
 """
 import os
 import json
-from typing import List, Dict
 
 from .cma_pipeline import CMAPipeline
 from utils.metrics import compute_metrics
@@ -121,7 +120,7 @@ class BatchExperimentRunner:
         
         return results_summary
     
-    def _print_summary(self, results_summary: List[Dict]):
+    def _print_summary(self, results_summary: list[dict]):
         """打印总结信息"""
         
         print(f"\n{'='*70}")

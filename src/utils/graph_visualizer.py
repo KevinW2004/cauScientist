@@ -4,7 +4,6 @@
 """
 
 import os
-from typing import Optional, List, Tuple
 from pyvis.network import Network
 import webbrowser
 from schemas.causal_graph import StructuredGraph, CausalNode, GraphMetadata
@@ -40,8 +39,8 @@ class CausalGraphVisualizer:
     def visualize(
         self,
         structured_graph: StructuredGraph,
-        filename: Optional[str] = None,
-        previous_graph: Optional[StructuredGraph] = None,
+        filename: str | None = None,
+        previous_graph: StructuredGraph | None = None,
         layout: str = "hierarchical"
     ) -> str:
         """
@@ -110,7 +109,7 @@ class CausalGraphVisualizer:
         
         return output_path
     
-    def _add_nodes(self, net: Network, nodes: List[CausalNode]):
+    def _add_nodes(self, net: Network, nodes: list[CausalNode]):
         """添加节点"""
         for node in nodes:
             node_name = node.name
@@ -147,7 +146,7 @@ class CausalGraphVisualizer:
     def _add_edges(
         self,
         net: Network,
-        nodes: List[CausalNode],
+        nodes: list[CausalNode],
         added_edges: set
     ):
         """添加当前图的边"""
@@ -197,8 +196,8 @@ class CausalGraphVisualizer:
     def _get_edge_changes(
         self,
         current_graph: StructuredGraph,
-        previous_graph: Optional[StructuredGraph]
-    ) -> Tuple[set, set]:
+        previous_graph: StructuredGraph | None
+    ) -> tuple[set, set]:
         """
         获取边的变化
         
@@ -320,7 +319,7 @@ class CausalGraphVisualizer:
     
     def visualize_comparison(
         self,
-        graphs: List[StructuredGraph],
+        graphs: list[StructuredGraph],
         filename: str = "comparison.html"
     ):
         """
@@ -338,8 +337,8 @@ class CausalGraphVisualizer:
 def visualize_causal_graph(
     structured_graph: StructuredGraph,
     output_dir: str = "experiment_results/visualizations",
-    filename: Optional[str] = None,
-    previous_graph: Optional[StructuredGraph] = None,
+    filename: str | None = None,
+    previous_graph: StructuredGraph | None = None,
     auto_open: bool = True,
     layout: str = "hierarchical"
 ) -> str:
@@ -383,7 +382,7 @@ def visualize_graph(
     structured_graph: StructuredGraph,
     filename: str | None = None,
     output_dir: str = "experiment_results/visualizations",
-    previous_graph: Optional[StructuredGraph] = None,
+    previous_graph: StructuredGraph | None = None,
     auto_open: bool = False,
     text_only: bool = True
 ):

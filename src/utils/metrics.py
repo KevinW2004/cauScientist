@@ -1,9 +1,6 @@
 import numpy as np
-from typing import Dict, List, Tuple, TYPE_CHECKING
 from collections import defaultdict
-
-if TYPE_CHECKING:
-    from schemas.causal_graph import StructuredGraph
+from schemas.causal_graph import StructuredGraph
 
 def shd_metric(pred, target):
     """
@@ -37,7 +34,7 @@ def shd_metric(pred, target):
     
     return int(fn + fp + rev)
 
-def compute_precision_recall_f1(pred_adj_matrix: np.ndarray, true_adj_matrix: np.ndarray, threshold: float = 0.5) -> Dict:
+def compute_precision_recall_f1(pred_adj_matrix: np.ndarray, true_adj_matrix: np.ndarray, threshold: float = 0.5) -> dict:
     """
     计算precision, recall和F1 score
     
@@ -97,7 +94,7 @@ def compute_precision_recall_f1(pred_adj_matrix: np.ndarray, true_adj_matrix: np
         "accuracy": round(accuracy, 4)
     }
 
-def compute_metrics(pipeline, predicted_graph: "StructuredGraph") -> Dict:
+def compute_metrics(pipeline, predicted_graph: "StructuredGraph") -> dict:
     """计算评估指标 - 添加SHD"""
     
     if pipeline.dataset is None:
@@ -150,7 +147,7 @@ def compute_metrics(pipeline, predicted_graph: "StructuredGraph") -> Dict:
         "shd": shd  # 新增
     }
 
-def has_cycle(nodes: List[Dict]) -> Tuple[bool, List[str]]:
+def has_cycle(nodes: list[dict]) -> tuple[bool, list[str]]:
     """检查是否有环（DFS算法），并记录环路信息"""
     
     # 构建邻接表
@@ -202,7 +199,7 @@ def has_cycle(nodes: List[Dict]) -> Tuple[bool, List[str]]:
     
     return False, cycle_path
 
-def break_cycles(nodes: List[Dict], cycle_path: List[str]) -> List[Dict]:
+def break_cycles(nodes: list[dict], cycle_path: list[str]) -> list[dict]:
     """
     打破环（简单策略：找到环路中权重最小的边，移除它， 迭代直到无环）
     """
