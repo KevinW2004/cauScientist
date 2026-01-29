@@ -1,22 +1,39 @@
-.PHONY: run clean test install_deps
+.PHONY: run clean clean-db clean-all test inject_knowledge install_deps
+
+info := @echo "[Makefile]"
 
 run:
-	@echo "Running main..."
+	$(info) "Running main..."
 	@python src/main.py
-	@echo "Experiment completed."
+	$(info) "Experiment completed."
+
 clean:
-	@echo "Cleaning up experiment runtime directories..."
+	$(info) "Cleaning up experiment runtime directories..."
 	@find . -type d -name "__pycache__" -exec rm -rf {} +
 	@rm -rf experiment_results
 	@rm -rf lib
-	@rm -rf data/qdrant_data/*
 	@rm -rf .pytest_cache
-	@echo "Cleanup complete."
+	$(info) "Runtime temporary files cleanup complete."
+
+clean-db:
+	$(info) "Cleaning up vector database data..."
+	@rm -rf data/qdrant_data/*
+	$(info) "Vector database cleanup complete."
+
+clean-all: clean clean-db
+	$(info) "All cleanup complete."
+
 test:
-	@echo "Running tests..."
+	$(info) "Running tests..."
 	@pytest tests/
-	@echo "All tests completed."
+	$(info) "All tests completed."
+
+inject_knowledge:
+	$(info) "Injecting knowledge from all files in data/documents into vector database..."
+	@python scripts/inject_knowledge.py
+	$(info) "Knowledge injection complete."
+
 install_deps:
-	@echo "Installing dependencies..."
+	$(info) "Installing dependencies..."
 	@pip install -r requirements.txt
-	@echo "Dependencies installed."
+	$(info) "Dependencies installed."

@@ -29,3 +29,4 @@ pytest
 # Other
 toml
 pgmpy # 生成数据集用到
+pymupdf # 读取pdf文件用到

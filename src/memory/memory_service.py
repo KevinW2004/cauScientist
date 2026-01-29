@@ -40,7 +40,7 @@ class MemoryService(metaclass=SingletonMeta):
         self.vector_db.insert_vectors(vectors=vectors.tolist(), payloads=payloads)
         print(f"🧠 Saved {len(text_chunks)} chunks to memory.")
 
-    def retrieve_memories(self, query_text: str, limit: int = 10) -> list[dict]:
+    def retrieve_memories(self, query_text: str, limit: int = 5) -> list[dict]:
         """根据查询文本检索相关记忆
 
         :param query_text: 查询文本
@@ -69,7 +69,7 @@ class MemoryService(metaclass=SingletonMeta):
 
     # ==== 辅助函数 ====
     def _chunk_text(
-        self, text: str, chunk_size: int = 500, overlap: int = 50
+        self, text: str, chunk_size: int = 300, overlap: int = 50
     ) -> list[str]:
         """将文本切分为多个块，便于嵌入和存储"""
         if len(text) <= chunk_size:

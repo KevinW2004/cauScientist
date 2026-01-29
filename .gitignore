@@ -17,3 +17,7 @@ visualizations/
 # 草稿图文件
 *.puml
 *.mmd
+
+# 数据文件
+data/documents/*
+data/qdrant_data/*

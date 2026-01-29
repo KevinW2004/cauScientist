@@ -5,6 +5,7 @@ CMA Pipeline -CMA完整流程管理器
 
 import json
 import os
+import time
 
 from core.llm_hypothesis import LLMHypothesisGenerator
 from reflection import ReflectionManager
@@ -15,6 +16,7 @@ from utils import ConfigManager, visualize_graph, visualize_causal_graph
 from llm_loader import LLMLoader, LLMLoaderFactory
 from schemas import StructuredGraph, CausalDataset
 from searcher import SearchStrategy, SearcherFactory
+from memory import MemoryService
 
 os.environ["VLLM_ATTENTION_BACKEND"] = "FLASH_ATTN"
 
@@ -100,8 +102,20 @@ class CMAPipeline:
         print(f"Iterations: {num_iterations}")
         print(f"Output directory: {self.output_dir}")
         print("=" * 70 + "\n")
-
-        # ==== 一、 生成初始图，并创建搜索策略 ====
+        
+        # ==== 一、 初始化记忆服务，加载相关记忆 ====
+        self.memory_service = MemoryService()
+        # 用领域名、领域上下文、变量名作为检索依据
+        query_text = f"Causal Discovery: Find the best causal graph(DAG).\nDomain: {self.domain_name}\nContext: {self.domain_context}\nVariables: {', '.join(self.variable_list)}"
+        longterm_memory: list[dict] = self.memory_service.retrieve_memories(query_text=query_text, limit=5)
+        memory_text = ""
+        print(f"🧠 Retrieved {len(longterm_memory)} long-term memories:")
+        for memory in longterm_memory:
+            print(f"  - {memory['text'][:50]}...")  # 打印每条记忆的开头
+            memory_text += memory['text'] + "\n"
+        print("")
+        
+        # ==== 二、 生成初始图，并创建搜索策略 ====
         print("🔄 " * 35)
         print("GENERATING INITIAL HYPOTHESIS GRAPH & SEARCH STRATEGY")
         print("🔄 " * 35)
@@ -137,7 +151,7 @@ class CMAPipeline:
             f"Initial Graph Score - LL: {fitting_results['cv_log_likelihood']:.4f}, BIC: {fitting_results['bic']:.4f}"
         )
 
-        # ==== 二、 循环： ====
+        # ==== 三、 主修改循环： ====
         #   获取需要修改图（由searcher提供）；
         #   如果 metadata 中 is_final_graph 为 True，则 continue;
         #   使用 hypothesis_generator 生成新假设图（列表）；
@@ -159,7 +173,7 @@ class CMAPipeline:
                     domain_name=self.domain_name,
                     domain_context=self.domain_context,
                     previous_graph=current_graph,
-                    memory="",
+                    memory=memory_text,
                     iteration=t,
                     num_edge_operations=self.config.get("training.num_edge_operations"),
                 )
@@ -225,18 +239,41 @@ class CMAPipeline:
             # 将新图列表加入搜索器
             self.searcher.update(update_graphs)
 
-        # ===== 3. 生成最终报告 =====
+        # ===== 四、 生成最终报告 =====
         final_report = self._generate_final_report()
 
         report_path = os.path.join(self.output_dir, "final_report.txt")
         with open(report_path, "w") as f:
             f.write(final_report)
 
-        print("\n" + "=" * 70)
-        print("CMA PIPELINE COMPLETED")
         print("=" * 70)
+        print("final_report.txt saved to output directory.")
         print(final_report)
         print("=" * 70 + "\n")
+        
+        # ==== 五、记录反思和最优图总结 ====
+        # 用LLM总结最终图成功路径
+        print("📝 Generating final reflection and review...")
+        review_text = self.reflection_manager.generate_review(
+            domain_name=self.domain_name,
+            domain_context=self.domain_context,
+            initial_graph=initial_graph,
+            final_graph=self.searcher.best_graph(),
+        )
+        reflection_text = self.reflection_manager.current_reflection
+        # 存入文件（备份）
+        memory_record_path = os.path.join(self.output_dir, f"{self.domain_name}_memory_{time.strftime('%Y%m%d_%H%M%S')}.md")
+        with open(memory_record_path, "w") as f:
+            f.write("# === Reflection ===\n")
+            f.write(reflection_text + "\n\n")
+            f.write("# === Final Review ===\n")
+            f.write(review_text + "\n")
+        print(f"[Info] Reflection and review saved to {memory_record_path}")
+        # 保存到记忆服务中
+        self.memory_service.save_memory(reflection_text)
+        self.memory_service.save_memory(review_text)
+        
+        print("✅ CMA Pipeline completed successfully!\n")
 
     def _evaluate_against_ground_truth(self, predicted_graph: StructuredGraph):
         """评估预测图与真实图的差距"""

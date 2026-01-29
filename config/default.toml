@@ -3,19 +3,16 @@ cache_dir = "/home/wukaiwen/Public/model_cache"  # model cache for local loading
 
 [llm]
 type = "openai"  # "openai" 或 "local"
-
 [llm.local]
 model_path = "/mnt/shared-storage-user/safewt-share/HuggingfaceModels/Qwen3-14B"
 device = "cuda"  # "cpu" 或 "cuda"
 max_tokens = 8192  # LLM 最大输出token数
-
 [llm.openai]
 # base_url = "https://ark.cn-beijing.volces.com/api/v3" # 火山方舟
 base_url = "https://10.140.158.153:1020/qwen3-235B/all/v1/" # 公司内网
 api_key = ""  # 请在 secret.toml 中设置实际的API密钥
 # model_name = "deepseek-v3-1-terminus"
 model_name = "qwen3-235b"
-
 
 [training]
 num_iterations = 3
@@ -27,15 +24,12 @@ temperature = 0.7
 mode = "single"  # "single" 或 "batch"
 output.dir = "./experiment_results"  # 输出目录
 split = "test"  # test, train, 或 val
-
 [experiment.single]
 fp_data = "./data/datasets/asia_data_n1000.npy"
 fp_graph = "./data/datasets/asia_graph.npy"
-
 [experiment.batch]
 csv_path = ""  # 批量实验的CSV配置文件
 num_epochs = 50
-
 
 [rag]
 [rag.qdrant]
@@ -43,4 +37,3 @@ path = "./data/qdrant_data"
 collection_name = "causcientist_collection"
 [rag.embedding]
 model_name = "BAAI/bge-small-en-v1.5" # 或 bge-base-en-v1.5 或 bge-m3
-

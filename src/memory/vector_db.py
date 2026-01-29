@@ -32,6 +32,8 @@ class VectorDB(metaclass=SingletonMeta):
             )
         else:
             print(f"✅ Qdrant collection '{self.collection_name}' already exists.")
+            
+        print("✅ Qdrant vector database is ready. \n")
         # 解决运行结束退出的神秘报错
         atexit.register(lambda: self.client.close() if hasattr(self, "client") else None)
 

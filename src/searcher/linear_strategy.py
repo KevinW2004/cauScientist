@@ -8,7 +8,7 @@ class LinearStrategy(SearchStrategy):
     def __init__(self, initial_graph: StructuredGraph):
         super().__init__(initial_graph)
         self.history: list[StructuredGraph] = [initial_graph]
-        self.history: list[StructuredGraph] = [initial_graph]
+        self.previous_graph: StructuredGraph = initial_graph
 
     def search(self) -> StructuredGraph:
         return self.previous_graph

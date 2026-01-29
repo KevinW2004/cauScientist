@@ -36,7 +36,7 @@ Instructions:
 
 Output Format (IMPORTANT - use this exact structure):
 {{
-"reasoning": "Explanation of the causal structure and your reasoning process",
+"reasoning": "Explanation of the causal structure and your reasoning process in Chinese",
 "nodes": [
 {{
     "name": "VariableName1",
@@ -75,11 +75,11 @@ def construct_local_amendment_prompt(
 
     # 格式化记忆
     memory_section = ""
-    if memory:
+    if memory and memory.strip() != "":
         memory_section = f"""
-Previous Feedback:
+Retrieved Relevant Knowledge & Previous Experiences:
 {memory}
-Use this feedback to guide your edge operations.
+Use this memory to guide your edge operations.
 """
 
     context_section = ""
@@ -92,7 +92,8 @@ Use this feedback to guide your edge operations.
         reflection_section = f"""HISTORICAL INSIGHTS (REFLECTION):
 The following reflection contains lessons learned from previous iterations, including both successful improvements and failed attempts:
 "{reflection}"
-CRITICAL INSTRUCTION: 
+
+REFLECTION INSTRUCTION: 
 - Learn from the SUCCESSFUL changes: replicate the causal reasoning that led to improvements
 - Avoid the FAILED attempts: do not repeat operations that worsened the score
 - Use these insights to guide your current amendment strategy
@@ -130,7 +131,7 @@ Constraints:
 
 Output Format (IMPORTANT - use this exact JSON structure):
 {{
-"overall_reasoning": "A breif overall explanation of the fault of the current graph and the amendment strategy",
+"overall_reasoning": "A breif overall explanation of the fault of the current graph and the amendment strategy in Chinese",
 "operations": [
 {{
     "type": "ADD",
@@ -162,7 +163,7 @@ CRITICAL:
 - Each operation must have: reasoning, type, parent, child
 - For REVERSE: always use the EXISTING edge direction (parent→child) in your JSON"""
     # 测试用：保存到文件看看提示词
-    _save_prompt_to_file(prompt)
+    # _save_prompt_to_file(prompt)
     return prompt
 
 def construct_reflection_prompt(
@@ -220,6 +221,52 @@ Based on the result above, UPDATE the Global Reflection.
 
 Updated Reflection:"""
 
+    return system_prompt, user_prompt
+
+def construct_review_prompt(
+    domain_name: str,
+    domain_context: str,
+    initial_graph: StructuredGraph,
+    final_graph: StructuredGraph
+) -> tuple[str, str]:
+    """构建总结对比与回顾的提示词"""
+    initial_graph_desc = _graph_description(initial_graph)
+    final_graph_desc = _graph_description(final_graph)
+    # ==== System Prompt: 设定专家身份与评估标准 ====
+    system_prompt = f"""You are a Senior Principal Investigator specializing in Causal Discovery and the {domain_name} domain. 
+Domain Background: {domain_context}
+Your task is to review the optimization history and extract post-mortem **Long-term Memories** for the AI agent.
+output Format:
+Please output distinct "Memory Blocks" separated by the Topic: `===Topic Keyword===`
+
+Each block must be **Self-Contained**: Can be understood without reading the rest. (BAD: "As seen above..."; GOOD: "In the {domain_name} task, the edge A->B...")"""
+
+    # ==== User Prompt: 提供数据与具体分析指令 ====
+    user_prompt = f"""Please review the optimization trajectory for the {domain_name} causal graph.
+=== 1. Baseline: Initial Graph ===
+{initial_graph_desc}
+=== 2. Result: Final Graph ===
+{final_graph_desc}
+=== 3. Performance Summary ===
+The model started with a log-likelihood score (the higher the better) of {initial_graph.metadata.log_likelihood if initial_graph.metadata.log_likelihood is not None else 'N/A'} and ended with a score of {final_graph.metadata.log_likelihood if final_graph.metadata.log_likelihood is not None else 'N/A'}.
+
+=== Analysis Tasks ===
+Extract 3-5 key insights to be stored in the Vector Database.
+Focus on:
+1. **Specific Structural Wins**: Which edge change(s) may have contributed the most to the score improvement? Why?
+2. **Domain Principles**: What general causal rule does this dataset reflect?
+3. **Negative Knowledge**: What plausible edges turned out to be wrong?
+
+Please output the response in this EXACT format (using the separator):
+
+===High Impact Reversal in xxx===
+In the {domain_name} dataset, reversing the edge 'A->B' to 'B->A' increased the Log-Likelihood significantly. This confirms that B is the upstream cause of A.
+
+===General Diagnostic Rule of xxx===
+Experiments on {domain_name} suggest that symptoms (like Dyspnoea) should never cause risk factors (like Smoking). Attempts to set 'Dyspnoea -> Smoking' consistently reduced the BIC score.
+
+(Add more blocks as needed...)
+"""
     return system_prompt, user_prompt
 
 # ==== 辅助函数 ====
